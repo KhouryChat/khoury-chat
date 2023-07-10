@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-
+import PostItem from "@/components/PostItem/PostItem";
 import Image from "next/image";
 
 export default function Home() {
@@ -45,38 +45,38 @@ export default function Home() {
 
   return (
     <>
-      <div className="bg-black pr-8">
-        <header className="py-6 flex flex-grow justify-between">
-          <div className="justify-start, ml-4">
+      <header className="bg-black py-6 flex flex-grow items-center justify-between">
+        <div className="justify-start ml-4">
+          <h1 className="flex flex-row gap-4 text-4xl justify-center items-center px-8 text-3xl font-sans font-bold text-white">
             <div>
-              <Image src="/husky.png" alt="Logo" width={50} height={50} />
+              <Image src="/husky.png" alt="Logo" width={80} height={80} />
             </div>
-            <h1 className="px-8 text-3xl font-sans font-bold text-white">
-              Khoury Course Forum
-            </h1>
-          </div>
+            Khoury Course Forum
+          </h1>
+        </div>
 
-          <div className="space-x-4 flex justify-end">
-            <button
-              onClick={goToRegister}
-              className="bg-red-500 text-white px-4 py-2 rounded"
-            >
-              Register
-            </button>
-            <button
-              onClick={gotToLogin}
-              className="bg-gray-500 text-white px-4 py-2 rounded"
-            >
-              Login
-            </button>
-          </div>
-        </header>
+        <div className="space-x-4 flex justify-end">
+          <button
+            onClick={goToRegister}
+            className="bg-red-500 text-white px-4 py-2 h-max rounded"
+          >
+            Register
+          </button>
+          <button
+            onClick={gotToLogin}
+            className="bg-gray-500 text-white px-4 py-2 h-max rounded"
+          >
+            Login
+          </button>
+        </div>
+      </header>
+      <div className="bg-black pr-8">
         <div className="flex justify-center py-32">
-          <div className="flex flex-col w-1/2">
+          <div className="flex flex-col w-1/2 ml-6">
             <input
               type="text"
               placeholder="Search courses"
-              className="border-2 border-gray-300 w-full p-2 rounded"
+              className="border-2 focus:outline-none outline-none border-none border-gray-300 w-full p-3 rounded-full"
               value={searchValue}
               onChange={handleSearch}
             />

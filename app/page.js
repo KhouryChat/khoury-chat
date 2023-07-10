@@ -55,7 +55,7 @@ export default function Home() {
           </h1>
         </div>
 
-        <div className="space-x-4 flex justify-end">
+        <div className="space-x-4 flex mr-10">
           <button
             onClick={goToRegister}
             className="bg-red-500 text-white px-4 py-2 h-max rounded"

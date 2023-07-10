@@ -5,6 +5,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faHeart } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/navigation";
 
+import Image from "next/image";
+
 export default function Home() {
   const router = useRouter();
 
@@ -69,9 +71,15 @@ export default function Home() {
     <>
       <div className="bg-black pr-8">
         <header className="py-6 flex flex-grow justify-between">
+          <div className="justify-start, ml-4">
+          <div> 
+          <Image src="/husky.png" alt="Logo" width={50} height={50} />
+          </div>
           <h1 className="px-8 text-3xl font-sans font-bold text-white">
             Khoury Course Forum
           </h1>
+          </div>
+
           <div className="space-x-4 flex justify-end">
             <button
               onClick={goToRegister}

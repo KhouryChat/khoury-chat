@@ -1,0 +1,6 @@
+MongoDB creds:
+UN: admin
+PW: 8TbwxWzdh0H05zV1
+
+MongoDB connect str:
+mongodb+srv://<username>:<password>@forum-backend.ipia6hh.mongodb.net/?retryWrites=true&w=majority

@@ -1,15 +1,13 @@
-'use client'
-import { useState } from 'react';
+"use client";
+import { useState } from "react";
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faHeart } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faHeart } from "@fortawesome/free-solid-svg-icons";
 
-
-import Image from 'next/image';
-
+import Image from "next/image";
 
 export default function Home() {
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState("");
   // Dummy data simulating the data you might fetch from a database
   const [options, setOptions] = useState([
     {title:'Option 1'}, {title:'Option 2'}, {title:'Option 3'},{title:'Option 4'}, {title:'Option 5'},
@@ -18,7 +16,7 @@ export default function Home() {
 
   const handleSearch = (event) => {
     setSearchValue(event.target.value);
-    console.log(searchValue)
+    console.log(searchValue);
   };
 
   const handleSelect = (option) => {

@@ -24,19 +24,20 @@ function Page() {
     return router.push("/");
   };
   return (
-    <div className="flex flex-row justify-between items-center">
-      <div className="ml-20">
-        <Image src="/husky2.png" alt="Husky" width={550} height={700} />
+    <div className="flex flex-row justify-center gap-20 items-center">
+      <div className="">
+        <Image src="/husky2.png" alt="Husky" width={520} height={650} />
       </div>
-      <div className="flex flex-col h-screen mr-60">
-        <div className="flex  font-bold text-8xl text-white h-1/2 mt-60">
-          Login
-        </div>
-        <div className="flex items-center h-screen">
+      <div className="flex flex-col justify-center  h-screen">
+        <div className="flex items-center">
           <form
             onSubmit={handleForm}
-            className="form flex flex-col gap-5 text-xl items-center w-full mb-40"
+            className="flex flex-col gap-8 text-xl items-start w-full "
           >
+            <div className="flex font-bold text-8xl text-white h-1/2">
+              Login
+            </div>
+
             <label htmlFor="email">
               <FormInput
                 onChange={setEmail}
@@ -54,7 +55,7 @@ function Page() {
               />
             </label>
             <button
-              className="my-6 text-white bg-red-700 py-3 rounded-full w-1/2 hover:bg-red-400 font-sans font-semibold text-md"
+              className="text-white bg-red-700 py-3 rounded-full w-1/2 hover:bg-red-400 font-sans font-semibold text-md"
               type="submit"
             >
               Sign in

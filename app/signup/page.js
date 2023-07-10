@@ -39,19 +39,18 @@ function Page() {
     return router.push("/admin");
   };
   return (
-    <div className="flex flex-row justify-between items-center">
-      <div className="ml-40">
+    <div className="flex flex-row justify-center items-center">
+      <div className="">
         <Image src="/husky.png" alt="Husky" width={700} height={900} />
       </div>
-      <div className="flex flex-col h-screen mr-60">
-        <div className="flex  font-bold text-8xl text-white h-1/2 mt-40">
-          Register
-        </div>
-        <div className="flex items-center h-screen">
+      <div className="flex flex-col justify-center h-screen">
+        <div className="flex items-center">
           <form
             onSubmit={handleForm}
-            className="form flex flex-col gap-5 text-xl items-center w-full mb-24"
+            className="flex flex-col gap-8 text-xl items-start w-full"
           >
+            <div className="font-bold text-8xl text-white h-1/2">Register</div>
+
             <label htmlFor="username">
               <FormInput
                 onChange={setUsername}
@@ -88,7 +87,7 @@ function Page() {
               />
             </label>
             <button
-              className="my-6 text-white bg-red-700 py-3 rounded-full w-1/2 hover:bg-red-400 font-sans font-semibold text-md"
+              className="my-6 self-center text-white bg-red-700 py-3 rounded-full w-1/2 hover:bg-red-400 font-sans font-semibold text-md"
               type="submit"
             >
               Sign up

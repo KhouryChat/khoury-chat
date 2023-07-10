@@ -3,10 +3,11 @@ import { useState } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faHeart } from "@fortawesome/free-solid-svg-icons";
-
-import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
+
   const [searchValue, setSearchValue] = useState("");
   // Dummy data simulating the data you might fetch from a database
   const [options, setOptions] = useState([
@@ -21,6 +22,13 @@ export default function Home() {
     "Option 9",
     "Option 10",
   ]);
+
+  const goToRegister = () => {
+    router.push("/signup");
+  };
+  const gotToLogin = () => {
+    router.push("/login");
+  };
 
   const handleSearch = (event) => {
     setSearchValue(event.target.value);
@@ -54,10 +62,16 @@ export default function Home() {
           Khoury Course Forum
         </h1>
         <div className="space-x-4 flex justify-end">
-          <button className="bg-red-500 text-white px-4 py-2 rounded">
+          <button
+            onClick={goToRegister}
+            className="bg-red-500 text-white px-4 py-2 rounded"
+          >
             Register
           </button>
-          <button className="bg-gray-500 text-white px-4 py-2 rounded">
+          <button
+            onClick={gotToLogin}
+            className="bg-gray-500 text-white px-4 py-2 rounded"
+          >
             Login
           </button>
         </div>

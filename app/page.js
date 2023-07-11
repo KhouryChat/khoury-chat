@@ -3,9 +3,22 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import PostItem from "@/components/PostItem/PostItem";
 import Image from "next/image";
-
+import { useEffect } from "react";
+import signOut from "@/auth/firebase/signout";
+import { useAuthContext } from "@/Context/AuthContext";
+import { BsFillPersonFill, BsPersonFill } from "react-icons/bs";
 export default function Home() {
   const router = useRouter();
+  const [isLoggedIn, setLoggedIn] = useState(false);
+  const user = useAuthContext();
+
+  if (isLoggedIn) console.log(user);
+  useEffect(() => {
+    if (user["user"] != null && user["user"] != undefined) {
+      setLoggedIn(true);
+      console.log(user["user"]);
+    }
+  }, [user]);
 
   const [searchValue, setSearchValue] = useState("");
   // Dummy data simulating the data you might fetch from a database
@@ -22,6 +35,15 @@ export default function Home() {
     { title: "Option 10" },
   ]);
 
+  const logOut = () => {
+    signOut();
+    setLoggedIn(false);
+    router.push("/");
+  };
+
+  const goToProfile = () => {
+    router.push("/" + user["user"]["displayname"]);
+  };
   const goToRegister = () => {
     router.push("/signup");
   };
@@ -55,19 +77,39 @@ export default function Home() {
           </h1>
         </div>
 
-        <div className="space-x-4 flex mr-10">
-          <button
-            onClick={goToRegister}
-            className="bg-red-500 text-white px-4 py-2 h-max rounded"
-          >
-            Register
-          </button>
-          <button
-            onClick={gotToLogin}
-            className="bg-gray-500 text-white px-4 py-2 h-max rounded"
-          >
-            Login
-          </button>
+        <div className="space-x-4 flex mr-10 ">
+          {isLoggedIn ? (
+            <div className="flex flex-row mr-10 gap-4 items-center">
+              <button
+                onClick={goToProfile}
+                className="bg-gray-500 text-white px-4 py-2 h-max rounded hover:bg-gray-400"
+              >
+                Profile
+              </button>
+              <button
+                onClick={logOut}
+                className="bg-red-600 text-white px-4 py-2 h-max rounded hover:bg-red-400"
+              >
+                Logout
+              </button>
+              <BsPersonFill color="white" height={200} />
+            </div>
+          ) : (
+            <>
+              <button
+                onClick={goToRegister}
+                className="bg-red-600 text-white px-4 py-2 h-max rounded hover:bg-red-400"
+              >
+                Register
+              </button>
+              <button
+                onClick={gotToLogin}
+                className="bg-gray-500 text-white px-4 py-2 h-max rounded hover:bg-gray-400"
+              >
+                Login
+              </button>
+            </>
+          )}
         </div>
       </header>
       <div className="bg-black pr-8">

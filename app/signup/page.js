@@ -38,7 +38,7 @@ function Page() {
     }
 
     console.log(result);
-    return router.push("/admin");
+    return router.push("/");
   };
   return (
     <div className="flex flex-row justify-center items-center">

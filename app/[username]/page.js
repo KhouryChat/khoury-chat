@@ -15,6 +15,14 @@ const Page = () => {
   function goHome() {
     router.push("/")
   }
+
+  // return users post by ID (make a FETCH request)
+  function get_user_post() {
+    fetch('https://www.khourycourse.com/api/<enter_endpoint_here>')
+    .then(response => response.json())
+    .then(data => this.setState({ totalReactPackages: data.total }))
+  }
+
   const [searchValue, setSearchValue] = useState("");
   const handleSearch = (e) => {
     setSearchValue(e.target.value)
@@ -88,12 +96,30 @@ const Page = () => {
         <div className="w-full flex flex-col gap-10 justify-center items-start">
           <div className="text-6xl font-bold text-white">recent posts:</div>
         <div className="w-full grid grid-cols-2 gap-10">
+          <button onClick={get_user_post} className=" relative">
               <PostItem title="post 1" content="content" views={100} likes={45}/>
+              <span className="absolute top-0 left-0 right-0 bottom-0 hover:bg-gray-500 opacity-20 z-10"></span>
+              </button>
+              <button onClick={get_user_post} className=" relative">
               <PostItem title="post 2" content="content" views={100} likes={45}/>
+              <span className="absolute top-0 left-0 right-0 bottom-0 hover:bg-gray-500 opacity-20 z-10"></span>
+              </button>
+              <button onClick={get_user_post} className=" relative">
               <PostItem title="post 3" content="content" views={100} likes={45}/>
+              <span className="absolute top-0 left-0 right-0 bottom-0 hover:bg-gray-500 opacity-20 z-10"></span>
+              </button>
+              <button onClick={get_user_post} className=" relative">
               <PostItem title="post 4" content="content" views={100} likes={45}/>
+              <span className="absolute top-0 left-0 right-0 bottom-0 hover:bg-gray-500 opacity-20 z-10"></span>
+              </button>
+              <button onClick={get_user_post} className=" relative">
               <PostItem title="post 5" content="content" views={100} likes={45}/>
+              <span className="absolute top-0 left-0 right-0 bottom-0 hover:bg-gray-500 opacity-20 z-10"></span>
+              </button>
+              <button onClick={get_user_post} className=" relative"> 
               <PostItem title="post 6" content="content" views={100} likes={45}/>
+              <span className="absolute top-0 left-0 right-0 bottom-0 hover:bg-gray-500 opacity-20 z-10"></span>
+              </button>
         </div>
         </div>
       </div>

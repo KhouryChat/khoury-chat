@@ -35,7 +35,7 @@ export default function Home() {
     { title: "Option 10" },
   ]);
 
-  const imageURL = "https://picsum.photos/100/100";
+  let imageURL = "https://picsum.photos/100/100";
   if (user) {
     if (user["user"]) {
       imageURL = user["user"]["photoURL"];

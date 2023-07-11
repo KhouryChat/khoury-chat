@@ -28,6 +28,30 @@ function Page() {
     setConfirmPass(pass);
     confirmPassword(pass, false);
   }
+
+  const addUserToServer = async (user) => {
+    const newUser = {
+      username: user["displayName"],
+      firebase_UID: user["uid"],
+      major: "Computer Science",
+      year: "MS",
+      posts: [],
+      replies: [],
+    };
+    try {
+      const response = await fetch(`https://www.khourychat.com/api/users`, {
+        method: "POST",
+        // headers: {
+        //   "Content-Type": "application/json",
+        // },
+        body: JSON.stringify(newUser),
+      });
+      const result = await response.json();
+      console.log(result);
+    } catch (e) {
+      console.log(e);
+    }
+  };
   const handleForm = async (event) => {
     event.preventDefault();
 
@@ -37,72 +61,79 @@ function Page() {
       return console.log(error);
     }
 
+    console.log(result.user);
+    await addUserToServer(result.user);
+
     console.log(result);
     return router.push("/");
   };
   return (
-    <div className="flex flex-row justify-center items-center">
-      <div className="">
-        <Image src="/husky.png" alt="Husky" width={700} height={900} />
-      </div>
-      <div className="flex flex-col justify-center h-screen">
-        <div className="flex items-center">
-          <form
-            onSubmit={handleForm}
-            className="flex flex-col gap-8 text-xl items-start w-full"
-          >
-            <div className="font-bold text-8xl text-white h-1/2">Register</div>
-
-            <label htmlFor="username">
-              <FormInput
-                onChange={setUsername}
-                type="text"
-                name="username"
-                placeholder="Username"
-              />
-            </label>
-            <label htmlFor="email">
-              <FormInput
-                onChange={setEmail}
-                type="email"
-                name="email"
-                placeholder="Email"
-              />
-            </label>
-            <label htmlFor="password">
-              <FormInput
-                errorHighlight={!isPassCorrect}
-                onChange={setMainPassword}
-                type="password"
-                name="password"
-                placeholder="Password"
-              />
-              {!isPassLengthCorrect && (
-                <div className="p-0 m-0 text-white font-bold text-lg">
-                  Password length must be at least 6.
-                </div>
-              )}
-            </label>
-            {console.log(isPassCorrect)}
-            <label htmlFor="confirm-password">
-              <FormInput
-                errorHighlight={!isPassCorrect}
-                onChange={setConfirmPassword}
-                type="password"
-                name="confpassword"
-                placeholder="Confirm Password"
-              />
-            </label>
-            <button
-              className="my-6 self-center text-white bg-red-700 py-3 rounded-full w-1/2 hover:bg-red-400 font-sans font-semibold text-md"
-              type="submit"
+    <>
+      <div className="flex flex-row justify-center items-center">
+        <div className="">
+          <Image src="/husky.png" alt="Husky" width={700} height={900} />
+        </div>
+        <div className="flex flex-col justify-center h-screen">
+          <div className="flex items-center">
+            <form
+              onSubmit={handleForm}
+              className="flex flex-col gap-8 text-xl items-start w-full"
             >
-              Sign up
-            </button>
-          </form>
+              <div className="font-bold text-8xl text-white h-1/2">
+                Register
+              </div>
+
+              <label htmlFor="username">
+                <FormInput
+                  onChange={setUsername}
+                  type="text"
+                  name="username"
+                  placeholder="Username"
+                />
+              </label>
+              <label htmlFor="email">
+                <FormInput
+                  onChange={setEmail}
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                />
+              </label>
+              <label htmlFor="password">
+                <FormInput
+                  errorHighlight={!isPassCorrect}
+                  onChange={setMainPassword}
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                />
+                {!isPassLengthCorrect && (
+                  <div className="p-0 m-0 text-white font-bold text-lg">
+                    Password length must be at least 6.
+                  </div>
+                )}
+              </label>
+              {console.log(isPassCorrect)}
+              <label htmlFor="confirm-password">
+                <FormInput
+                  errorHighlight={!isPassCorrect}
+                  onChange={setConfirmPassword}
+                  type="password"
+                  name="confpassword"
+                  placeholder="Confirm Password"
+                />
+              </label>
+              <button
+                className="my-6 self-center text-white bg-red-700 py-3 rounded-full w-1/2 hover:bg-red-400 font-sans font-semibold text-md"
+                type="submit"
+              >
+                Sign up
+              </button>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

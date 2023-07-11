@@ -15,18 +15,21 @@ const Page = () => {
   function goHome() {
     router.push("/");
   }
-  const userID = "";
+  let userID = "";
 
   const user = useAuthContext();
   if (user) {
-    userID = user["user"];
+    userID = user["user"]["uid"];
   }
-  const getAllUserPosts = () => {
-    fetch(`https://www.khourychat.com/api/${userID}/posts`)
-      .then((response) => response.json())
-      .then((data) => this.setState({ totalReactPackages: data.total }));
+  console.log(userID);
+  const getAllUserPosts = async () => {
+    const response = await fetch(
+      `https://www.khourychat.com/api/${userID}/posts`
+    );
+    console.log(response.json);
   };
 
+  // getAllUserPosts();
   const [searchValue, setSearchValue] = useState("");
   const handleSearch = (e) => {
     setSearchValue(e.target.value);
@@ -114,7 +117,7 @@ const Page = () => {
               />
               <span className="absolute top-0 left-0 right-0 bottom-0 hover:bg-gray-500 opacity-20 z-10"></span>
             </button>
-            <button onClick={get_user_post} className=" relative">
+            <button onClick={() => {}} className=" relative">
               <PostItem
                 title="post 2"
                 content="content"
@@ -123,7 +126,7 @@ const Page = () => {
               />
               <span className="absolute top-0 left-0 right-0 bottom-0 hover:bg-gray-500 opacity-20 z-10"></span>
             </button>
-            <button onClick={get_user_post} className=" relative">
+            <button onClick={() => {}} className=" relative">
               <PostItem
                 title="post 3"
                 content="content"
@@ -132,7 +135,7 @@ const Page = () => {
               />
               <span className="absolute top-0 left-0 right-0 bottom-0 hover:bg-gray-500 opacity-20 z-10"></span>
             </button>
-            <button onClick={get_user_post} className=" relative">
+            <button onClick={() => {}} className=" relative">
               <PostItem
                 title="post 4"
                 content="content"
@@ -141,7 +144,7 @@ const Page = () => {
               />
               <span className="absolute top-0 left-0 right-0 bottom-0 hover:bg-gray-500 opacity-20 z-10"></span>
             </button>
-            <button onClick={get_user_post} className=" relative">
+            <button onClick={() => {}} className=" relative">
               <PostItem
                 title="post 5"
                 content="content"
@@ -150,7 +153,7 @@ const Page = () => {
               />
               <span className="absolute top-0 left-0 right-0 bottom-0 hover:bg-gray-500 opacity-20 z-10"></span>
             </button>
-            <button onClick={get_user_post} className=" relative">
+            <button onClick={() => {}} className=" relative">
               <PostItem
                 title="post 6"
                 content="content"

@@ -35,10 +35,10 @@ export default function Home() {
     { title: "Option 10" },
   ]);
 
-  const imageURL = "https://picsum.photos/100/100"
+  const imageURL = "https://picsum.photos/100/100";
   if (user) {
     if (user["user"]) {
-      imageURL = user["user"]["photoURL"]
+      imageURL = user["user"]["photoURL"];
     }
   }
   const logOut = () => {
@@ -46,8 +46,6 @@ export default function Home() {
     setLoggedIn(false);
     router.push("/");
   };
-  }
-  
 
   const goToProfile = () => {
     router.push("/" + user["user"]["displayName"]);

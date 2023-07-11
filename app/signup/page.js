@@ -10,16 +10,18 @@ function Page() {
   const [password, setPassword] = React.useState("");
   const [confirmPass, setConfirmPass] = React.useState("");
   const [isPassCorrect, setPassCorrect] = React.useState(true);
-
+  const [isPassLengthCorrect, setPassLengthCorrect] = React.useState(true);
   const router = useRouter();
 
   function confirmPassword(pass, main) {
     let first = pass;
     let second = main ? confirmPass : password;
+
     setPassCorrect(first == second);
   }
   function setMainPassword(pass) {
     setPassword(pass);
+    setPassLengthCorrect(pass.length >= 6);
     confirmPassword(pass, true);
   }
   function setConfirmPassword(pass) {
@@ -75,6 +77,11 @@ function Page() {
                 name="password"
                 placeholder="Password"
               />
+              {!isPassLengthCorrect && (
+                <div className="p-0 m-0 text-white font-bold text-lg">
+                  Password length must be at least 6.
+                </div>
+              )}
             </label>
             {console.log(isPassCorrect)}
             <label htmlFor="confirm-password">

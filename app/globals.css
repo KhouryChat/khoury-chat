@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.ql-container.ql-snow {
+  border: none;
+  width: 750px;
+  overflow: scroll;
+}

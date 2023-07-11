@@ -6,7 +6,7 @@ const PostItem = ({ title, content, views, likes }) => {
     <div className="bg-white rounded shadow p-4 mb-4 flex flex-col">
       <h3 className="text-xl font-bold">{title}</h3>
       <h4 className="text-base font-bold">
-        {content.split(/\s+/).slice(0, 10).join(" ") + "..."}
+        {content.split(/\s+/).slice(0, 10).join(" ")}
       </h4>
       <div className="flex justify-between flex-grow text-sm text-gray-500">
         <div className="flex items-center">

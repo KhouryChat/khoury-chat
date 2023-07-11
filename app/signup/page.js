@@ -31,8 +31,8 @@ function Page() {
 
   const addUserToServer = async (user) => {
     const newUser = {
-      username: user["displayName"],
-      firebase_UID: user["uid"],
+      username: "aaaa",
+      firebase_UID: "iasgdu9a",
       major: "Computer Science",
       year: "MS",
       posts: [],
@@ -41,10 +41,10 @@ function Page() {
     try {
       const response = await fetch(`https://www.khourychat.com/api/users`, {
         method: "POST",
-        // headers: {
-        //   "Content-Type": "application/json",
-        // },
-        body: JSON.stringify(newUser),
+        headers: {
+          accept: "application/json",
+        },
+        body: JSON.stringify({}),
       });
       const result = await response.json();
       console.log(result);

@@ -155,6 +155,7 @@ def welcome_page():
 
 
 @app.route("/courses/<course_id>", methods=["POST"])
+@cross_origin()
 def post_post():
     post_data = request.args
     post = create_post_document(post_data)
@@ -167,6 +168,7 @@ def post_post():
 
 
 @app.route("/api/posts", methods=["GET"])
+@cross_origin()
 def get_posts():
     posts = get_all_posts()
     return jsonify(posts)
@@ -179,6 +181,7 @@ def get_all_posts():
 
 # Get posts by user id
 @app.route("/api/<firebase_UID>/posts", methods=["GET"])
+@cross_origin()
 def get_posts_by_id(firebase_UID):
     user = db.users.find_one({"firebase_UID": firebase_UID})
     # send back error message if user id is wrong
@@ -193,6 +196,7 @@ def get_posts_by_id(firebase_UID):
 
 
 @app.route("/api/<course_id>/posts", methods=["GET"])
+@cross_origin()
 def get_posts_by_course(course_id):
     course = db.courses.find_one({"course_id": course_id})
     if not course:
@@ -205,6 +209,7 @@ def get_posts_by_course(course_id):
 
 
 @app.route("/api/posts/<post_id>", methods=["DELETE"])
+@cross_origin()
 def delete_post(post_id):
     db.posts.delete_one({"post_id": post_id})
     return "post deleted successfully"
@@ -212,6 +217,7 @@ def delete_post(post_id):
 
 # -- routes for users -- #
 @app.route("/api/users", methods=["POST"])
+@cross_origin()
 def post_user():
     user_data = request.args
     create_user_document(user_data)
@@ -231,6 +237,7 @@ def get_all_users_data():
 
 
 @app.route("/api/users/<firebase_UID>", methods=["DELETE"])
+@cross_origin()
 def delete_user(firebase_UID):
     db.users.delete_one({"firebase_UID": firebase_UID})
     return "user deleted successfully"
@@ -239,6 +246,7 @@ def delete_user(firebase_UID):
 # -- routes for courses -- #
 # create a new course
 @app.route("/api/courses", methods=["POST"])
+@cross_origin()
 def post_courses():
     course_data = request.args
     create_course_document(course_data)
@@ -248,6 +256,7 @@ def post_courses():
 
 
 @app.route("/api/courses/<course_id>", methods=["POST"])
+@cross_origin()
 def post_professor(course_id):
     professor_data = request.args
 
@@ -268,12 +277,14 @@ def post_professor(course_id):
 
 
 @app.route("/api/courses", methods=["GET"])
+@cross_origin()
 def get_courses():
     courses = get_all_courses()
     return jsonify(courses)
 
 
 @app.route("/api/courses/<course_id>", methods=["GET"])
+@cross_origin()
 def get_course(course_id):
     course = db.courses.find_one({"course_id": course_id})
     if not course:
@@ -291,6 +302,7 @@ def get_all_courses():
 
 # get course by professor information given course_id and professor name
 @app.route("/courses/<course_id>/<professor_id>", methods=["GET"])
+@cross_origin()
 def get_course_by_professor(course_id, professor_id):
     # "course_by_professors":{"$in" : [professor_id]
     course_by_professor = db.course_professors.find(

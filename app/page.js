@@ -35,6 +35,9 @@ export default function Home() {
     { title: "Option 10" },
   ]);
 
+  const imageURL = user
+    ? user["user"]["photoURL"]
+    : "https://picsum.photos/100/100";
   const logOut = () => {
     signOut();
     setLoggedIn(false);
@@ -42,7 +45,7 @@ export default function Home() {
   };
 
   const goToProfile = () => {
-    router.push("/" + user["user"]["displayname"]);
+    router.push("/" + user["user"]["displayName"]);
   };
   const goToRegister = () => {
     router.push("/signup");
@@ -92,7 +95,13 @@ export default function Home() {
               >
                 Logout
               </button>
-              <BsPersonFill color="white" height={200} />
+              <Image
+                className="rounded-full"
+                src={imageURL}
+                alt="P"
+                width={60}
+                height={60}
+              />
             </div>
           ) : (
             <>

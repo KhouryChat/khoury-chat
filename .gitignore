@@ -5,6 +5,14 @@
 /.pnp
 .pnp.js
 
+.venv/
+venv/
+/venv/
+./venv/
+./venv
+.bin/
+/bin/
+./bin
 # testing
 /coverage
 

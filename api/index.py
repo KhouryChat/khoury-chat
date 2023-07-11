@@ -41,15 +41,15 @@ def create_user_document(parse_data):
     firebase_UID = parse_data.get("firebase_UID")
     major = parse_data.get("major")
     year = parse_data.get("year")
-    posts = parse_data.get("posts")
-    replies = parse_data.get("replies")
+    # posts = parse_data.get("posts")
+    # replies = parse_data.get("replies")
     doc = {
         "username": username, 
            "firebase_UID": firebase_UID, 
            "major": major, 
            "year": year, 
-           "posts": posts, 
-           "replies": replies
+           "posts": [], 
+           "replies": []
            }
     collection.insert_one(doc)
 
@@ -66,6 +66,8 @@ def create_post_document(parse_data):
     dislikes = parse_data.get("dislikes")
     #Add user_id
     firebase_UID = parse_data.get("firebase_UID")
+    course_id = parse_data.get("course_id")
+
     doc = {
         "post_id": post_id, 
            "timestamp": timestamp, 
@@ -76,7 +78,8 @@ def create_post_document(parse_data):
            "content": content,
            "replies": replies,
            "likes": likes,
-           "dislikes": dislikes
+           "dislikes": dislikes,
+           "course_id":course_id
            }
     collection.insert_one(doc)
     
@@ -84,7 +87,6 @@ def create_post_document(parse_data):
 
 def create_course_document(parse_data):
     collection = db.courses
-    print(parse_data)
     course_id = parse_data.get("course_id")
     course_title = parse_data.get("course_title")
     professors = parse_data.get("professor")
@@ -130,10 +132,27 @@ def welcome_page():
     return "<p> welcome </p>"
 
 # -- routes for posts -- #
-@app.route("/posts", methods=["POST"])
+# @app.route("/posts", methods=["POST"])
+# def post_post():
+#     post_data = request.args
+#     post = create_post_document(post_data)
+
+#     db.users.update_one(
+#         {"firebase_UID":post.get("firebase_UID")}, #query
+#         {"$push":{"posts": str(post.get("post_id"))}} #update
+#     )
+#     return jsonify("post created successfully")
+
+#create a post under a course 
+@app.route("/courses/<course_id>", methods=["POST"])
 def post_post():
     post_data = request.args
-    create_post_document(post_data)
+    post = create_post_document(post_data)
+
+    db.users.update_one(
+        {"firebase_UID":post.get("firebase_UID")}, #query
+        {"$push":{"posts": str(post.get("post_id"))}} #update
+    )
     return jsonify("post created successfully")
 
 @app.route("/posts", methods = ["GET"])
@@ -252,6 +271,20 @@ def get_course(course_id):
 def get_all_courses():
     courses = db.courses.find()
     return [json.loads(json_util.dumps(course)) for course in courses]
+
+
+# get course by professor information given course_id and professor name 
+@app.route("/courses/<course_id>/<professor_id>", methods = ["GET"])
+def get_course_by_professor(course_id, professor_id):
+    # "course_by_professors":{"$in" : [professor_id]
+    course_by_professor = db.course_professors.find({"course_id": course_id, "_id": ObjectId(professor_id)})
+    if not course_by_professor:
+        return jsonify({"error": "Professor not found"}), 404
+    
+
+    #post_ids = user.get("posts", [])
+    #posts = db.posts.find({"post_id": {"$in": post_ids}})
+    return json.loads(json_util.dumps(course_by_professor))
 
 # if __name__ == "__main__":
 #     app.run(host="0.0.0.0", debug=True)

@@ -109,15 +109,15 @@ const CoursePage = ({ params }) => {
     }
   }
 
-  if (!courseData) {
-    return <div>Course Not Found!</div>;
-  }
-
   const [value, setValue] = useState("");
 
   const [posts, setPosts] = useState(courseData["posts"]);
 
   const user = useAuthContext();
+
+  if (!courseData) {
+    return <div>Course Not Found!</div>;
+  }
   const addPost = (e) => {
     const newPost = {
       post_id: "aa11",

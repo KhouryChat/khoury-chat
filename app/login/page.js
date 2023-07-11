@@ -10,6 +10,7 @@ function Page() {
   const [password, setPassword] = React.useState("");
 
   const router = useRouter();
+  let isErrorAuth = "";
 
   const handleForm = async (event) => {
     event.preventDefault();
@@ -17,7 +18,8 @@ function Page() {
     const { result, error } = await signIn(email, password);
 
     if (error) {
-      return console.log(error);
+      alert(error.code);
+      return console.log(error.code);
     }
 
     console.log(result);

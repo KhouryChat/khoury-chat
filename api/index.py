@@ -70,6 +70,7 @@ def create_post_document(parse_data):
     content = parse_data.get("content")
     replies = parse_data.get("replies")
     likes = parse_data.get("likes")
+    views = 1
     dislikes = parse_data.get("dislikes")
     # Add user_id
     firebase_UID = parse_data.get("firebase_UID")
@@ -84,6 +85,7 @@ def create_post_document(parse_data):
         "of_reply": of_reply,
         "content": content,
         "replies": replies,
+        "views": views,
         "likes": likes,
         "dislikes": dislikes,
         "course_id": course_id

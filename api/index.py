@@ -6,6 +6,8 @@ from pymongo import MongoClient
 from bson.objectid import ObjectId
 from bson import json_util
 import json
+import datetime
+import sys
 from flask_cors import CORS, cross_origin
 
 load_dotenv(find_dotenv())
@@ -32,6 +34,7 @@ app.config["CORS_HEADERS"] = 'Content-Type'
 
 def connect_to_db():
     pass
+    pass
 
 # insert user
 
@@ -47,8 +50,6 @@ def create_user_document(parse_data):
     firebase_UID = parse_data.get("firebase_UID")
     major = parse_data.get("major")
     year = parse_data.get("year")
-    # posts = parse_data.get("posts")
-    # replies = parse_data.get("replies")
     doc = {
         "username": username,
         "firebase_UID": firebase_UID,
@@ -62,8 +63,6 @@ def create_user_document(parse_data):
 
 def create_post_document(parse_data):
     collection = db.posts
-    post_id = parse_data.get("post_id")
-    timestamp = parse_data.get("timestamp")
     username = parse_data.get("username")
     post_title = parse_data.get("post_title")
     of_reply = parse_data.get("of_reply")
@@ -72,13 +71,14 @@ def create_post_document(parse_data):
     likes = parse_data.get("likes")
     views = 1
     dislikes = parse_data.get("dislikes")
+    views = 1
     # Add user_id
     firebase_UID = parse_data.get("firebase_UID")
     course_id = parse_data.get("course_id")
 
     doc = {
-        "post_id": post_id,
-        "timestamp": timestamp,
+        "post_id": str(ObjectId()),
+        "timestamp": datetime.datetime.utcnow(),
         "username": username,
         "firebase_UID": firebase_UID,
         "post_title": post_title,
@@ -91,6 +91,7 @@ def create_post_document(parse_data):
         "course_id": course_id
     }
     collection.insert_one(doc)
+    return doc
 
 
 def create_course_document(parse_data):
@@ -98,6 +99,7 @@ def create_course_document(parse_data):
     course_id = parse_data.get("course_id")
     course_title = parse_data.get("course_title")
     professors = parse_data.get("professor")
+
     # Add course-by-professors
     course_document = {
         "course_id": course_id,
@@ -112,7 +114,6 @@ def create_course_document(parse_data):
 # schema for course by specific professor
 def create_course_by_professor_document(parse_data):
     collection = db.course_professors
-
     course_id = parse_data.get("course_id")
     professor = parse_data.get("professor")
     difficulty = parse_data.get("difficulty")
@@ -131,9 +132,14 @@ def create_course_by_professor_document(parse_data):
     return result.inserted_id
 
 
+def get_all_posts():
+    posts = db.posts.find()
+    return [json.loads(json_util.dumps(post)) for post in posts]
 # ---- endpoints ----- #
 
 # home route
+
+
 @app.route("/api/")
 @cross_origin()
 def welcome_page():
@@ -141,27 +147,12 @@ def welcome_page():
     response.headers.add("Access-Control-Allow-Origin", "*")
     return response
 
-# -- routes for posts -- #
-# @app.route("/posts", methods=["POST"])
-# def post_post():
-#     post_data = request.args
-#     post = create_post_document(post_data)
 
-#     db.users.update_one(
-#         {"firebase_UID":post.get("firebase_UID")}, #query
-#         {"$push":{"posts": str(post.get("post_id"))}} #update
-#     )
-#     return jsonify("post created successfully")
-
-# create a post under a course
-
-
-@app.route("/courses/<course_id>", methods=["POST"])
+@app.route("/api/courses/<course_id>", methods=["POST"])
 @cross_origin()
-def post_post():
-    post_data = request.args
+def post_post(course_id):
+    post_data = request.get_json(force=True)
     post = create_post_document(post_data)
-
     db.users.update_one(
         {"firebase_UID": post.get("firebase_UID")},  # query
         {"$push": {"posts": str(post.get("post_id"))}}  # update
@@ -176,9 +167,33 @@ def get_posts():
     return jsonify(posts)
 
 
-def get_all_posts():
-    posts = db.posts.find()
-    return [json.loads(json_util.dumps(post)) for post in posts]
+@app.route("/api/posts/<post_id>", methods=["DELETE"])
+@cross_origin()
+def delete_post(post_id):
+    db.posts.delete_one({"post_id": post_id})
+    return "post deleted successfully"
+
+
+@app.route("/api/posts/<post_id>", methods=["PATCH"])
+@cross_origin()
+def patch_post(post_id):
+    db.posts.delete_one({"post_id": post_id})
+    create_post_document(
+        request.get_json(force=True))
+    return "post updated successfully"
+
+
+@app.route("/api/posts/latest", methods=["GET"])
+@cross_origin()
+def get_latest_posts():
+    number = 6
+    if "number" in request.args:
+        number = int(request.args["number"])
+
+    posts = get_all_posts()
+
+    posts.sort(key=lambda post: post["timestamp"]["$date"])
+    return posts[-1::-1][:number]
 
 
 # Get posts by user id
@@ -189,12 +204,8 @@ def get_posts_by_id(firebase_UID):
     # send back error message if user id is wrong
     if not user:
         return jsonify({"error": "User not found"}), 404
-    # post_ids = user.get("posts", [])
-    # posts = db.posts.find({"post_id": {"$in": post_ids}})
     posts = user.get("posts", [])
     return jsonify(posts)
-
-# Get posts by course id
 
 
 @app.route("/api/<course_id>/posts", methods=["GET"])
@@ -204,24 +215,16 @@ def get_posts_by_course(course_id):
     if not course:
         return jsonify({"error": "Course not found"}), 404
 
-    # post_ids = user.get("posts", [])
-    # posts = db.posts.find({"post_id": {"$in": post_ids}})
     posts = course.get("posts", [])
     return jsonify(posts)
 
-
-@app.route("/api/posts/<post_id>", methods=["DELETE"])
-@cross_origin()
-def delete_post(post_id):
-    db.posts.delete_one({"post_id": post_id})
-    return "post deleted successfully"
-
-
 # -- routes for users -- #
+
+
 @app.route("/api/users", methods=["POST"])
 @cross_origin()
 def post_user():
-    user_data = request.args
+    user_data = request.get_json(force=True)
     create_user_document(user_data)
     return jsonify("user created successfully")
 
@@ -250,17 +253,17 @@ def delete_user(firebase_UID):
 @app.route("/api/courses", methods=["POST"])
 @cross_origin()
 def post_courses():
-    course_data = request.args
+    course_data = request.get_json(force=True)
     create_course_document(course_data)
     return jsonify({"message": "Course created successfully", "course_id": course_data}), 201
 
 # create course by professor
 
 
-@app.route("/api/courses/<course_id>", methods=["POST"])
+@app.route("/api/courses/professor/<course_id>", methods=["POST"])
 @cross_origin()
 def post_professor(course_id):
-    professor_data = request.args
+    professor_data = request.get_json(force=True)
 
     url_course_id = course_id.lower().strip()
     data_course_id = professor_data.get("course_id").lower().strip()
@@ -292,8 +295,6 @@ def get_course(course_id):
     if not course:
         return jsonify({"error": "Course not found"}), 404
 
-    # post_ids = user.get("posts", [])
-    # posts = db.posts.find({"post_id": {"$in": post_ids}})
     return json.loads(json_util.dumps(course))
 
 
@@ -303,18 +304,12 @@ def get_all_courses():
 
 
 # get course by professor information given course_id and professor name
-@app.route("/courses/<course_id>/<professor_id>", methods=["GET"])
+@app.route("/api/courses/<course_id>/<professor_id>", methods=["GET"])
 @cross_origin()
 def get_course_by_professor(course_id, professor_id):
-    # "course_by_professors":{"$in" : [professor_id]
     course_by_professor = db.course_professors.find(
         {"course_id": course_id, "_id": ObjectId(professor_id)})
     if not course_by_professor:
         return jsonify({"error": "Professor not found"}), 404
 
-    # post_ids = user.get("posts", [])
-    # posts = db.posts.find({"post_id": {"$in": post_ids}})
     return json.loads(json_util.dumps(course_by_professor))
-
-# if __name__ == "__main__":
-#     app.run(host="0.0.0.0", debug=True)

@@ -21,6 +21,9 @@ export default function Home() {
   }, [user]);
 
   const [searchValue, setSearchValue] = useState("");
+  const [courses, setCourses] = useState([]);
+  const [filteredCourses, setFilteredCourses] = useState([]);
+
   // Dummy data simulating the data you might fetch from a database
   const [options, setOptions] = useState([
     { title: "Option 1" },
@@ -47,6 +50,10 @@ export default function Home() {
     router.push("/");
   };
 
+  const goTopost = () => {
+    router.push("/" + posts["posts"]["id"]);
+  };
+
   const goToProfile = () => {
     router.push("/" + user["user"]["displayName"]);
   };
@@ -57,19 +64,36 @@ export default function Home() {
     router.push("/login");
   };
 
+useEffect(() => {
+  const fetchCourses = async () => {
+    try {
+      const response = await fetch(`https://www.khourychat.com/api/courses`);
+      const data = await response.json();
+      setCourses(data);
+      console.log("course here", courses);
+    } catch (error) {
+      console.log("error fetching courses", error);
+    }
+  };
+
+  fetchCourses();
+}, []);
+
   const handleSearch = (event) => {
-    setSearchValue(event.target.value);
-    console.log(searchValue);
+    const value = event.target.value;
+    setSearchValue(value);
+  
+    const filteredCourses = courses.filter((course) =>
+      course.course_title.toLowerCase().includes(value.toLowerCase()) ||
+      course.course_id.toLowerCase().includes(value.toLowerCase())
+    );
+  
+    setFilteredCourses(filteredCourses);
   };
 
   const handleSelect = (option) => {
-    setSearchValue(option);
+    router.push(`/course/${option.course_id}`)
   };
-
-  const filteredOptions = options.filter((option) => {
-    const regex = new RegExp(`(${searchValue}|\\d+)`, "i");
-    return regex.test(option.title);
-  });
 
   return (
     <>
@@ -136,13 +160,13 @@ export default function Home() {
             />
             {searchValue && (
               <div className="border-2 w-full bg-white rounded shadow-lg">
-                {filteredOptions.map((option) => (
+                {filteredCourses.map((course) => (
                   <div
-                    key={option.title}
+                    key={course._id}
                     className="border-b cursor-pointer hover:bg-gray-200"
-                    onClick={() => handleSelect(option)}
+                    onClick={() => handleSelect(course)}
                   >
-                    {option.title}
+                    {`${course.course_id}: ${course.course_title}`}
                   </div>
                 ))}
               </div>

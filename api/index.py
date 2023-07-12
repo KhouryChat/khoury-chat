@@ -71,7 +71,6 @@ def create_post_document(parse_data):
     likes = parse_data.get("likes")
     views = 1
     dislikes = parse_data.get("dislikes")
-    views = 1
     # Add user_id
     firebase_UID = parse_data.get("firebase_UID")
     course_id = parse_data.get("course_id")

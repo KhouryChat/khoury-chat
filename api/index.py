@@ -98,13 +98,14 @@ def create_course_document(parse_data):
     course_id = parse_data.get("course_id")
     course_title = parse_data.get("course_title")
     professors = parse_data.get("professor")
+    posts = parse_data.get("posts")
 
     # Add course-by-professors
     course_document = {
         "course_id": course_id,
         "course_title": course_title,
-        "professor": ["Professor Bagley", "Professor etc.."],
-        "posts": [{"post_id": "57"}],
+        "professor": professors,
+        "posts": posts,
         "course_by_professors": []
     }
     collection.insert_one(course_document)

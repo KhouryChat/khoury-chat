@@ -78,34 +78,29 @@ const CoursePage = ({ params }) => {
   };
   console.log("coursedata:", courseData);
 
+  const [postItems, setPostItems] = useState([]);
 
-  
-    const [postItems, setPostItems] = useState([]);
-  
-    useEffect(() => {
-      async function fetchPosts() {
-        const fetchedPosts = [];
-        
-        for (let post_id of posts) {
-          const response = await fetch(`https://www.khourychat.com/api/posts/${post_id}`);
-          const postData = await response.json();
-          fetchedPosts.push(postData);
-        }
-        setPostItems(fetchedPosts);
+  useEffect(() => {
+    async function fetchPosts() {
+      const fetchedPosts = [];
+
+      for (let post_id of posts) {
+        const response = await fetch(
+          `https://www.khourychat.com/api/posts/${post_id}`
+        );
+        const postData = await response.json();
+        fetchedPosts.push(postData);
       }
-      fetchPosts();
-    }, [posts]);
-
-
-
-
-
+      setPostItems(fetchedPosts);
+    }
+    fetchPosts();
+  }, [posts]);
 
   return (
     <div className="bg-white ">
       <div className="bg-black text-white shadow-xl">
         <Title
-          text={courseData ? courseData["course_id"] : "Course Not Found"}
+          text={courseData ? courseData["course_id"] : ""}
           courseName={courseData ? courseData["course_title"] : ""}
         />
       </div>

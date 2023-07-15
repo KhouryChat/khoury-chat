@@ -11,6 +11,8 @@ export default function Home() {
   const router = useRouter();
   const [isLoggedIn, setLoggedIn] = useState(false);
   const user = useAuthContext();
+  const [trendingPosts, setTrendingPosts] = useState([]);
+
 
   if (isLoggedIn) console.log(user);
   useEffect(() => {
@@ -24,19 +26,21 @@ export default function Home() {
   const [courses, setCourses] = useState([]);
   const [filteredCourses, setFilteredCourses] = useState([]);
 
-  // Dummy data simulating the data you might fetch from a database
-  const [options, setOptions] = useState([
-    { title: "Option 1" },
-    { title: "Option 2" },
-    { title: "Option 3" },
-    { title: "Option 4" },
-    { title: "Option 5" },
-    { title: "Option 6" },
-    { title: "Option 7" },
-    { title: "Option 8" },
-    { title: "Option 9" },
-    { title: "Option 10" },
-  ]);
+  const fetchLatestPosts = async () => {
+    try {
+      const response = await fetch("https://www.khourychat.com/api/posts/latest");
+      const data = await response.json();
+      setTrendingPosts(data);
+      console.log(data); // Log the fetched data
+    } catch (error) {
+      console.log("Error fetching latest posts:", error);
+    }
+  };
+  
+  useEffect(() => {
+    fetchLatestPosts();
+  }, []);
+  
 
   let imageURL = "https://picsum.photos/100/100";
   // if (user) {
@@ -50,8 +54,8 @@ export default function Home() {
     router.push("/");
   };
 
-  const goTopost = () => {
-    router.push("/" + posts["posts"]["id"]);
+  const goTopost = (courseID) => {
+    router.push(`/course/${courseID}`);
   };
 
   const goToProfile = () => {
@@ -64,7 +68,8 @@ export default function Home() {
     router.push("/login");
   };
 
-  useEffect(() => {
+  
+useEffect(() => {
     const fetchCourses = async () => {
       try {
         const response = await fetch(`https://www.khourychat.com/api/courses`);
@@ -96,9 +101,17 @@ export default function Home() {
     router.push(`/course/${option.course_id}`);
   };
 
+  const handleClick = () => {
+    router.push(`/posts/${postId}`);
+  };
+
+  const handleClick = () => {
+    router.push(`/posts/${postId}`);
+  };
+
   return (
     <>
-      <header className="bg-black py-6 flex flex-grow items-center justify-between">
+      <header className="bg-black py-6 flex flex-grow items-center justify-between border-b-2 border-red-500">
         <div className="justify-start ml-4">
           <h1 className="flex flex-row gap-4 text-4xl justify-center items-center px-8 text-3xl font-sans font-bold text-white">
             <div>
@@ -152,6 +165,7 @@ export default function Home() {
       <div className="bg-black pr-8">
         <div className="flex justify-center py-32">
           <div className="flex flex-col w-1/2 ml-6">
+          <h2 className="text-white text-4xl mb-4">What course are you looking for?</h2>
             <input
               type="text"
               placeholder="Search courses"
@@ -176,45 +190,22 @@ export default function Home() {
         </div>
       </div>
       <div className="flex justify-center py-8 bg-black">
-        <div className="w-1/2">
-          <PostItem
-            title="Post 1"
-            content="Great professor and great course. Definitely need take this one. "
-            views={100}
-            likes={50}
-          />
-          <PostItem
-            title="Post 2"
-            content="What do you think of CS5800 by professor Pavlu Virgil? "
-            views={150}
-            likes={80}
-          />
-          <PostItem
-            title="Post 3"
-            content="I'm currently looking for a study buddy for CS5002. Anyone wanna join? "
-            views={80}
-            likes={20}
-          />
-          <PostItem
-            title="Post 4"
-            content="Horrible midterm!!! What do you feel about the midterm of Algorithms? "
-            views={1000}
-            likes={50}
-          />
-          <PostItem
-            title="Post 5"
-            content="Just figure out a great study resource for 5800!"
-            views={150}
-            likes={80}
-          />
-          <PostItem
-            title="Post 6"
-            content="Looking for teammates for a hackathon project"
-            views={80}
-            likes={20}
-          />
+      <div className="w-1/2">
+        <h2 className="text-white text-4xl mb-4">Trending Posts...</h2>
+        <div>
+          {trendingPosts.map((post) =>  (
+              <PostItem
+              onClick={() => goTopost(post.course_id)}
+              key={post["post_id"]}
+                title={post.title}
+                content={post.content}
+                views={post.views}
+                likes={post.likes}
+              />
+          ))}
         </div>
       </div>
-    </>
-  );
+    </div>
+  </>
+);
 }

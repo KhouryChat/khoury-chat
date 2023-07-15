@@ -201,7 +201,7 @@ def get_latest_posts():
 
 @app.route("/api/posts/<post_id>", methods=["GET"])
 @cross_origin()
-def get_latest_posts(post_id):
+def get_post_by_id(post_id):
     post = db.posts.find_one({"post_id": post_id})
     return json.loads(json_util.dumps(post))
 

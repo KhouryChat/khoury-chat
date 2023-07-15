@@ -262,25 +262,25 @@ def post_courses():
 # create course by professor
 
 
-@app.route("/api/courses/professor/<course_id>", methods=["POST"])
-@cross_origin()
-def post_professor(course_id):
-    professor_data = request.get_json(force=True)
+# @app.route("/api/courses/professor/<course_id>", methods=["POST"])
+# @cross_origin()
+# def post_professor(course_id):
+#     professor_data = request.get_json(force=True)
 
-    url_course_id = course_id.lower().strip()
-    data_course_id = professor_data.get("course_id").lower().strip()
-    if data_course_id != url_course_id:
-        return jsonify({"error": "Course ID mismatch"}), 400
-    course_by_professor_id = create_course_by_professor_document(
-        professor_data)
+#     url_course_id = course_id.lower().strip()
+#     data_course_id = professor_data.get("course_id").lower().strip()
+#     if data_course_id != url_course_id:
+#         return jsonify({"error": "Course ID mismatch"}), 400
+#     course_by_professor_id = create_course_by_professor_document(
+#         professor_data)
 
-    db.courses.update_one(
-        {"course_id": course_id},  # query
-        {"$push": {"course_by_professors": str(
-            course_by_professor_id)}}  # update
-    )
+#     db.courses.update_one(
+#         {"course_id": course_id},  # query
+#         {"$push": {"course_by_professors": str(
+#             course_by_professor_id)}}  # update
+#     )
 
-    return jsonify({"message": "Professor added successfully"}), 201
+#     return jsonify({"message": "Professor added successfully"}), 201
 
 
 @app.route("/api/courses", methods=["GET"])
@@ -322,18 +322,5 @@ def get_course_by_professor(course_id, professor_id):
 @cross_origin()
 def post_professor(course_id):
     professor_data = request.get_json(force=True)
-
-    url_course_id = course_id.lower().strip()
-    data_course_id = professor_data.get("course_id").lower().strip()
-    if data_course_id != url_course_id:
-        return jsonify({"error": "Course ID mismatch"}), 400
-    course_by_professor_id = create_course_by_professor_document(
-        professor_data)
-
-    db.courses.update_one(
-        {"course_id": course_id},  # query
-        {"$push": {"course_by_professors": str(
-            course_by_professor_id)}}  # update
-    )
-
+    db.professors.insert_one(professor_data)
     return jsonify({"message": "Professor added successfully"}), 201

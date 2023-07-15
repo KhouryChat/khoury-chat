@@ -291,7 +291,7 @@ def get_courses():
 @app.route("/api/courses/<course_id>", methods=["GET"])
 @cross_origin()
 def get_course(course_id):
-    course = db.courses.find_one({"course_id": course_id})
+    course = db.courses.find_one({"course_id": {"$regex": f'^{course_id}$', "$options": 'i'}})
     if not course:
         return jsonify({"error": "Course not found"}), 404
 

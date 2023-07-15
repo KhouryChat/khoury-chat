@@ -9,6 +9,8 @@ import json
 import datetime
 import sys
 from flask_cors import CORS, cross_origin
+from datetime import datetime
+
 
 load_dotenv(find_dotenv())
 
@@ -188,14 +190,25 @@ def patch_post(post_id):
 @app.route("/api/posts/latest", methods=["GET"])
 @cross_origin()
 def get_latest_posts():
-    number = 6
+    number = 5
     if "number" in request.args:
         number = int(request.args["number"])
-
     posts = get_all_posts()
-    print(posts, file=sys.stderr)
-    posts.sort(key=lambda post: post["likes"])
-    return posts[-1::-1][:number]
+    posts.sort(key=lambda post: (post["likes"], -datetime.strptime(post["timestamp"]["$date"], "%Y-%m-%dT%H:%M:%S.%fZ")), reverse=True)
+    trending_posts = posts[:number]  
+    return jsonify(trending_posts)
+
+# @app.route("/api/posts/latest", methods=["GET"])
+# @cross_origin()
+# def get_latest_posts():
+#     number = 6
+#     if "number" in request.args:
+#         number = int(request.args["number"])
+
+#     posts = get_all_posts()
+#     print(posts, file=sys.stderr)
+#     posts.sort(key=lambda post: post["likes"])
+#     return posts[-1::-1][:number]
 
 
 # Get posts by user id

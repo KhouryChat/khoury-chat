@@ -13,7 +13,6 @@ export default function Home() {
   const user = useAuthContext();
   const [trendingPosts, setTrendingPosts] = useState([]);
 
-
   if (isLoggedIn) console.log(user);
   useEffect(() => {
     if (user["user"] != null && user["user"] != undefined) {
@@ -28,7 +27,9 @@ export default function Home() {
 
   const fetchLatestPosts = async () => {
     try {
-      const response = await fetch("https://www.khourychat.com/api/posts/latest");
+      const response = await fetch(
+        "https://www.khourychat.com/api/posts/latest"
+      );
       const data = await response.json();
       setTrendingPosts(data);
       console.log(data); // Log the fetched data
@@ -36,11 +37,10 @@ export default function Home() {
       console.log("Error fetching latest posts:", error);
     }
   };
-  
+
   useEffect(() => {
     fetchLatestPosts();
   }, []);
-  
 
   let imageURL = "https://picsum.photos/100/100";
   // if (user) {
@@ -68,8 +68,7 @@ export default function Home() {
     router.push("/login");
   };
 
-  
-useEffect(() => {
+  useEffect(() => {
     const fetchCourses = async () => {
       try {
         const response = await fetch(`https://www.khourychat.com/api/courses`);
@@ -99,10 +98,6 @@ useEffect(() => {
 
   const handleSelect = (option) => {
     router.push(`/course/${option.course_id}`);
-  };
-
-  const handleClick = () => {
-    router.push(`/posts/${postId}`);
   };
 
   const handleClick = () => {
@@ -165,7 +160,9 @@ useEffect(() => {
       <div className="bg-black pr-8">
         <div className="flex justify-center py-32">
           <div className="flex flex-col w-1/2 ml-6">
-          <h2 className="text-white text-4xl mb-4">What course are you looking for?</h2>
+            <h2 className="text-white text-4xl mb-4">
+              What course are you looking for?
+            </h2>
             <input
               type="text"
               placeholder="Search courses"
@@ -190,22 +187,22 @@ useEffect(() => {
         </div>
       </div>
       <div className="flex justify-center py-8 bg-black">
-      <div className="w-1/2">
-        <h2 className="text-white text-4xl mb-4">Trending Posts...</h2>
-        <div>
-          {trendingPosts.map((post) =>  (
+        <div className="w-1/2">
+          <h2 className="text-white text-4xl mb-4">Trending Posts...</h2>
+          <div>
+            {trendingPosts.map((post) => (
               <PostItem
-              onClick={() => goTopost(post.course_id)}
-              key={post["post_id"]}
+                onClick={() => goTopost(post.course_id)}
+                key={post["post_id"]}
                 title={post.title}
                 content={post.content}
                 views={post.views}
                 likes={post.likes}
               />
-          ))}
+            ))}
+          </div>
         </div>
       </div>
-    </div>
-  </>
-);
+    </>
+  );
 }

@@ -47,12 +47,12 @@ def create_user_document(parse_data):
     if collection.find_one({"username": username}):
         raise ValueError(f"Username {username} is already in use")
 
-    firebase_UID = parse_data.get("firebase_UID")
+    uid = parse_data.get("uid")
     major = parse_data.get("major")
     year = parse_data.get("year")
     doc = {
         "username": username,
-        "firebase_UID": firebase_UID,
+        "uid": uid,
         "major": major,
         "year": year,
         "posts": [],
@@ -63,25 +63,22 @@ def create_user_document(parse_data):
 
 def create_post_document(parse_data):
     collection = db.posts
-    username = parse_data.get("username")
+
+    uid = parse_data.get("uid")
+    course_id = parse_data.get("course_id")
+    timestamp = parse_data.get("timestamp")
     post_title = parse_data.get("post_title")
-    of_reply = parse_data.get("of_reply")
     content = parse_data.get("content")
     replies = parse_data.get("replies")
     likes = parse_data.get("likes")
     views = 1
     dislikes = parse_data.get("dislikes")
-    # Add user_id
-    firebase_UID = parse_data.get("firebase_UID")
-    course_id = parse_data.get("course_id")
 
     doc = {
         "post_id": str(ObjectId()),
-        "timestamp": datetime.datetime.utcnow(),
-        "username": username,
-        "firebase_UID": firebase_UID,
+        "timestamp": timestamp,
+        "uid": uid,
         "post_title": post_title,
-        "of_reply": of_reply,
         "content": content,
         "replies": replies,
         "views": views,
@@ -154,8 +151,13 @@ def post_post(course_id):
     post_data = request.get_json(force=True)
     post = create_post_document(post_data)
     db.users.update_one(
-        {"firebase_UID": post.get("firebase_UID")},  # query
+        {"uid": post.get("uid")},  # query
         {"$push": {"posts": str(post.get("post_id"))}}  # update
+    )
+
+    db.courses.update_one(
+        {"course_id":course_id},
+        {"$push": {"posts": str(post.get("post_id"))}}
     )
     return jsonify("post created successfully")
 
@@ -197,10 +199,10 @@ def get_latest_posts():
 
 
 # Get posts by user id
-@app.route("/api/<firebase_UID>/posts", methods=["GET"])
+@app.route("/api/<uid>/posts", methods=["GET"])
 @cross_origin()
-def get_posts_by_id(firebase_UID):
-    user = db.users.find_one({"firebase_UID": firebase_UID})
+def get_posts_by_id(uid):
+    user = db.users.find_one({"uid": uid})
     # send back error message if user id is wrong
     if not user:
         return jsonify({"error": "User not found"}), 404
@@ -241,10 +243,10 @@ def get_all_users_data():
     return [json.loads(json_util.dumps(user)) for user in users]
 
 
-@app.route("/api/users/<firebase_UID>", methods=["DELETE"])
+@app.route("/api/users/<uid>", methods=["DELETE"])
 @cross_origin()
-def delete_user(firebase_UID):
-    db.users.delete_one({"firebase_UID": firebase_UID})
+def delete_user(uid):
+    db.users.delete_one({"uid": uid})
     return "user deleted successfully"
 
 

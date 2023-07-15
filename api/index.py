@@ -320,7 +320,7 @@ def get_course_by_professor(course_id, professor_id):
 
 @app.route("/api/professors", methods=["POST"])
 @cross_origin()
-def post_professor(course_id):
+def post_professor():
     professor_data = request.get_json(force=True)
     db.professors.insert_one(professor_data)
     return jsonify({"message": "Professor added successfully"}), 201

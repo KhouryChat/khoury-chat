@@ -53,7 +53,7 @@ const CoursePage = ({ params }) => {
         dislikes: 0,
         views: 1,
         replies: [],
-        timestamp: "" + Math.floor(Date.now() / 1000),
+        //timestamp: "" + Math.floor(Date.now() / 1000),
       };
 
       const postUrl = `https://www.khourychat.com/api/courses/${courseData.course_id}`;
@@ -79,6 +79,29 @@ const CoursePage = ({ params }) => {
     }
   };
   console.log("coursedata:",courseData);
+
+
+  
+    const [postItems, setPostItems] = useState([]);
+  
+    useEffect(() => {
+      async function fetchPosts() {
+        const fetchedPosts = [];
+        
+        for (let post_id of posts) {
+          const response = await fetch(`https://www.khourychat.com/api/posts/${post_id}`);
+          const postData = await response.json();
+          fetchedPosts.push(postData);
+        }
+        setPostItems(fetchedPosts);
+      }
+      fetchPosts();
+    }, [posts]);
+
+
+
+
+
 
   return (
     <div className="bg-white ">
@@ -113,7 +136,7 @@ const CoursePage = ({ params }) => {
           )}
           {posts && (
             <div>
-              {posts.map((post) => (
+              {postItems.map((post) => (
                 <PostItem
                   key={post.id}
                   title={post.title}

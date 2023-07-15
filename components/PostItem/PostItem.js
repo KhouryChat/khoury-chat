@@ -1,9 +1,9 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faHeart } from "@fortawesome/free-solid-svg-icons";
 
-const PostItem = ({ title, content, views, likes }) => {
+const PostItem = ({ title, content, views, likes, onClick }) => {
   return (
-    <div className="bg-white rounded shadow p-4 mb-4 flex flex-col">
+    <div onClick={onClick} className="bg-white rounded shadow p-4 mb-4 flex flex-col cursor-pointer">
       <h3 className="text-xl font-bold">{title}</h3>
       <h4 className="text-base font-bold">
         {content.split(/\s+/).slice(0, 10).join(" ")}

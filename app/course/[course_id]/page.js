@@ -11,26 +11,28 @@ const CoursePage = ({ params }) => {
   const [courseData, setCourseData] = useState(null);
   const [posts, setPosts] = useState([]);
 
-  const getCourseInfo = async () => {
-    try {
-      const response = await fetch("https://www.khourychat.com/api/courses");
-      const courses = await response.json();
-      //console.log(courses);
-      const foundCourse = courses.find(
-        (course) =>
-          course.course_id.toLowerCase() === params.course_id.toLowerCase()
-      );
-      if (foundCourse) {
-        setCourseData(foundCourse);
-        setPosts(foundCourse.posts);
-        console.log(foundCourse);
+  useEffect(() => {
+    const getCourseInfo = async () => {
+      try {
+        const response = await fetch("https://www.khourychat.com/api/courses");
+        const courses = await response.json();
+        //console.log(courses);
+        const foundCourse = courses.find(
+          (course) =>
+            course.course_id.toLowerCase() === params.course_id.toLowerCase()
+        );
+        if (foundCourse) {
+          setCourseData(foundCourse);
+          setPosts(foundCourse.posts); 
+          console.log(foundCourse);
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    };
+    getCourseInfo()
+  },[]);
 
-  getCourseInfo();
 
   const [value, setValue] = useState("");
 
@@ -109,11 +111,11 @@ const CoursePage = ({ params }) => {
               </button>
             </div>
           )}
-          {courseData && (
+          {posts && (
             <div>
               {posts.map((post) => (
                 <PostItem
-                  key={post.post_id}
+                  key={post.id}
                   title={post.title}
                   content={post.content}
                   likes={post.likes}

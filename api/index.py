@@ -193,8 +193,8 @@ def get_latest_posts():
         number = int(request.args["number"])
 
     posts = get_all_posts()
-
-    posts.sort(key=lambda post: post["timestamp"]["$date"])
+    print(posts, file=sys.stderr)
+    posts.sort(key=lambda post: post["likes"])
     return posts[-1::-1][:number]
 
 
@@ -323,4 +323,4 @@ def get_course_by_professor(course_id, professor_id):
 def post_professor():
     professor_data = request.get_json(force=True)
     db.professors.insert_one(professor_data)
-    return jsonify({"message": "Professor added successfully"}), 201
+    return jsonify({"message": "Professor added successfully"})

@@ -64,35 +64,36 @@ export default function Home() {
     router.push("/login");
   };
 
-useEffect(() => {
-  const fetchCourses = async () => {
-    try {
-      const response = await fetch(`https://www.khourychat.com/api/courses`);
-      const data = await response.json();
-      setCourses(data);
-      console.log("course here", courses);
-    } catch (error) {
-      console.log("error fetching courses", error);
-    }
-  };
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const response = await fetch(`https://www.khourychat.com/api/courses`);
+        const data = await response.json();
+        setCourses(data);
+        console.log("course here", courses);
+      } catch (error) {
+        console.log("error fetching courses", error);
+      }
+    };
 
-  fetchCourses();
-}, []);
+    fetchCourses();
+  }, []);
 
   const handleSearch = (event) => {
     const value = event.target.value;
     setSearchValue(value);
-  
-    const filteredCourses = courses.filter((course) =>
-      course.course_title.toLowerCase().includes(value.toLowerCase()) ||
-      course.course_id.toLowerCase().includes(value.toLowerCase())
+
+    const filteredCourses = courses.filter(
+      (course) =>
+        course.course_title.toLowerCase().includes(value.toLowerCase()) ||
+        course.course_id.toLowerCase().includes(value.toLowerCase())
     );
-  
-    setFilteredCourses(filteredCourses);
+
+    setFilteredCourses(filteredCourses.slice(0, 10));
   };
 
   const handleSelect = (option) => {
-    router.push(`/course/${option.course_id}`)
+    router.push(`/course/${option.course_id}`);
   };
 
   return (

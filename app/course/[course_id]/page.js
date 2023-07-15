@@ -15,7 +15,7 @@ const CoursePage = ({ params }) => {
     try {
       const response = await fetch("https://www.khourychat.com/api/courses");
       const courses = await response.json();
-      console.log(courses);
+      //console.log(courses);
       const foundCourse = courses.find(
         (course) =>
           course.course_id.toLowerCase() === params.course_id.toLowerCase()
@@ -38,24 +38,45 @@ const CoursePage = ({ params }) => {
   const isLoggedIn = user !== null;
 
   const addPost = (e) => {
+    e.preventDefault();
+    console.log("addPost called");
     if (isLoggedIn || !isLoggedIn) {
       const newPost = {
-        post_id: "aa11",
-        user_id: user["user"]["uid"],
+        //post_id: "aa11",
+        uid: user["user"]["uid"],
+        course_id: courseData.course_id,
         content: value.slice(3, value.length - 4),
+        post_title: "",
         likes: 0,
         dislikes: 0,
         views: 1,
         replies: [],
-        isTypeReply: false,
         timestamp: "" + Math.floor(Date.now() / 1000),
       };
 
-      setPosts([...posts, newPost]);
+      const postUrl = `https://www.khourychat.com/api/courses/${courseData.course_id}`;
+      fetch(postUrl,{
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newPost)
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Success:', data);
+        setPosts([...posts, newPost]);
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+
+
+      //setPosts([...posts, newPost]);
     } else {
     }
   };
-  console.log(courseData);
+  console.log("coursedata:",courseData);
 
   return (
     <div className="bg-white ">

@@ -11,28 +11,26 @@ const CoursePage = ({ params }) => {
   const [courseData, setCourseData] = useState(null);
   const [posts, setPosts] = useState([]);
 
-  useEffect(() => {
-    let fetchedCourses = async () => {
-      try {
-        const response = await fetch("https://www.khourychat.com/api/courses");
-        const courses = await response.json();
-        console.log(courses);
-        const foundCourse = courses.find(
-          (course) =>
-            course.course_id.toLowerCase() === params.course_id.toLowerCase()
-        );
-        if (foundCourse) {
-          setCourseData(foundCourse);
-          setPosts(foundCourse.posts);
-          console.log(foundCourse);
-        }
-      } catch (error) {
-        console.log(error);
+  const getCourseInfo = async () => {
+    try {
+      const response = await fetch("https://www.khourychat.com/api/courses");
+      const courses = await response.json();
+      console.log(courses);
+      const foundCourse = courses.find(
+        (course) =>
+          course.course_id.toLowerCase() === params.course_id.toLowerCase()
+      );
+      if (foundCourse) {
+        setCourseData(foundCourse);
+        setPosts(foundCourse.posts);
+        console.log(foundCourse);
       }
-    };
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-    fetchedCourses();
-  }, [params.course_id]);
+  getCourseInfo();
 
   const [value, setValue] = useState("");
 

@@ -100,10 +100,6 @@ export default function Home() {
     router.push(`/course/${option.course_id}`);
   };
 
-  const handleClick = () => {
-    router.push(`/posts/${postId}`);
-  };
-
   return (
     <>
       <header className="bg-black py-6 flex flex-grow items-center justify-between border-b-2 border-red-500">

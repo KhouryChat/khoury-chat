@@ -20,7 +20,7 @@ const ProfessorPage = ({ params }) => {
       }
     };
     getProfData();
-  }, []);
+  });
 
   return (
     <div className="bg-white ">
@@ -32,7 +32,7 @@ const ProfessorPage = ({ params }) => {
           <div className="flex flex-row gap-2">
             {profData["courses"] &&
               profData["courses"].map((course) => (
-                <CourseTag courseID={course} />
+                <CourseTag key={course} courseID={course} />
               ))}
           </div>
         )}

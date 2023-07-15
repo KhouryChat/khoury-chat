@@ -23,16 +23,15 @@ const CoursePage = ({ params }) => {
         );
         if (foundCourse) {
           setCourseData(foundCourse);
-          setPosts(foundCourse.posts); 
+          setPosts(foundCourse.posts);
           console.log(foundCourse);
         }
       } catch (error) {
         console.log(error);
       }
     };
-    getCourseInfo()
-  },[]);
-
+    getCourseInfo();
+  });
 
   const [value, setValue] = useState("");
 
@@ -57,28 +56,27 @@ const CoursePage = ({ params }) => {
       };
 
       const postUrl = `https://www.khourychat.com/api/courses/${courseData.course_id}`;
-      fetch(postUrl,{
-        method: 'POST',
+      fetch(postUrl, {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(newPost)
+        body: JSON.stringify(newPost),
       })
-      .then(response => response.json())
-      .then(data => {
-        console.log('Success:', data);
-        setPosts([...posts, newPost]);
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-    });
-
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Success:", data);
+          setPosts([...posts, newPost]);
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
 
       //setPosts([...posts, newPost]);
     } else {
     }
   };
-  console.log("coursedata:",courseData);
+  console.log("coursedata:", courseData);
 
 
   

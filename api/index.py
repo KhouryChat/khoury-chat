@@ -6,9 +6,10 @@ from pymongo import MongoClient
 from bson.objectid import ObjectId
 from bson import json_util
 import json
-import datetime
 import sys
 from flask_cors import CORS, cross_origin
+from datetime import datetime
+
 
 load_dotenv(find_dotenv())
 
@@ -66,7 +67,7 @@ def create_post_document(parse_data):
 
     uid = parse_data.get("uid")
     course_id = parse_data.get("course_id")
-    timestamp = parse_data.get("timestamp")
+    timestamp = datetime.utcnow()
     post_title = parse_data.get("post_title")
     content = parse_data.get("content")
     replies = parse_data.get("replies")
@@ -188,14 +189,33 @@ def patch_post(post_id):
 @app.route("/api/posts/latest", methods=["GET"])
 @cross_origin()
 def get_latest_posts():
-    number = 6
+    number = 5
     if "number" in request.args:
         number = int(request.args["number"])
-
     posts = get_all_posts()
-    print(posts, file=sys.stderr)
-    posts.sort(key=lambda post: post["likes"])
-    return posts[-1::-1][:number]
+    posts.sort(key=lambda post: (post["likes"], datetime.strptime(
+        post["timestamp"]["$date"], "%Y-%m-%dT%H:%M:%S.%fZ")), reverse=True)
+    trending_posts = posts[:number]
+    return jsonify(trending_posts)
+
+
+@app.route("/api/posts/<post_id>", methods=["GET"])
+@cross_origin()
+def get_latest_posts(post_id):
+    post = db.posts.find_one({"post_id": post_id})
+    return json.loads(json_util.dumps(post))
+
+# @app.route("/api/posts/latest", methods=["GET"])
+# @cross_origin()
+# def get_latest_posts():
+#     number = 6
+#     if "number" in request.args:
+#         number = int(request.args["number"])
+
+#     posts = get_all_posts()
+#     print(posts, file=sys.stderr)
+#     posts.sort(key=lambda post: post["likes"])
+#     return posts[-1::-1][:number]
 
 
 # Get posts by user id

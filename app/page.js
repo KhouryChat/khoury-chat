@@ -81,7 +81,7 @@ export default function Home() {
     };
 
     fetchCourses();
-  }, []);
+  });
 
   const handleSearch = (event) => {
     const value = event.target.value;

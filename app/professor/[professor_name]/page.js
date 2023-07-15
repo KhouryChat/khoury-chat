@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useAuthContext } from "@/Context/AuthContext";
 import TitleBar from "@/components/Title/Title";
+import CourseTag from "@/components/CourseTag/CourseTag";
 const ProfessorPage = ({ params }) => {
   const [profData, setProfData] = useState({});
 
@@ -19,14 +20,23 @@ const ProfessorPage = ({ params }) => {
       }
     };
     getProfData();
-  }, []);
+  });
 
   return (
     <div className="bg-white ">
       <div className="bg-black text-white shadow-xl">
-        <TitleBar text={profData["name"]} />
+        <TitleBar text={profData["name"] ? profData["name"] : ""} />
       </div>
-      <div className="flex flex-row items-center justify-between "></div>
+      <div className="p-10 flex flex-col items-center">
+        {profData && (
+          <div className="flex flex-row gap-2">
+            {profData["courses"] &&
+              profData["courses"].map((course) => (
+                <CourseTag key={course} courseID={course} />
+              ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

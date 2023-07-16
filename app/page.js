@@ -37,19 +37,19 @@ export default function Home() {
     fetchLatestPosts();
   }, []);
 
-  let imageURL = "https://picsum.photos/100/100";
+  let imageURL = "https://picsum.photos/200/200";
   const logOut = () => {
     signOut();
     setLoggedIn(false);
     router.push("/");
   };
-
+  console.log(user);
   const goTopost = (courseID) => {
     router.push(`/course/${courseID}`);
   };
 
   const goToProfile = () => {
-    router.push("/" + user["user"]["displayName"]);
+    router.push("/user/" + user["user"]["displayName"]);
   };
   const goToRegister = () => {
     router.push("/signup");

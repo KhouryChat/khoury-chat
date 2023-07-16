@@ -200,9 +200,16 @@ def get_latest_posts():
     if "number" in request.args:
         number = int(request.args["number"])
     posts = get_all_posts()
-    posts.sort(key=lambda post: (post["likes"], datetime.strptime(
+    validPosts = []
+    for post in posts:
+        if not post:
+            continue
+        if "likes" not in post or "timestamp" not in post:
+            continue
+        validPosts.append(post)
+    validPosts.sort(key=lambda post: (post["likes"] if post["likes"] else 1, datetime.strptime(
         post["timestamp"]["$date"], "%Y-%m-%dT%H:%M:%S.%fZ")), reverse=True)
-    trending_posts = posts[:number]
+    trending_posts = validPosts[:number]
     return jsonify(trending_posts)
 
 
@@ -232,8 +239,8 @@ def get_post_by_id(post_id):
 @cross_origin()
 def get_posts_by_id(uid):
     user = db.users.find_one({"firebase_UID": uid})
-    if not user:
-        return jsonify({"error": "User not found"}), 404
+    # if not user:
+    #     return jsonify({"error": "User not found"}), 404
     posts = user.get("posts", [])
     return jsonify(posts)
 

@@ -4,6 +4,7 @@ import signIn from "@/auth/firebase/signin";
 import { useRouter } from "next/navigation";
 import FormInput from "@/components/FormInput/FormInput";
 import Image from "next/image";
+import Firebase from "@/auth/firebase/config";
 
 function Page() {
   const [email, setEmail] = React.useState("");
@@ -11,7 +12,7 @@ function Page() {
 
   const router = useRouter();
   let isErrorAuth = "";
-
+  console.log(process.env.NEXT_PUBLIC_FIREBASE_PUBLIC_API_KEY);
   const register = () => {
     router.push("/signup");
   };

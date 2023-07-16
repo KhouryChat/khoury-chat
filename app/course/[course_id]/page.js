@@ -33,6 +33,7 @@ const CoursePage = ({ params }) => {
   }, [params.course_id]);
 
   const [value, setValue] = useState("");
+  const [quillValue, setQuillActualValue] = useState("");
 
   const user = useAuthContext();
   const isLoggedIn = user !== null;
@@ -84,8 +85,9 @@ const CoursePage = ({ params }) => {
     return tempDiv.textContent || tempDiv.innerText || "";
   };
   const setQuillValue = (content) => {
+    setValue(content);
     const plainText = getPlainText(content);
-    setValue(plainText);
+    setQuillActualValue(plainText);
   };
   const [postItems, setPostItems] = useState([]);
 
@@ -125,7 +127,7 @@ const CoursePage = ({ params }) => {
               <ReactQuill
                 className="bg-white"
                 theme="snow"
-                value={value}
+                value={quillValue}
                 onChange={setQuillValue}
               />
               <button

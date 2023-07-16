@@ -242,7 +242,7 @@ def get_posts_by_id(uid):
 @app.route("/api/courses/<course_id>/posts", methods=["GET"])
 @cross_origin()
 def get_posts_by_course(course_id):
-    course = db.courses.find_one({"course_id": course_id})
+    course = db.courses.find_one({"course_id": {"$regex": f"^{course_id}$", "$options": 'i'}})
     if not course:
         return jsonify({"error": "Course not found"}), 404
 

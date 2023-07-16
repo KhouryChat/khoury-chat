@@ -6,7 +6,9 @@ import { useAuthContext } from "@/Context/AuthContext";
 import ReactQuill, { Quill } from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import Sidebar from "@/components/Sidebar/Sidebar";
+import { useRouter } from "next/navigation";
 const CoursePage = ({ params }) => {
+  const router = useRouter();
   const [courseData, setCourseData] = useState(null);
   const [posts, setPosts] = useState([]);
 
@@ -36,12 +38,12 @@ const CoursePage = ({ params }) => {
   const [quillValue, setQuillActualValue] = useState("");
 
   const user = useAuthContext();
-  const isLoggedIn = user !== null;
+  const isLoggedIn = user["user"] !== null;
 
   const addPost = (e) => {
     e.preventDefault();
     console.log("addPost called");
-    if (isLoggedIn || !isLoggedIn) {
+    if (isLoggedIn) {
       const newPost = {
         //post_id: "aa11",
         uid: user["user"]["uid"],
@@ -75,6 +77,7 @@ const CoursePage = ({ params }) => {
 
       //setPosts([...posts, newPost]);
     } else {
+      router.push("/login");
     }
   };
   console.log("coursedata:", courseData);
@@ -109,45 +112,44 @@ const CoursePage = ({ params }) => {
 
   useEffect(() => {
     async function fetchPosts() {
-
-      const response = await fetch(`https://www.khourychat.com/api/courses/${params.course_id}/posts`);
+      const response = await fetch(
+        `https://www.khourychat.com/api/courses/${params.course_id}/posts`
+      );
       //const response = await fetch(`https://www.khourychat.com/api/courses/CS5001/posts`);
       const postsData = await response.json();
       console.log("postsData: ", postsData);
       const postPromises = postsData.map(async (post_id) => {
         try {
-          const postResponse = await fetch(`https://www.khourychat.com/api/posts/${post_id}`);
-          
+          const postResponse = await fetch(
+            `https://www.khourychat.com/api/posts/${post_id}`
+          );
+
           if (!postResponse.ok) {
-            return null;  // return null for any posts that could not be fetched
+            return null; // return null for any posts that could not be fetched
           }
-  
+
           return postResponse.json();
         } catch (error) {
-          return null;  // return null for any posts that encounter an error
+          return null; // return null for any posts that encounter an error
         }
       });
-    
+
       Promise.all(postPromises)
-      .then(fetchedPosts => {
-        const validPosts = fetchedPosts.filter(post => post !== null);  // remove any null posts
-        setPostItems(validPosts);
-      })
-      .catch(error => console.error('Error fetching posts:', error));
-  };   
-  fetchPosts();   
-},[posts,params.course_id]);
-      
-
-
-
-
+        .then((fetchedPosts) => {
+          const validPosts = fetchedPosts.filter((post) => post !== null); // remove any null posts
+          setPostItems(validPosts);
+        })
+        .catch((error) => console.error("Error fetching posts:", error));
+    }
+    fetchPosts();
+  }, [posts, params.course_id]);
 
   const updateLikes = async (newLikedState, post_id) => {
+    if (!isLoggedIn) router.push("/login");
     // Update the post in the local state
     const updatedLikes = newLikedState
-      ? postItems.find(post => post.post_id === post_id).likes + 1
-      : postItems.find(post => post.post_id === post_id).likes - 1;
+      ? postItems.find((post) => post.post_id === post_id).likes + 1
+      : postItems.find((post) => post.post_id === post_id).likes - 1;
 
     // const updatedPosts = postItems.map(post =>
     //   post.post_id === post_id
@@ -156,15 +158,18 @@ const CoursePage = ({ params }) => {
     // );
 
     try {
-      const response = await fetch(`https://www.khourychat.com/api/posts/${post_id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          likes: updatedLikes,
-        }),
-      });
+      const response = await fetch(
+        `https://www.khourychat.com/api/posts/${post_id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            likes: updatedLikes,
+          }),
+        }
+      );
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -174,58 +179,59 @@ const CoursePage = ({ params }) => {
       const updatedPost = await response.json();
 
       //update the post in the local state
-      const updatedPosts = postItems.map(post =>
-        post.post_id === post_id
-          ? updatedPost
-          : post
+      const updatedPosts = postItems.map((post) =>
+        post.post_id === post_id ? updatedPost : post
       );
 
-
       setPostItems(updatedPosts);
-
-    } catch(error) {
-      console.error('Failed to update likes', error);
+    } catch (error) {
+      console.error("Failed to update likes", error);
     }
-  
-    
   };
-
+  const goToPostPage = (id) => {
+    router.push(`/post/${id}`);
+  };
   const updateDislikes = async (newDislikedState, post_id) => {
+    if (!isLoggedIn) router.push("/login");
+
     // Update the post in the local state
 
-    const updatedPosts = postItems.map(post =>
+    const updatedPosts = postItems.map((post) =>
       post.post_id === post_id
-        ? { ...post, dislikes: newDislikedState? post.dislikes + 1 : post.dislikes -1 }
+        ? {
+            ...post,
+            dislikes: newDislikedState ? post.dislikes + 1 : post.dislikes - 1,
+          }
         : post
     );
 
     try {
-      const response = await fetch(`https://www.khourychat.com/api/posts/${post_id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          dislikes: updatedPosts.find(post => post.post_id === post_id).dislikes,
-        }),
-      });
+      const response = await fetch(
+        `https://www.khourychat.com/api/posts/${post_id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            dislikes: updatedPosts.find((post) => post.post_id === post_id)
+              .dislikes,
+          }),
+        }
+      );
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       setPostItems(updatedPosts);
-
-    } catch(error) {
-      console.error('Failed to update dislikes', error);
+    } catch (error) {
+      console.error("Failed to update dislikes", error);
     }
-  
   };
 
   console.log("post_ids: ", posts);
-console.log("postItems: ", postItems);
-
-
+  console.log("postItems: ", postItems);
 
   return (
     <div className="bg-white ">
@@ -269,8 +275,9 @@ console.log("postItems: ", postItems);
                   likes={post.likes}
                   dislikes={post.dislikes}
                   views={post.views}
-                  likeClickHandler={updateLikes} 
-                  dislikeClickHandler={updateDislikes} 
+                  likeClickHandler={updateLikes}
+                  dislikeClickHandler={updateDislikes}
+                  onClick={() => goToPostPage(post_id)}
                 />
               ))}
             </div>

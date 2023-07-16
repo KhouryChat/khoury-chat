@@ -149,6 +149,7 @@ def welcome_page():
 @app.route("/api/courses/<course_id>", methods=["POST"])
 @cross_origin()
 def post_post(course_id):
+    course_id = course_id.upper()
     post_data = request.get_json(force=True)
     post = create_post_document(post_data)
     db.users.update_one(

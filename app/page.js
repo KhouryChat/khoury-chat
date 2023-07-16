@@ -29,7 +29,6 @@ export default function Home() {
         );
         const data = await response.json();
         setTrendingPosts(data);
-        console.log(data);
       } catch (error) {
         console.log("Error fetching latest posts:", error);
       }
@@ -43,7 +42,6 @@ export default function Home() {
     setLoggedIn(false);
     router.push("/");
   };
-  console.log(user);
   const goTopost = (courseID) => {
     router.push(`/course/${courseID}`);
   };

@@ -49,6 +49,11 @@ const PostPage = ({ params }) => {
     router.push("/");
   };
 
+  const getPlainText = () => {
+    const strippedContent = content.replace(/^<p>/i, "").replace(/<\/p>$/i, "");
+    return strippedContent;
+  };
+
   return (
     <div className="bg-black h-screen text-white flex flex-col items-center p-5 gap-4">
       <div className="flex flex-row justify-between items-center w-full">
@@ -60,7 +65,9 @@ const PostPage = ({ params }) => {
           <CourseTag courseID={course} />
         </div>
       </div>
-      <div className="p-10 max-w-2xl text-justify text-xl">{content}</div>
+      <div className="p-10 max-w-2xl text-justify text-xl">
+        {getPlainText(content)}
+      </div>
       <div className="flex flex-row bottom-0 absolute items-center justify-between p-3 bg-red-600 w-full text-lg font-bold font-mono italic ">
         <div className="flex flex-row gap-8 items-center justify-between">
           <div className="flex flex-row gap-4 items-center justify-center">

@@ -31,7 +31,7 @@ const CoursePage = ({ params }) => {
       }
     };
     getCourseInfo();
-  });
+  },[params.course_id]);
 
   const [value, setValue] = useState("");
 
@@ -66,7 +66,8 @@ const CoursePage = ({ params }) => {
         .then((response) => response.json())
         .then((data) => {
           console.log("Success:", data);
-          setPosts([...posts, newPost]);
+          setPosts([...posts, data.post_id]);
+          console.log("Post ID:", data.post_id); 
         })
         .catch((error) => {
           console.error("Error:", error);
@@ -81,20 +82,26 @@ const CoursePage = ({ params }) => {
 
   
     const [postItems, setPostItems] = useState([]);
-  
-    useEffect(() => {
-      async function fetchPosts() {
-        const fetchedPosts = [];
-        
+    console.log(posts);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      const fetchedPosts = [];
+      try {
         for (let post_id of posts) {
           const response = await fetch(`https://www.khourychat.com/api/posts/${post_id}`);
           const postData = await response.json();
-          fetchedPosts.push(postData);
+          if (postData) {
+            fetchedPosts.push(postData);
+          }
         }
         setPostItems(fetchedPosts);
+      } catch (error) {
+        console.error("Failed to fetch posts:", error);
       }
-      fetchPosts();
-    }, [posts]);
+    };
+    fetchPosts();
+  },[posts]);
 
 
 

@@ -31,7 +31,7 @@ const CoursePage = ({ params }) => {
       }
     };
     getCourseInfo();
-  });
+  }, []);
 
   const [value, setValue] = useState("");
 
@@ -94,7 +94,7 @@ const CoursePage = ({ params }) => {
       setPostItems(fetchedPosts);
     }
     fetchPosts();
-  }, [posts]);
+  });
 
   return (
     <div className="bg-white ">

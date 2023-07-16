@@ -15,6 +15,7 @@
     "@fortawesome/react-fontawesome": "^0.2.0",
     "autoprefixer": "10.4.14",
     "babel-polyfill": "^6.26.0",
+    "d3": "^7.8.5",
     "draft-js": "^0.11.7",
     "eslint": "8.44.0",
     "eslint-config-next": "13.4.9",
@@ -23,12 +24,14 @@
     "next": "13.4.9",
     "postcss": "8.4.25",
     "react": "18.2.0",
+    "react-d3-library": "^1.1.8",
     "react-dom": "18.2.0",
     "react-icons": "^4.10.1",
     "react-quill": "^2.0.0",
     "tailwindcss": "3.3.2",
     "tinymce": "^6.5.1",
-    "vercel": "^31.0.2"
+    "vercel": "^31.0.2",
+    "victory": "^36.6.11"
   },
   "devDependencies": {
     "concurrently": "^8.2.0"

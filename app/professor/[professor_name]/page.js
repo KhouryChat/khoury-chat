@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useAuthContext } from "@/Context/AuthContext";
 import TitleBar from "@/components/Title/Title";
 import CourseTag from "@/components/CourseTag/CourseTag";
+import StreamGraph from "@/components/LinePlot/LinePlot";
 const ProfessorPage = ({ params }) => {
   const [profData, setProfData] = useState({});
 
@@ -21,7 +22,6 @@ const ProfessorPage = ({ params }) => {
     };
     getProfData();
   });
-
   return (
     <div className="bg-white ">
       <div className="bg-black text-white shadow-xl">
@@ -36,6 +36,7 @@ const ProfessorPage = ({ params }) => {
               ))}
           </div>
         )}
+        <StreamGraph />
       </div>
     </div>
   );

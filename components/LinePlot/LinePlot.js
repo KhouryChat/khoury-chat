@@ -6,7 +6,7 @@ const SpiderGraph = ({ data, width, height }) => {
 
   useEffect(() => {
     if (data.length > 0) drawGraph();
-  }, [data]);
+  });
 
   const drawGraph = () => {
     const margin = { top: 50, right: 50, bottom: 50, left: 50 };
@@ -84,14 +84,6 @@ const SpiderGraph = ({ data, width, height }) => {
       .attr("text-anchor", "middle")
       .text((d) => d.label);
 
-    // Tooltip
-    const tooltip = d3
-      .select(graphRef.current)
-      .append("div")
-      .attr("class", "tooltip")
-      .style("opacity", 0)
-      .text("hello");
-
     function handleMouseOver(d, i) {
       const duration = 1000;
 
@@ -103,9 +95,6 @@ const SpiderGraph = ({ data, width, height }) => {
         })
         .style("stroke-width", "10px")
         .style("stroke", "#FFFFFF");
-
-      tooltip.transition().duration(duration).style("opacity", 1);
-      tooltip.html(`<strong>${d.label}</strong><br/>Value: ${d.value}`);
     }
 
     function handleMouseOut(d, i) {
@@ -114,8 +103,6 @@ const SpiderGraph = ({ data, width, height }) => {
         .duration(500)
         .style("fill", "url(#gradient)")
         .style("stroke-width", "0px");
-
-      tooltip.transition().duration(200).style("opacity", 0);
     }
 
     // Create gradient for fill color animation

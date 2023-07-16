@@ -263,7 +263,7 @@ const CoursePage = ({ params }) => {
                 placeholder="Enter post content..."
               /> */}
               <ReactQuill
-                className="bg-white text-xl"
+                className="bg-gray-300 text-3xl py-6  shadow-xl"
                 theme="snow"
                 value={value}
                 onChange={setValue}

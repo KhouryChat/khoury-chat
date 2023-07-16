@@ -6,48 +6,38 @@ import Image from "next/image";
 import { useEffect } from "react";
 import signOut from "@/auth/firebase/signout";
 import { useAuthContext } from "@/Context/AuthContext";
-import { BsFillPersonFill, BsPersonFill } from "react-icons/bs";
+
 export default function Home() {
   const router = useRouter();
-  const [isLoggedIn, setLoggedIn] = useState(false);
   const user = useAuthContext();
+
+  const [isLoggedIn, setLoggedIn] = useState(false);
   const [trendingPosts, setTrendingPosts] = useState([]);
-
-  if (isLoggedIn) console.log(user);
-  useEffect(() => {
-    if (user["user"] != null && user["user"] != undefined) {
-      setLoggedIn(true);
-      console.log(user["user"]);
-    }
-  }, [user]);
-
   const [searchValue, setSearchValue] = useState("");
   const [courses, setCourses] = useState([]);
   const [filteredCourses, setFilteredCourses] = useState([]);
 
-  const fetchLatestPosts = async () => {
-    try {
-      const response = await fetch(
-        "https://www.khourychat.com/api/posts/latest"
-      );
-      const data = await response.json();
-      setTrendingPosts(data);
-      console.log(data); // Log the fetched data
-    } catch (error) {
-      console.log("Error fetching latest posts:", error);
-    }
-  };
+  useEffect(() => {
+    setLoggedIn(user["user"] != null);
+  }, [user]);
 
   useEffect(() => {
+    const fetchLatestPosts = async () => {
+      try {
+        const response = await fetch(
+          "https://www.khourychat.com/api/posts/latest"
+        );
+        const data = await response.json();
+        setTrendingPosts(data);
+        console.log(data);
+      } catch (error) {
+        console.log("Error fetching latest posts:", error);
+      }
+    };
     fetchLatestPosts();
   }, []);
 
   let imageURL = "https://picsum.photos/100/100";
-  // if (user) {
-  //   if (user["user"]) {
-  //     imageURL = user["user"]["photoURL"];
-  //   }
-  // }
   const logOut = () => {
     signOut();
     setLoggedIn(false);
@@ -74,14 +64,13 @@ export default function Home() {
         const response = await fetch(`https://www.khourychat.com/api/courses`);
         const data = await response.json();
         setCourses(data);
-        console.log("course here", courses);
       } catch (error) {
         console.log("error fetching courses", error);
       }
     };
 
     fetchCourses();
-  });
+  }, [router]);
 
   const handleSearch = (event) => {
     const value = event.target.value;
@@ -104,7 +93,7 @@ export default function Home() {
     <>
       <header className="bg-black py-6 flex flex-grow items-center justify-between border-b-2 border-red-500">
         <div className="justify-start ml-4">
-          <h1 className="flex flex-row gap-4 text-4xl justify-center items-center px-8 text-3xl font-sans font-bold text-white">
+          <h1 className="flex flex-row gap-4 text-4xl justify-center items-center px-8 font-bold text-white">
             <div>
               <Image src="/husky.png" alt="Logo" width={80} height={80} />
             </div>

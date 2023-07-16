@@ -28,7 +28,9 @@ function Page() {
     setConfirmPass(pass);
     confirmPassword(pass, false);
   }
-
+  function login() {
+    router.push("/login");
+  }
   const addUserToServer = async (user) => {
     try {
       const response = await fetch(
@@ -76,7 +78,7 @@ function Page() {
           <div className="flex items-center">
             <form
               onSubmit={handleForm}
-              className="flex flex-col gap-8 text-xl items-start w-full"
+              className="flex flex-col gap-6 text-xl items-start w-full"
             >
               <div className="font-bold text-8xl text-white h-1/2">
                 Register
@@ -128,6 +130,15 @@ function Page() {
               >
                 Sign up
               </button>
+              <label className="text-white text-lg flex flex-row gap-3">
+                <span>Already Registered?</span>
+                <span
+                  className=" text-blue-600 cursor-pointer hover:text-blue-400"
+                  onClick={login}
+                >
+                  Log in!
+                </span>
+              </label>
             </form>
           </div>
         </div>

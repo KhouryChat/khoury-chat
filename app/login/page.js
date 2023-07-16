@@ -12,6 +12,9 @@ function Page() {
   const router = useRouter();
   let isErrorAuth = "";
 
+  const register = () => {
+    router.push("/signup");
+  };
   const handleForm = async (event) => {
     event.preventDefault();
 
@@ -56,12 +59,22 @@ function Page() {
                 placeholder="Password"
               />
             </label>
+
             <button
               className="text-white bg-red-700 py-3 rounded-full w-1/2 hover:bg-red-400 font-sans font-semibold text-md"
               type="submit"
             >
               Sign in
             </button>
+            <label className="text-white text-lg flex flex-row gap-3">
+              <span>Not Registered?</span>
+              <span
+                className=" text-blue-600 cursor-pointer hover:text-blue-400"
+                onClick={register}
+              >
+                Sign up!
+              </span>
+            </label>
           </form>
         </div>
       </div>

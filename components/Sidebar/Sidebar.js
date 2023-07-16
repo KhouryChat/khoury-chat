@@ -6,7 +6,9 @@ const Sidebar = ({ professors }) => {
   const sendProf = (e) => {
     router.push(
       `/professor/${
-        e.target.value.split(" ")[0] + "-" + e.target.value.split(" ")[1]
+        e.target.innerText.toLowerCase().split(" ")[0] +
+        "-" +
+        e.target.innerText.toLowerCase().split(" ")[1]
       }`
     );
   };

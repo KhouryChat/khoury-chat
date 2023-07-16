@@ -5,6 +5,7 @@ import {
   faHeartBroken,
 } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
+import { random } from "chroma-js";
 
 const PostItem = ({
   id,
@@ -38,18 +39,33 @@ const PostItem = ({
     }
   }, [disliked]);
 
-  const handleLikeClick = () => {
+  const handleLikeClick = (e) => {
+    e.stopPropagation();
     if (!disliked) {
       setLiked((prevLiked) => !prevLiked);
       likeClickHandler(!liked, id);
+    } else {
+      setLiked(true);
+      setDisliked(false);
+      likeClickHandler(true, id);
     }
   };
 
-  const handleDislikeClick = () => {
+  const handleDislikeClick = (e) => {
+    e.stopPropagation();
+
     if (!liked) {
       setDisliked((prevDisliked) => !prevDisliked);
       dislikeClickHandler(!disliked, id);
+    } else {
+      setLiked(false);
+      setDisliked(true);
+      dislikeClickHandler(true, id);
     }
+  };
+  const getPlainText = () => {
+    const strippedContent = content.replace(/^<p>/i, "").replace(/<\/p>$/i, "");
+    return strippedContent;
   };
 
   return (
@@ -60,26 +76,34 @@ const PostItem = ({
       >
         <h3 className="text-xl font-bold">{title}</h3>
         <h4 className="text-base font-bold">
-          {content.split(/\s+/).slice(0, 10).join(" ")}
+          {getPlainText(content).split(/\s+/).slice(0, 10).join(" ")}
         </h4>
-        <div className="flex justify-between flex-grow text-sm text-gray-500">
+        <div className="flex justify-between flex-grow text-sm text-gray-500 pt-4">
           <div className="flex items-center">
             <FontAwesomeIcon icon={faEye} className="mr-1" />
             <p>{views}</p>
           </div>
-          <div className="flex items-center">
-            <FontAwesomeIcon
-              icon={faHeart}
-              className={liked ? "text-red-500 mr-1" : "mr-1"}
+          <div className="flex items-center flex-row justify-center gap-5">
+            <div
+              className="flex flex-row gap-1 items-center"
               onClick={handleLikeClick}
-            />
-            <p>{currLikes}</p>
-            <FontAwesomeIcon
-              icon={faHeartBroken}
-              className={disliked ? "text-blue-500 mr-1" : "mr-1"}
+            >
+              <FontAwesomeIcon
+                icon={faHeart}
+                className={liked ? "text-red-500 mr-1" : "mr-1"}
+              />
+              <p>{currLikes}</p>
+            </div>
+            <div
+              className="flex flex-row gap-2 items-center"
               onClick={handleDislikeClick}
-            />
-            <p>{currDislikes}</p>
+            >
+              <FontAwesomeIcon
+                icon={faHeartBroken}
+                className={disliked ? "text-blue-500 mr-1" : "mr-1"}
+              />
+              <p>{currDislikes}</p>
+            </div>
           </div>
         </div>
       </div>

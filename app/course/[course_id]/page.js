@@ -52,7 +52,7 @@ const CoursePage = ({ params }) => {
         post_title: "",
         likes: 0,
         dislikes: 0,
-        views: 1,
+        views: Math.floor(Math.random() * 200) + 1,
         replies: [],
         //timestamp: "" + Math.floor(Date.now() / 1000),
       };
@@ -229,6 +229,11 @@ const CoursePage = ({ params }) => {
       console.error("Failed to update dislikes", error);
     }
   };
+  const [inputValue, setInputValue] = useState("");
+
+  const handleInputChange = (e) => {
+    setInputValue(e.target.value);
+  };
 
   console.log("post_ids: ", posts);
   console.log("postItems: ", postItems);
@@ -250,11 +255,19 @@ const CoursePage = ({ params }) => {
               id="create-post"
               className="p-10 flex flex-col gap-5 items-end"
             >
+              {/* <textarea
+                className="bg-blackfont-bold text-lg px-[250px] py-4 rounded-lg border-none focus:outline-none"
+                type="text"
+                value={inputValue}
+                onChange={handleInputChange}
+                placeholder="Enter post content..."
+              /> */}
               <ReactQuill
-                className="bg-white"
+                className="bg-white text-xl"
                 theme="snow"
-                value={quillValue}
-                onChange={setQuillValue}
+                value={value}
+                onChange={setValue}
+                modules={{ toolbar: false }}
               />
               <button
                 onClick={addPost}

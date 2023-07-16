@@ -6,7 +6,7 @@ const SpiderGraph = ({ data, width, height }) => {
 
   useEffect(() => {
     if (data.length > 0) drawGraph();
-  });
+  }, [data.length]);
 
   const drawGraph = () => {
     const margin = { top: 50, right: 50, bottom: 50, left: 50 };

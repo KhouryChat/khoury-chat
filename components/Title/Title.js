@@ -1,11 +1,13 @@
-import React from "react";
-
+import React, { useReducer } from "react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 const TitleBar = ({ text, courseName }) => {
   const title = text.toUpperCase();
+  const router = useRouter();
   return (
     <div className="flex flex-row justify-between items-center p-5">
-      <div>
-        <img
+      <div onClick={() => router.push("/")} className="cursor-pointer">
+        <Image
           className="ml-7"
           src="/husky.png"
           alt="Husky"

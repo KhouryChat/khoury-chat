@@ -67,7 +67,7 @@ const ProfessorPage = ({ params }) => {
     ratingColor = "text-8xl italic text-green-500";
   }
   return (
-    <div className="bg-black ">
+    <div className="bg-black">
       <div className="mr-20 bg-black shadow-slate-800 shadow-2xl text-white">
         <TitleBar text={profData["name"] ? profData["name"] : ""} />
       </div>

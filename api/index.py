@@ -182,10 +182,15 @@ def delete_post(post_id):
 @app.route("/api/posts/<post_id>", methods=["PATCH"])
 @cross_origin()
 def patch_post(post_id):
-    db.posts.delete_one({"post_id": post_id})
-    create_post_document(
-        request.get_json(force=True))
-    return "post updated successfully"
+    #db.posts.delete_one({"post_id": post_id})
+    updates = request.get_json(force=True)
+    db.posts.find_one_and_update({"post_id": post_id},{"$set": updates})
+    # create_post_document(
+    #     request.get_json(force=True))
+    updated_post = db.posts.find_one({"post_id": post_id})
+    if updated_post is None:
+        return jsonify({'post': None}), 404
+    return json.loads(json_util.dumps(updated_post))
 
 
 @app.route("/api/posts/latest", methods=["GET"])
@@ -234,7 +239,7 @@ def get_posts_by_id(uid):
     return jsonify(posts)
 
 
-@app.route("/api/<course_id>/posts", methods=["GET"])
+@app.route("/api/courses/<course_id>/posts", methods=["GET"])
 @cross_origin()
 def get_posts_by_course(course_id):
     course = db.courses.find_one({"course_id": course_id})

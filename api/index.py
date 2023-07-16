@@ -160,7 +160,9 @@ def post_post(course_id):
         {"course_id": course_id},
         {"$push": {"posts": str(post.get("post_id"))}}
     )
-    return jsonify("post created successfully")
+
+    #post = db.posts.find_one({"post_id": post.get("post_id")})
+    return jsonify({"message": "post created successfully","post_id": post.get("post_id")}),201
 
 
 @app.route("/api/posts", methods=["GET"])
@@ -203,6 +205,8 @@ def get_latest_posts():
 @cross_origin()
 def get_post_by_id(post_id):
     post = db.posts.find_one({"post_id": post_id})
+    if post is None:
+        return jsonify({'post': None}), 404
     return json.loads(json_util.dumps(post))
 
 # @app.route("/api/posts/latest", methods=["GET"])

@@ -1,47 +1,56 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faHeart, faHeartBroken } from "@fortawesome/free-solid-svg-icons";
-import { useState, useEffect } from 'react';
+import {
+  faEye,
+  faHeart,
+  faHeartBroken,
+} from "@fortawesome/free-solid-svg-icons";
+import { useState, useEffect } from "react";
 
-const PostItem = ({ id, title, content, views, likes, dislikes, onClick, likeClickHandler, dislikeClickHandler}) => {
-  const [currLikes,setLikes] = useState(likes || 0);
-  const [currDislikes,setDislikes] = useState(dislikes || 0);
+const PostItem = ({
+  id,
+  title,
+  content,
+  views,
+  likes,
+  dislikes,
+  onClick,
+  likeClickHandler,
+  dislikeClickHandler,
+}) => {
+  const [currLikes, setLikes] = useState(likes || 0);
+  const [currDislikes, setDislikes] = useState(dislikes || 0);
   const [liked, setLiked] = useState(false);
   const [disliked, setDisliked] = useState(false);
 
   useEffect(() => {
     if (liked) {
-      setLikes(currLikes => currLikes+1);
+      setLikes((currLikes) => currLikes + 1);
     } else {
-      setLikes(currLikes => currLikes>0? currLikes-1:0);
+      setLikes((currLikes) => (currLikes > 0 ? currLikes - 1 : 0));
     }
-  },[liked]);
-
-
+  }, [liked]);
 
   useEffect(() => {
     if (disliked) {
-      setDislikes(currDislikes => currDislikes+1);
+      setDislikes((currDislikes) => currDislikes + 1);
     } else {
-      setDislikes(currDislikes => currDislikes>0? currDislikes-1:0);
+      setDislikes((currDislikes) => (currDislikes > 0 ? currDislikes - 1 : 0));
     }
-  },[disliked]);
+  }, [disliked]);
 
   const handleLikeClick = () => {
-    if(!disliked) {
-      setLiked(prevLiked => !prevLiked);
+    if (!disliked) {
+      setLiked((prevLiked) => !prevLiked);
       likeClickHandler(!liked, id);
-
     }
-
   };
 
   const handleDislikeClick = () => {
-    if(!liked){
-      setDisliked(prevDisliked => !prevDisliked);
+    if (!liked) {
+      setDisliked((prevDisliked) => !prevDisliked);
       dislikeClickHandler(!disliked, id);
     }
   };
-
 
   return (
     content && (
@@ -59,15 +68,15 @@ const PostItem = ({ id, title, content, views, likes, dislikes, onClick, likeCli
             <p>{views}</p>
           </div>
           <div className="flex items-center">
-            <FontAwesomeIcon 
-            icon={faHeart} 
-            className={liked ? 'text-red-500 mr-1' : 'mr-1'}
-            onClick={handleLikeClick}
-             />
+            <FontAwesomeIcon
+              icon={faHeart}
+              className={liked ? "text-red-500 mr-1" : "mr-1"}
+              onClick={handleLikeClick}
+            />
             <p>{currLikes}</p>
-            <FontAwesomeIcon 
-              icon={faHeartBroken} 
-              className={disliked ? 'text-blue-500 mr-1' : 'mr-1'}
+            <FontAwesomeIcon
+              icon={faHeartBroken}
+              className={disliked ? "text-blue-500 mr-1" : "mr-1"}
               onClick={handleDislikeClick}
             />
             <p>{currDislikes}</p>

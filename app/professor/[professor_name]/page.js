@@ -20,14 +20,13 @@ const ProfessorPage = ({ params }) => {
           `https://www.khourychat.com/api/professors/${params.professor_name}`
         );
         const data = await response.json();
-        console.log(data);
         setProfData(data);
       } catch (e) {
         console.log(e);
       }
     };
     getProfData();
-  }, []);
+  });
 
   useEffect(() => {
     const ratings = profData["ratings"];

@@ -161,8 +161,8 @@ def post_post(course_id):
         {"$push": {"posts": str(post.get("post_id"))}}
     )
 
-    #post = db.posts.find_one({"post_id": post.get("post_id")})
-    return jsonify({"message": "post created successfully","post_id": post.get("post_id")}),201
+    # post = db.posts.find_one({"post_id": post.get("post_id")})
+    return jsonify({"message": "post created successfully", "post_id": post.get("post_id")}), 201
 
 
 @app.route("/api/posts", methods=["GET"])
@@ -182,9 +182,9 @@ def delete_post(post_id):
 @app.route("/api/posts/<post_id>", methods=["PATCH"])
 @cross_origin()
 def patch_post(post_id):
-    #db.posts.delete_one({"post_id": post_id})
+    # db.posts.delete_one({"post_id": post_id})
     updates = request.get_json(force=True)
-    db.posts.find_one_and_update({"post_id": post_id},{"$set": updates})
+    db.posts.find_one_and_update({"post_id": post_id}, {"$set": updates})
     # create_post_document(
     #     request.get_json(force=True))
     updated_post = db.posts.find_one({"post_id": post_id})
@@ -200,9 +200,16 @@ def get_latest_posts():
     if "number" in request.args:
         number = int(request.args["number"])
     posts = get_all_posts()
-    posts.sort(key=lambda post: (post["likes"], datetime.strptime(
+    validPosts = []
+    for post in posts:
+        if not post:
+            continue
+        if "likes" not in post or "timestamp" not in post:
+            continue
+        validPosts.append(post)
+    validPosts.sort(key=lambda post: (post["likes"] if post["likes"] else 1, datetime.strptime(
         post["timestamp"]["$date"], "%Y-%m-%dT%H:%M:%S.%fZ")), reverse=True)
-    trending_posts = posts[:number]
+    trending_posts = validPosts[:number]
     return jsonify(trending_posts)
 
 
@@ -231,10 +238,9 @@ def get_post_by_id(post_id):
 @app.route("/api/<uid>/posts", methods=["GET"])
 @cross_origin()
 def get_posts_by_id(uid):
-    user = db.users.find_one({"uid": uid})
-    # send back error message if user id is wrong
-    if not user:
-        return jsonify({"error": "User not found"}), 404
+    user = db.users.find_one({"firebase_UID": uid})
+    # if not user:
+    #     return jsonify({"error": "User not found"}), 404
     posts = user.get("posts", [])
     return jsonify(posts)
 
@@ -242,7 +248,8 @@ def get_posts_by_id(uid):
 @app.route("/api/courses/<course_id>/posts", methods=["GET"])
 @cross_origin()
 def get_posts_by_course(course_id):
-    course = db.courses.find_one({"course_id": {"$regex": f"^{course_id}$", "$options": 'i'}})
+    course = db.courses.find_one(
+        {"course_id": {"$regex": f"^{course_id}$", "$options": 'i'}})
     if not course:
         return jsonify({"error": "Course not found"}), 404
 

@@ -23,7 +23,7 @@ const PostPage = ({ params }) => {
     const fetchPosts = async () => {
       try {
         const response = await fetch(
-          `http://www.khourychat.com/api/posts/${postID}`
+          `https://www.khourychat.com/api/posts/${postID}`
         );
         const data = await response.json();
         setTimestamp(data.timestamp);

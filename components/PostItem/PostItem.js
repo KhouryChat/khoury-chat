@@ -1,7 +1,48 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faHeart } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faHeart, faHeartBroken } from "@fortawesome/free-solid-svg-icons";
+import { useState, useEffect } from 'react';
 
-const PostItem = ({ title, content, views, likes, onClick }) => {
+const PostItem = ({ id, title, content, views, likes, dislikes, onClick, likeClickHandler, dislikeClickHandler}) => {
+  const [currLikes,setLikes] = useState(likes || 0);
+  const [currDislikes,setDislikes] = useState(dislikes || 0);
+  const [liked, setLiked] = useState(false);
+  const [disliked, setDisliked] = useState(false);
+
+  useEffect(() => {
+    if (liked) {
+      setLikes(currLikes => currLikes+1);
+    } else {
+      setLikes(currLikes => currLikes>0? currLikes-1:0);
+    }
+  },[liked]);
+
+
+
+  useEffect(() => {
+    if (disliked) {
+      setDislikes(currDislikes => currDislikes+1);
+    } else {
+      setDislikes(currDislikes => currDislikes>0? currDislikes-1:0);
+    }
+  },[disliked]);
+
+  const handleLikeClick = () => {
+    if(!disliked) {
+      setLiked(prevLiked => !prevLiked);
+      likeClickHandler(!liked, id);
+
+    }
+
+  };
+
+  const handleDislikeClick = () => {
+    if(!liked){
+      setDisliked(prevDisliked => !prevDisliked);
+      dislikeClickHandler(!disliked, id);
+    }
+  };
+
+
   return (
     content && (
       <div
@@ -18,8 +59,18 @@ const PostItem = ({ title, content, views, likes, onClick }) => {
             <p>{views}</p>
           </div>
           <div className="flex items-center">
-            <FontAwesomeIcon icon={faHeart} className="mr-1" />
-            <p>{likes}</p>
+            <FontAwesomeIcon 
+            icon={faHeart} 
+            className={liked ? 'text-red-500 mr-1' : 'mr-1'}
+            onClick={handleLikeClick}
+             />
+            <p>{currLikes}</p>
+            <FontAwesomeIcon 
+              icon={faHeartBroken} 
+              className={disliked ? 'text-blue-500 mr-1' : 'mr-1'}
+              onClick={handleDislikeClick}
+            />
+            <p>{currDislikes}</p>
           </div>
         </div>
       </div>

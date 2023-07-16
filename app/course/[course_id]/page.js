@@ -3,10 +3,9 @@ import React, { useState, useEffect } from "react";
 import Title from "@/components/Title/Title";
 import PostItem from "@/components/PostItem/PostItem";
 import { useAuthContext } from "@/Context/AuthContext";
-import ReactQuill from "react-quill";
+import ReactQuill, { Quill } from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import Sidebar from "@/components/Sidebar/Sidebar";
-
 const CoursePage = ({ params }) => {
   const [courseData, setCourseData] = useState(null);
   const [posts, setPosts] = useState([]);
@@ -31,8 +30,7 @@ const CoursePage = ({ params }) => {
       }
     };
     getCourseInfo();
-  }, []);
-  },[params.course_id]);
+  }, [params.course_id]);
 
   const [value, setValue] = useState("");
 
@@ -47,7 +45,7 @@ const CoursePage = ({ params }) => {
         //post_id: "aa11",
         uid: user["user"]["uid"],
         course_id: courseData.course_id,
-        content: value.slice(3, value.length - 4),
+        content: value,
         post_title: "",
         likes: 0,
         dislikes: 0,
@@ -68,7 +66,7 @@ const CoursePage = ({ params }) => {
         .then((data) => {
           console.log("Success:", data);
           setPosts([...posts, data.post_id]);
-          console.log("Post ID:", data.post_id); 
+          console.log("Post ID:", data.post_id);
         })
         .catch((error) => {
           console.error("Error:", error);
@@ -80,28 +78,32 @@ const CoursePage = ({ params }) => {
   };
   console.log("coursedata:", courseData);
 
+  const getPlainText = (html) => {
+    const tempDiv = document.createElement("div");
+    tempDiv.innerHTML = html;
+    return tempDiv.textContent || tempDiv.innerText || "";
+  };
+  const setQuillValue = (content) => {
+    const plainText = getPlainText(content);
+    setValue(plainText);
+  };
+  const [postItems, setPostItems] = useState([]);
 
-  
-    const [postItems, setPostItems] = useState([]);
-  
-    useEffect(() => {
-      async function fetchPosts() {
-        const fetchedPosts = [];
-        
-        for (let post_id of posts) {
-          const response = await fetch(`https://www.khourychat.com/api/posts/${post_id}`);
-          const postData = await response.json();
-          fetchedPosts.push(postData);
-        }
-        setPostItems(fetchedPosts);
+  useEffect(() => {
+    async function fetchPosts() {
+      const fetchedPosts = [];
+
+      for (let post_id of posts) {
+        const response = await fetch(
+          `https://www.khourychat.com/api/posts/${post_id}`
+        );
+        const postData = await response.json();
+        fetchedPosts.push(postData);
       }
-      fetchPosts();
-    }, [posts]);
-
-
-
-
-
+      setPostItems(fetchedPosts);
+    }
+    fetchPosts();
+  }, [posts]);
 
   return (
     <div className="bg-white ">
@@ -111,7 +113,7 @@ const CoursePage = ({ params }) => {
           courseName={courseData ? courseData["course_title"] : ""}
         />
       </div>
-      <div className="flex flex-row items-center justify-between ">
+      <div className="flex flex-row justify-between ">
         <Sidebar professors={courseData ? courseData["professor"] : []} />
 
         <div>
@@ -124,7 +126,7 @@ const CoursePage = ({ params }) => {
                 className="bg-white"
                 theme="snow"
                 value={value}
-                onChange={setValue}
+                onChange={setQuillValue}
               />
               <button
                 onClick={addPost}
@@ -134,7 +136,7 @@ const CoursePage = ({ params }) => {
               </button>
             </div>
           )}
-          {posts && (
+          {posts.length > 0 && (
             <div>
               {postItems.map((post) => (
                 <PostItem

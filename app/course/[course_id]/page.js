@@ -32,6 +32,7 @@ const CoursePage = ({ params }) => {
     };
     getCourseInfo();
   }, []);
+  },[params.course_id]);
 
   const [value, setValue] = useState("");
 
@@ -66,7 +67,8 @@ const CoursePage = ({ params }) => {
         .then((response) => response.json())
         .then((data) => {
           console.log("Success:", data);
-          setPosts([...posts, newPost]);
+          setPosts([...posts, data.post_id]);
+          console.log("Post ID:", data.post_id); 
         })
         .catch((error) => {
           console.error("Error:", error);
@@ -78,23 +80,28 @@ const CoursePage = ({ params }) => {
   };
   console.log("coursedata:", courseData);
 
-  const [postItems, setPostItems] = useState([]);
 
-  useEffect(() => {
-    async function fetchPosts() {
-      const fetchedPosts = [];
-
-      for (let post_id of posts) {
-        const response = await fetch(
-          `https://www.khourychat.com/api/posts/${post_id}`
-        );
-        const postData = await response.json();
-        fetchedPosts.push(postData);
+  
+    const [postItems, setPostItems] = useState([]);
+  
+    useEffect(() => {
+      async function fetchPosts() {
+        const fetchedPosts = [];
+        
+        for (let post_id of posts) {
+          const response = await fetch(`https://www.khourychat.com/api/posts/${post_id}`);
+          const postData = await response.json();
+          fetchedPosts.push(postData);
+        }
+        setPostItems(fetchedPosts);
       }
-      setPostItems(fetchedPosts);
-    }
-    fetchPosts();
-  });
+      fetchPosts();
+    }, [posts]);
+
+
+
+
+
 
   return (
     <div className="bg-white ">

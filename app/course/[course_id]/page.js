@@ -277,7 +277,7 @@ const CoursePage = ({ params }) => {
                   views={post.views}
                   likeClickHandler={updateLikes}
                   dislikeClickHandler={updateDislikes}
-                  onClick={() => goToPostPage(post_id)}
+                  onClick={() => goToPostPage(post.post_id)}
                 />
               ))}
             </div>

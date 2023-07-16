@@ -16,11 +16,26 @@ const PostPage = ({ params }) => {
 
   useEffect(() => {
     const fetchPosts = async () => {
-      const response = await fetch("http://www.khourychat.com/api/");
+      try {
+        const response = await fetch(
+          `http://www.khourychat.com/api/posts/${postID}`
+        );
+        const data = await response.json();
+        setTimestamp(data.timestamp);
+        setTitle(data.title);
+        setContent(data.content);
+        setReplies(data.replies);
+        setViews(data.views);
+        setLikes(data.likes);
+        setDislikes(data.dislikes);
+        setCourse(data.course_id);
+      } catch (e) {
+        console.log(error);
+      }
     };
     fetchPosts();
   }, [user]);
-  return <div></div>;
+  return <div>{content}</div>;
 };
 
 export default PostPage;

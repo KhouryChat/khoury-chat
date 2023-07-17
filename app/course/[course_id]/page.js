@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Title from "@/components/Title/Title";
 import PostItem from "@/components/PostItem/PostItem";
+import Pagination from "@/components/Pagination/Pagination"; 
 import { useAuthContext } from "@/Context/AuthContext";
 import ReactQuill, { Quill } from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -238,6 +239,17 @@ const CoursePage = ({ params }) => {
   console.log("post_ids: ", posts);
   console.log("postItems: ", postItems);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const postsPerPage = 10;
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = postItems.slice(indexOfFirstPost, indexOfLastPost);
+  const totalPages = Math.ceil(postItems.length / postsPerPage);
+
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
+
   return (
     <div className="bg-white ">
       <div className="bg-black text-white shadow-xl">
@@ -279,7 +291,7 @@ const CoursePage = ({ params }) => {
           )}
           {posts.length > 0 && (
             <div>
-              {postItems.map((post) => (
+              {currentPosts.map((post) => (
                 <PostItem
                   key={post.post_id}
                   id={post.post_id}
@@ -293,6 +305,7 @@ const CoursePage = ({ params }) => {
                   onClick={() => goToPostPage(post.post_id)}
                 />
               ))}
+              <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
             </div>
           )}
         </div>

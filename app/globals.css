@@ -1,10 +1,14 @@
 @import url("https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Merriweather+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 body {
-  font-family: "Ubuntu", sans-serif;
+  font-family: "Merriweather Sans", sans-serif;
+}
+.main_body {
+  background-color: #db192a;
 }
 .ql-container.ql-snow {
   border: none;
@@ -32,6 +36,15 @@ body {
     Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   font-weight: bold;
   fill: #fff;
+}
+.st0 {
+  fill: #db192b;
+}
+.st1 {
+  fill: #020202;
+}
+.st2 {
+  fill: #ffffff;
 }
 
 @keyframes glow-animation {

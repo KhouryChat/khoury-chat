@@ -3,13 +3,19 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { Transition } from "@headlessui/react";
 import MenuItem from "@/components/MenuItem/MenuItem";
 import { useState } from "react";
-const MenuSidebar = () => {
-  const [isMenuShown, setIsMenuShown] = useState(false);
+import { usePathname } from "next/navigation";
+
+const MenuSidebar = ({ isMenuShown, setIsMenuShown }) => {
   const [isMenuItemsShown, setIsMenuItemsShown] = useState(false);
+
+  const isHomePage = usePathname() == "/";
+  const primaryColor = isHomePage ? "white" : "black";
+  const secondaryColor = "black";
 
   const handleHamburger = () => {
     setIsMenuShown(!isMenuShown);
   };
+
   return (
     <div>
       <div
@@ -20,7 +26,7 @@ const MenuSidebar = () => {
         <GiHamburgerMenu
           width={200}
           height={200}
-          color={isMenuShown ? "black" : "white"}
+          color={isMenuShown ? secondaryColor : primaryColor}
           className="w-8 h-8"
         />
       </div>
@@ -39,13 +45,14 @@ const MenuSidebar = () => {
         leaveFrom="translate-x-0"
         leaveTo="-translate-x-full"
       >
-        <div className="absolute z-20 left-0 w-1/4 bg-white h-screen ">
+        <div className="absolute z-20 left-0 w-1/4 bg-white h-screen shadow-2xl">
           <div className="text-xl w-full font-bold flex flex-col gap-4 items-start justify-center ml-10 mt-32">
+            <MenuItem isMenuItemsShown={isMenuItemsShown} text={"Home"} />
+
             <MenuItem
               isMenuItemsShown={isMenuItemsShown}
               text={"Browse Courses"}
             />
-            <MenuItem isMenuItemsShown={isMenuItemsShown} text={"About"} />
             <MenuItem isMenuItemsShown={isMenuItemsShown} text={"My Profile"} />
             <MenuItem isMenuItemsShown={isMenuItemsShown} text={"Logout"} />
           </div>

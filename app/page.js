@@ -105,61 +105,63 @@ export default function Home() {
   };
 
   return (
-    <div className="w-max-screen">
-      <div className="absolute overflow-visible flex flex-row">
-        <Husky className="relative left-[11rem]  bottom-96" />
-      </div>
-      <div className="z-10 flex flex-col items-start justify-center h-screen gap-16 p-20">
-        <div className="text-white text-[10rem] font-extrabold leading-[9rem]">
-          KHOURY <br /> CHAT
+    <div className="h-max w-screen red-body">
+      <div className="w-max-screen">
+        <div className="absolute overflow-visible flex flex-row">
+          <Husky className="relative left-[11rem]  bottom-96" />
         </div>
-        <div className="z-10 flex flex-col w-1/3 ml-3">
-          <h2 className="text-white text-3xl mb-4">
-            What course are you looking for?
-          </h2>
-          <input
-            type="text"
-            placeholder=""
-            className="focus:outline-none w-full text-white outline-none  bg-transparent border-b-solid border-b-2 border-b-white  p-2 text-xl"
-            onClick={() => setSearchValue("")}
-            value={searchValue}
-            onChange={handleSearch}
-          />
-          {filteredCourses.length > 0 && searchValue && (
-            <div className="absolute overflow-visible mt-10 border-2 w-1/3 bg-white shadow-lg animate-slideIn transition-all duration-300">
-              {filteredCourses.map((course) => (
-                <div
-                  key={course._id}
-                  className="border-b cursor-pointer hover:bg-gray-200"
-                  onClick={() => handleSelect(course)}
-                >
-                  {`${course.course_id}: ${course.course_title}`}
-                </div>
-              ))}
-            </div>
-          )}
+        <div className="z-10 flex flex-col items-start justify-center h-screen gap-16 p-20">
+          <div className="text-white text-[10rem] font-extrabold leading-[9rem]">
+            KHOURY <br /> CHAT
+          </div>
+          <div className="z-10 flex flex-col w-1/3 ml-3">
+            <h2 className="text-white text-3xl mb-4">
+              What course are you looking for?
+            </h2>
+            <input
+              type="text"
+              placeholder=""
+              className="focus:outline-none w-full text-white outline-none  bg-transparent border-b-solid border-b-2 border-b-white  p-2 text-xl"
+              onClick={() => setSearchValue("")}
+              value={searchValue}
+              onChange={handleSearch}
+            />
+            {filteredCourses.length > 0 && searchValue && (
+              <div className="absolute overflow-visible mt-10 border-2 w-1/3 bg-white shadow-lg animate-slideIn transition-all duration-300">
+                {filteredCourses.map((course) => (
+                  <div
+                    key={course._id}
+                    className="border-b cursor-pointer hover:bg-gray-200"
+                    onClick={() => handleSelect(course)}
+                  >
+                    {`${course.course_id}: ${course.course_title}`}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
-      </div>
-      <div
-        onClick={handleScroll}
-        className="text-md z-50 cursor-pointer absolute bottom-6 right-1/2 flex flex-col items-center text-white"
-      >
-        <div className="hover:text-blue-500">Explore</div>
-        <button className="transition-transform duration-300 ease-in-out hover:translate-y-3">
-          <AiFillCaretDown
-            className="w-12 h-12 shadow-2xl"
-            color={"white"}
-            width={100}
-            height={100}
-          />
-        </button>
-      </div>
+        <div
+          onClick={handleScroll}
+          className="text-md z-50 cursor-pointer absolute bottom-6 right-1/2 flex flex-col items-center text-white"
+        >
+          <div className="hover:text-blue-500">Explore</div>
+          <button className="transition-transform duration-300 ease-in-out hover:translate-y-3">
+            <AiFillCaretDown
+              className="w-12 h-12 shadow-2xl"
+              color={"white"}
+              width={100}
+              height={100}
+            />
+          </button>
+        </div>
 
-      <div
-        ref={scrollRef}
-        className="text-white text-6xl font-bold text-center items-center justify-start flex ml-32 mt-[400px]"
-      >
-        Trending Posts
+        <div
+          ref={scrollRef}
+          className="text-white text-6xl font-bold text-center items-center justify-start flex ml-32 mt-[400px]"
+        >
+          Trending Posts
+        </div>
       </div>
     </div>
   );

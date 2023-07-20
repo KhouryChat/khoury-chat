@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Combobox } from "@headlessui/react";
 
 export default function SearchBar({ value, setValue, onChange, filteredData }) {

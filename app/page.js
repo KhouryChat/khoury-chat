@@ -106,7 +106,6 @@ export default function Home() {
 
   return (
     <div className="w-max-screen">
-      <MenuSidebar />
       <div className="absolute overflow-visible flex flex-row">
         <Husky className="relative left-[11rem]  bottom-96" />
       </div>

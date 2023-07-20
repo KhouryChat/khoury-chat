@@ -10,12 +10,14 @@ export default function RootLayout({ children }) {
   return (
     <html>
       <body>
-        <MenuSidebar
-          isMenuShown={isMenuShown}
-          setIsMenuShown={setIsMenuShown}
-        />
         <div>
-          <AuthContextProvider>{children}</AuthContextProvider>
+          <AuthContextProvider>
+            <MenuSidebar
+              isMenuShown={isMenuShown}
+              setIsMenuShown={setIsMenuShown}
+            />
+            {children}
+          </AuthContextProvider>
         </div>
       </body>
     </html>

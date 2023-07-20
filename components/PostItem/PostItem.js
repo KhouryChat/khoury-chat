@@ -31,6 +31,8 @@ const PostItem = ({
     }
   }, [liked]);
 
+
+
   useEffect(() => {
     if (disliked) {
       setDislikes((currDislikes) => currDislikes + 1);

@@ -2,7 +2,7 @@ from dotenv import load_dotenv, find_dotenv
 import os
 import certifi
 from flask import Flask, jsonify, request
-from pymongo import MongoClient
+from pymongo import MongoClient, ReturnDocument
 from bson.objectid import ObjectId
 from bson import json_util
 import json
@@ -146,6 +146,7 @@ def welcome_page():
     return response
 
 
+# ---routes for posts--- #
 @app.route("/api/courses/<course_id>", methods=["POST"])
 @cross_origin()
 def post_post(course_id):
@@ -192,6 +193,94 @@ def patch_post(post_id):
     if updated_post is None:
         return jsonify({'post': None}), 404
     return json.loads(json_util.dumps(updated_post))
+
+
+@app.route("/api/posts/<post_id>/like", methods=["GET"])
+@cross_origin()
+def get_post_like(post_id):
+    post = db.posts.find_one({"post_id": post_id})
+    return json.loads(json_util.dumps(post))
+
+
+
+@app.route("/api/posts/<post_id>/like", methods=["PATCH"])
+@cross_origin()
+def like_post(post_id):
+    action = request.get_json(force=True).get('action')
+    # updated_post = None
+    # if action == "like":
+    #     updated_post = db.posts.find_one_and_update(
+    #         {"post_id": post_id},
+    #         {"$inc": {"likes": 1}},
+    #         return_document=ReturnDocument.AFTER
+    #     )
+    # elif action == "unlike":
+    #     updated_post = db.posts.find_one_and_update(
+    #         {"post_id": post_id},
+    #         {"$inc": {"likes": -1}},
+    #         return_document=ReturnDocument.AFTER
+    #     )
+
+    # if updated_post is None:
+    #     return jsonify({'post': None}), 404
+
+    # return json.loads(json_util.dumps(updated_post))
+    update = {}
+    if action == True:
+        update = {"$inc": {"likes": 1}}
+    else:
+        update = {"$inc": {"likes": -1}}
+
+    db.posts.find_one_and_update({"post_id": post_id}, update,
+                                 return_document=ReturnDocument.AFTER)
+
+    updated_post = db.posts.find_one({"post_id": post_id})
+    if updated_post is None:
+        return jsonify({'post': None}), 404
+    return json.loads(json_util.dumps(updated_post))
+
+
+@app.route("/api/posts/<post_id>/dislike", methods=["PATCH"])
+@cross_origin()
+def dislike_post(post_id):
+    action = request.get_json(force=True).get('action')
+    # updated_post = None
+    # if action == True:
+    #     updated_post = db.posts.find_one_and_update(
+    #         {"post_id": post_id},
+    #         {"$inc": {"dislikes": 1}},
+    #         return_document=ReturnDocument.AFTER
+    #     )
+    # elif action == False:
+    #     updated_post = db.posts.find_one_and_update(
+    #         {"post_id": post_id},
+    #         {"$inc": {"dislikes": -1}},
+    #         return_document=ReturnDocument.AFTER
+    #     )
+
+    # if updated_post is None:
+    #     return jsonify({'post': None}), 404
+
+    # return json.loads(json_util.dumps(updated_post))
+    if action == True:
+        update = {"$inc": {"dislikes": 1}}
+    elif action == False:
+        update = {"$inc": {"dislikes": -1}}
+
+    db.posts.find_one_and_update({"post_id": post_id}, update)
+
+    updated_post = db.posts.find_one({"post_id": post_id})
+    if updated_post is None:
+        return jsonify({'post': None}), 404
+    return json.loads(json_util.dumps(updated_post))
+
+
+
+
+
+
+
+
 
 
 @app.route("/api/posts/latest", methods=["GET"])

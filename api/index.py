@@ -275,7 +275,19 @@ def dislike_post(post_id):
     return json.loads(json_util.dumps(updated_post))
 
 
+@app.route("/api/posts/<post_id>/view", methods=["PATCH"])
+@cross_origin()
+def view_post(post_id):
+    updated_post = db.posts.find_one_and_update(
+        {"post_id": post_id},
+        {"$inc": {"views": 1}},
+        return_document=ReturnDocument.AFTER
+    )
 
+    if updated_post is None:
+        return jsonify({'post': None}), 404
+
+    return json.loads(json_util.dumps(updated_post))
 
 
 

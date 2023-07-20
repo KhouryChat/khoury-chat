@@ -10,12 +10,10 @@ import Husky from "@/components/Husky/Husky";
 import "react-dropdown/style.css";
 import { filter } from "d3";
 import SearchBar from "@/components/SearchBar/SearchBar";
-import { GiHamburgerMenu } from "react-icons/gi";
-import { Transition } from "@headlessui/react";
-import MenuItem from "@/components/MenuItem/MenuItem";
 import HorizontalLine from "@/components/HLine/Hline";
 import { AiFillCaretDown } from "react-icons/ai";
 import { useRef } from "react";
+import MenuSidebar from "@/components/MenuSidebar/MenuSidebar";
 
 export default function Home() {
   const router = useRouter();
@@ -28,9 +26,6 @@ export default function Home() {
   const [courses, setCourses] = useState([]);
   const [filteredCourses, setFilteredCourses] = useState([]);
   const [show, setShow] = useState(false);
-  const [isMenuShown, setIsMenuShown] = useState(false);
-  const [isMenuItemsShown, setIsMenuItemsShown] = useState(false);
-  const [isEachMenuItemsShown, setIsEachMenuItemsShown] = useState(false);
 
   useEffect(() => {
     setLoggedIn(user["user"] != null);
@@ -91,9 +86,6 @@ export default function Home() {
     fetchCourses();
   }, [router]);
 
-  const handleHamburger = () => {
-    setIsMenuShown(!isMenuShown);
-  };
   const handleSearch = (event) => {
     const value = event.target.value;
     setSearchValue(value);
@@ -114,45 +106,7 @@ export default function Home() {
 
   return (
     <div className="w-max-screen">
-      <div
-        className="absolute overflow-visible top-10 left-10 cursor-pointer"
-        style={{ zIndex: 30, width: "20px", height: "20px" }}
-        onClick={handleHamburger}
-      >
-        <GiHamburgerMenu
-          width={200}
-          height={200}
-          color={isMenuShown ? "black" : "white"}
-          className="w-8 h-8"
-        />
-      </div>
-      <Transition
-        show={isMenuShown}
-        afterEnter={() => {
-          setIsMenuItemsShown(true);
-        }}
-        beforeLeave={() => {
-          setIsMenuItemsShown(false);
-        }}
-        enter="transition ease-in-out duration-1000 transform"
-        enterFrom="-translate-x-full"
-        enterTo="translate-x-0"
-        leave="transition ease-in-out duration-1000 transform"
-        leaveFrom="translate-x-0"
-        leaveTo="-translate-x-full"
-      >
-        <div className="absolute z-20 left-0 w-1/4 bg-white h-screen ">
-          <div className="text-xl w-full font-bold flex flex-col gap-4 items-start justify-center ml-10 mt-32">
-            <MenuItem
-              isMenuItemsShown={isMenuItemsShown}
-              text={"Browse Courses"}
-            />
-            <MenuItem isMenuItemsShown={isMenuItemsShown} text={"About"} />
-            <MenuItem isMenuItemsShown={isMenuItemsShown} text={"My Profile"} />
-            <MenuItem isMenuItemsShown={isMenuItemsShown} text={"Logout"} />
-          </div>
-        </div>
-      </Transition>
+      <MenuSidebar />
       <div className="absolute overflow-visible flex flex-row">
         <Husky className="relative left-[11rem]  bottom-96" />
       </div>

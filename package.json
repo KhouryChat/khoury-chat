@@ -11,9 +11,12 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@headlessui/react": "^1.7.15",
+    "@mui/material": "^5.14.1",
     "autoprefixer": "10.4.14",
     "babel-polyfill": "^6.26.0",
     "chroma-js": "^2.4.2",

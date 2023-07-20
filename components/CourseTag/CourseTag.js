@@ -1,7 +1,7 @@
 import { useRouter } from "next/navigation";
 import React from "react";
 
-const CourseTag = ({ courseID }) => {
+const CourseTag = ({ courseID, width }) => {
   const router = useRouter();
   const redirectToCoursePage = (e) => {
     router.push(`/course/${courseID}`);

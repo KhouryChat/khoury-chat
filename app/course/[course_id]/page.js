@@ -53,7 +53,7 @@ const CoursePage = ({ params }) => {
         post_title: "",
         likes: 0,
         dislikes: 0,
-        views: Math.floor(Math.random() * 200) + 1,
+        views: 1,
         replies: [],
         //timestamp: "" + Math.floor(Date.now() / 1000),
       };
@@ -264,9 +264,42 @@ const CoursePage = ({ params }) => {
   //   }
   // };
 
-  const goToPostPage = (id) => {
+
+
+  // const goToPostPage = (id) => {
+  //   router.push(`/post/${id}`);
+  // };
+
+  const goToPostPage = async (id) => {
+    try{
+      const response = await fetch(
+        `https://www.khourychat.com/api/posts/${id}/view`, // change this to match your view API endpoint
+        {
+          method: "PATCH",
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const updatedPost = await response.json();
+
+      const updatedPosts = postItems.map((post) =>
+        post.post_id === id ? updatedPost : post
+      );
+
+      setPostItems(updatedPosts);
+
+
+    } catch (error) {
+      console.log("Failed to update views", error);
+    }
+
     router.push(`/post/${id}`);
   };
+
+
 
   // const updateDislikes = async (newDislikedState, post_id) => {
   //   if (!isLoggedIn) router.push("/login");

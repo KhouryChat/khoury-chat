@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import Title from "@/components/Title/Title";
 import PostItem from "@/components/PostItem/PostItem";
 import Pagination from "@/components/Pagination/Pagination";
-import Pagination from "@/components/Pagination/Pagination";
 import { useAuthContext } from "@/Context/AuthContext";
 import Sidebar from "@/components/Sidebar/Sidebar";
 import AddPost from "@/components/PostCreation/PostCreation";
@@ -131,10 +130,8 @@ const CoursePage = ({ params }) => {
   }, [posts, params.course_id]);
 
   const updateLikes = async (newLikedState, post_id) => {
-  const updateLikes = async (newLikedState, post_id) => {
     if (!isLoggedIn) router.push("/login");
 
-    try {
     try {
       const response = await fetch(
         `https://www.khourychat.com/api/posts/${post_id}/like`,
@@ -147,18 +144,13 @@ const CoursePage = ({ params }) => {
             "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PATCH",
           },
 
-            "Access-Control-Allow-Headers": "Content-Type",
-            "Access-Control-Allow-Origin": "*",
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PATCH",
-          },
-
           body: JSON.stringify({
             action: newLikedState,
             action: newLikedState,
           }),
         }
       );
+
 
 
       if (!response.ok) {
@@ -217,7 +209,6 @@ const CoursePage = ({ params }) => {
   };
 
   const goToPostPage = async (id) => {
-    try {
     try {
       const response = await fetch(
         `https://www.khourychat.com/api/posts/${id}/view`, // change this to match your view API endpoint

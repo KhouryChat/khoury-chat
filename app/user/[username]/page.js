@@ -1,7 +1,9 @@
 "use client";
+import { Fragment, useEffect, useRef, useState } from 'react';
 import Image from "next/image";
 import React from "react";
-import { Tab } from "@headlessui/react";
+import { BiUser, BiBook, BiCog } from 'react-icons/bi';
+import { BsGithub, BsLinkedin } from 'react-icons/bs';
 import Example from "@/components/Tab/Tab";
 import UserIcon from "@/Icons/UserIcon";
 import BookIcon from "@/Icons/BookIcon";
@@ -9,12 +11,22 @@ import GithubIcon from "@/Icons/GithubIcon";
 import LinkedInIcon from "@/Icons/LinkedInIcon";
 
 const page = ({ params }) => {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen((prev) => !prev);
+  };
+
   {
     params.username;
   }
+
   return (
     <div className="flex items-center justify-center gap-10">
-      <div className=" rounded-xl h-[600px] w-1/4 p-10 border-4 flex flex-col items-left hover:border-black">
+      <div className="rounded-xl h-[600px] w-1/4 p-10 border-4 flex flex-col items-left hover:border-black">
+        <div className="flex items-center justify-end">
+            <Dropdown />
+        </div>
         <div classname="flex flex-row items-center justify-center">
           <div className="flex flex-row justify-around items-center">
             <div className="rounded-full w-1/2 h-40 border-2 border-black flex flex-row items-center justify-center">
@@ -49,6 +61,9 @@ const page = ({ params }) => {
         </div>
       </div>
       <div className="h-screen w-1/2 bg-red-600 p-10 my-10">
+        <div className="h-2/3 w-full bg-white p-10 my-10 ">
+          <Example />
+        </div>
         <div className="h-2/3 w-full bg-white p-10 my-10 ">
           <Example />
         </div>

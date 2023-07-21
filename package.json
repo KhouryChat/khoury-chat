@@ -17,6 +17,7 @@
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@headlessui/react": "^1.7.15",
     "@mui/material": "^5.14.1",
+    "@next/bundle-analyzer": "^13.4.11",
     "autoprefixer": "10.4.14",
     "babel-polyfill": "^6.26.0",
     "chroma-js": "^2.4.2",
@@ -25,7 +26,7 @@
     "eslint": "8.44.0",
     "eslint-config-next": "13.4.9",
     "faker": "^6.6.6",
-    "firebase": "^10.0.0",
+    "firebase": "^10.1.0",
     "framer-motion": "^10.13.0",
     "install": "^0.13.0",
     "next": "13.4.9",
@@ -41,10 +42,14 @@
     "react-select": "^5.7.4",
     "tailwindcss": "3.3.2",
     "tinymce": "^6.5.1",
-    "vercel": "^31.0.2",
-    "victory": "^36.6.11"
+    "vercel": "^31.0.2"
   },
   "devDependencies": {
     "concurrently": "^8.2.0"
-  }
+  },
+  "description": "This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).",
+  "main": "firebase.config.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }

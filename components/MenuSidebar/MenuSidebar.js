@@ -1,5 +1,4 @@
 import React, { useRef } from "react";
-import { GiHamburgerMenu } from "react-icons/gi";
 import { Transition } from "@headlessui/react";
 import MenuItem from "@/components/MenuItem/MenuItem";
 import { useState } from "react";

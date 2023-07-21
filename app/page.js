@@ -1,24 +1,15 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import PostItem from "@/components/PostItem/PostItem";
-import Image from "next/image";
-import { useEffect } from "react";
-import signOut from "@/auth/firebase/signout";
 import { useAuthContext } from "@/Context/AuthContext";
 import Husky from "@/components/Husky/Husky";
-import "react-dropdown/style.css";
-import { filter } from "d3";
+import DownArrowIcon from "@/Icons/DownArrowIcon";
 import SearchBar from "@/components/SearchBar/SearchBar";
 import HorizontalLine from "@/components/HLine/Hline";
-import { AiFillCaretDown } from "react-icons/ai";
-import { useRef } from "react";
+import Image from "next/image";
+import PostItem from "@/components/PostItem/PostItem";
 import Tilt from "react-parallax-tilt";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { Carousel } from "react-responsive-carousel";
-
-import MenuSidebar from "@/components/MenuSidebar/MenuSidebar";
-import PostBlock from "@/components/PostBlock/PostBlock";
+import signOut from "@/auth/firebase/signout";
 
 function Home() {
   const router = useRouter();
@@ -163,7 +154,7 @@ function Home() {
         >
           <div className="hover:text-blue-500">Explore</div>
           <button className="transition-transform duration-300 ease-in-out hover:translate-y-3">
-            <AiFillCaretDown
+            <DownArrowIcon
               className="w-12 h-12"
               color={"white"}
               width={100}
@@ -171,9 +162,6 @@ function Home() {
             />
           </button>
         </div>
-      </div>
-      <div className="flex items-center justify-center">
-        <PostBlock />
       </div>
     </div>
   );

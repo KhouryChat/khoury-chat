@@ -11,7 +11,7 @@ const Hamburger = ({ isMenuShown }) => {
   const secondaryColor = "black";
   return (
     <motion.div
-      className="container  rounded h-max"
+      className=""
       whileHover={{ scale: 1.2 }}
       whileTap={{ scale: 0.8 }}
     >

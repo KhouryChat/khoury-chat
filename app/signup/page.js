@@ -4,6 +4,7 @@ import signUp from "@/auth/firebase/signup";
 import { useRouter } from "next/navigation";
 import FormInput from "@/components/FormInput/FormInput";
 import Image from "next/image";
+
 function Page() {
   const [username, setUsername] = React.useState("");
   const [email, setEmail] = React.useState("");

@@ -5,8 +5,10 @@ import PostItem from "@/components/PostItem/PostItem";
 import Pagination from "@/components/Pagination/Pagination";
 import { useAuthContext } from "@/Context/AuthContext";
 import Sidebar from "@/components/Sidebar/Sidebar";
+import AddPost from "@/components/PostCreation/PostCreation";
 import { useRouter } from "next/navigation";
-
+import Image from "next/image";
+import Husky from "@/components/Husky/Husky";
 const CoursePage = ({ params }) => {
   const router = useRouter();
   const [courseData, setCourseData] = useState(null);
@@ -40,22 +42,24 @@ const CoursePage = ({ params }) => {
   const user = useAuthContext();
   const isLoggedIn = user["user"] !== null;
 
-  const addPost = (e) => {
-    e.preventDefault();
+  const addPost = (title, content) => {
+    //e.preventDefault();
     console.log("addPost called");
     if (isLoggedIn) {
       const newPost = {
         //post_id: "aa11",
         uid: user["user"]["uid"],
         course_id: courseData.course_id,
-        content: value,
-        post_title: "",
+        content: content,
+        post_title: title,
         likes: 0,
         dislikes: 0,
         views: 1,
         replies: [],
         //timestamp: "" + Math.floor(Date.now() / 1000),
       };
+
+      
 
       const postUrl = `https://www.khourychat.com/api/courses/${courseData.course_id}`;
       fetch(postUrl, {
@@ -91,28 +95,12 @@ const CoursePage = ({ params }) => {
   };
   const [postItems, setPostItems] = useState([]);
 
-  // useEffect(() => {
-  //   async function fetchPosts() {
-  //     const fetchedPosts = [];
-
-  //     for (let post_id of posts) {
-  //       const response = await fetch(
-  //         `https://www.khourychat.com/api/posts/${post_id}`
-  //       );
-  //       const postData = await response.json();
-  //       fetchedPosts.push(postData);
-  //     }
-  //     setPostItems(fetchedPosts);
-  //   }
-  //   fetchPosts();
-  // }, [posts]);
 
   useEffect(() => {
     async function fetchPosts() {
       const response = await fetch(
         `https://www.khourychat.com/api/courses/${params.course_id}/posts`
       );
-      //const response = await fetch(`https://www.khourychat.com/api/courses/CS5001/posts`);
       const postsData = await response.json();
       console.log("postsData: ", postsData);
       const postPromises = postsData.map(async (post_id) => {
@@ -158,19 +146,25 @@ const CoursePage = ({ params }) => {
 
           body: JSON.stringify({
             action: newLikedState,
+            action: newLikedState,
           }),
         }
       );
+
+
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
+
       const updatedPost = await response.json();
+
 
       const updatedPosts = postItems.map((post) =>
         post.post_id === post_id ? updatedPost : post
       );
+
 
       setPostItems(updatedPosts);
     } catch (error) {
@@ -181,6 +175,7 @@ const CoursePage = ({ params }) => {
   const updateDislikes = async (newDislikedState, post_id) => {
     if (!isLoggedIn) router.push("/login");
 
+
     try {
       const response = await fetch(
         `https://www.khourychat.com/api/posts/${post_id}/dislike`, // change this to match your dislike API endpoint
@@ -188,74 +183,30 @@ const CoursePage = ({ params }) => {
           method: "PATCH",
           body: JSON.stringify({
             action: newDislikedState,
+            action: newDislikedState,
           }),
         }
       );
+
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
+
       const updatedPost = await response.json();
+
 
       const updatedPosts = postItems.map((post) =>
         post.post_id === post_id ? updatedPost : post
       );
+
 
       setPostItems(updatedPosts);
     } catch (error) {
       console.error("Failed to update dislikes", error);
     }
   };
-
-  // const updateLikes = async (newLikedState, post_id) => {
-  //   if (!isLoggedIn) router.push("/login");
-  //   // Update the post in the local state
-  //   const updatedLikes = newLikedState
-  //     ? postItems.find((post) => post.post_id === post_id).likes + 1
-  //     : postItems.find((post) => post.post_id === post_id).likes - 1;
-
-  //   // const updatedPosts = postItems.map(post =>
-  //   //   post.post_id === post_id
-  //   //     ? { ...post, likes: newLikedState? post.likes + 1 : post.likes -1 }
-  //   //     : post
-  //   // );
-
-  //   try {
-  //     const response = await fetch(
-  //       `https://www.khourychat.com/api/posts/${post_id}`,
-  //       {
-  //         method: "PATCH",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify({
-  //           likes: updatedLikes,
-  //         }),
-  //       }
-  //     );
-
-  //     if (!response.ok) {
-  //       throw new Error(`HTTP error! status: ${response.status}`);
-  //     }
-
-  //     //get the updated post data from the response
-  //     const updatedPost = await response.json();
-
-  //     //update the post in the local state
-  //     const updatedPosts = postItems.map((post) =>
-  //       post.post_id === post_id ? updatedPost : post
-  //     );
-
-  //     setPostItems(updatedPosts);
-  //   } catch (error) {
-  //     console.error("Failed to update likes", error);
-  //   }
-  // };
-
-  // const goToPostPage = (id) => {
-  //   router.push(`/post/${id}`);
-  // };
 
   const goToPostPage = async (id) => {
     try {
@@ -284,45 +235,6 @@ const CoursePage = ({ params }) => {
     router.push(`/post/${id}`);
   };
 
-  // const updateDislikes = async (newDislikedState, post_id) => {
-  //   if (!isLoggedIn) router.push("/login");
-
-  //   // Update the post in the local state
-
-  //   const updatedPosts = postItems.map((post) =>
-  //     post.post_id === post_id
-  //       ? {
-  //           ...post,
-  //           dislikes: newDislikedState ? post.dislikes + 1 : post.dislikes - 1,
-  //         }
-  //       : post
-  //   );
-
-  //   try {
-  //     const response = await fetch(
-  //       `https://www.khourychat.com/api/posts/${post_id}`,
-  //       {
-  //         method: "PATCH",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify({
-  //           dislikes: updatedPosts.find((post) => post.post_id === post_id)
-  //             .dislikes,
-  //         }),
-  //       }
-  //     );
-
-  //     if (!response.ok) {
-  //       throw new Error(`HTTP error! status: ${response.status}`);
-  //     }
-
-  //     setPostItems(updatedPosts);
-  //   } catch (error) {
-  //     console.error("Failed to update dislikes", error);
-  //   }
-  // };
-
   const [inputValue, setInputValue] = useState("");
 
   const handleInputChange = (e) => {
@@ -344,64 +256,68 @@ const CoursePage = ({ params }) => {
   };
 
   return (
-    <div className="bg-white ">
-      <div className="bg-black text-white shadow-xl">
-        <Title
-          text={courseData ? courseData["course_id"] : ""}
-          courseName={courseData ? courseData["course_title"] : ""}
-        />
-      </div>
-      <div className="flex flex-row justify-between ">
+    <div className="bg-white flex">
+      {/* <div className="w-full flex flex-row justify-between items-start">
+        <Sidebar professors={courseData ? courseData["professor"] : []} /> */}
+        <div className="w-full">
+        <div className="bg-white text-black shadow-xl grid grid-cols-3 items-center justify-between px-8">
         <Sidebar professors={courseData ? courseData["professor"] : []} />
+          <Title
+            text={courseData ? courseData["course_id"] : ""}
+            courseName={courseData ? courseData["course_title"] : ""}
+          />
 
-        <div>
           {courseData && (
-            <div
-              id="create-post"
-              className="p-10 flex flex-col gap-5 items-end"
-            >
-              {/* <textarea
-                className="bg-blackfont-bold text-lg px-[250px] py-4 rounded-lg border-none focus:outline-none"
-                type="text"
-                value={inputValue}
-                onChange={handleInputChange}
-                placeholder="Enter post content..."
-              /> */}
-              <button
-                onClick={addPost}
-                className="py-1 px-5 rounded-full bg-red-500 font-bold text-lg text-white"
+            <div className="justify-self-end">
+          <AddPost onPost={addPost} />
+          </div>
+          )}
+          </div>
+
+        {/* <div className="w-full flex flex-row justify-between items-start">
+        <Sidebar professors={courseData ? courseData["professor"] : []} /> */}
+
+          <div className="relative "
+          >
+          
+            {courseData && (
+              <div
+                id="create-post"
+                className="p-10 flex flex-col gap-5 items-end"
               >
-                Post
-              </button>
-            </div>
-          )}
-          {posts.length > 0 && (
-            <div>
-              {currentPosts.map((post) => (
-                <PostItem
-                  key={post.post_id}
-                  id={post.post_id}
-                  title={post.title}
-                  content={post.content}
-                  likes={post.likes}
-                  dislikes={post.dislikes}
-                  views={post.views}
-                  likeClickHandler={updateLikes}
-                  dislikeClickHandler={updateDislikes}
-                  onClick={() => goToPostPage(post.post_id)}
+
+              </div>
+            )}
+            {posts.length > 0 && (
+              <div className="mx-auto max-w-2xl z-10">
+                {currentPosts.map((post) => (
+                  <PostItem
+                    key={post.post_id}
+                    id={post.post_id}
+                    title={post.title}
+                    content={post.content}
+                    likes={post.likes}
+                    dislikes={post.dislikes}
+                    views={post.views}
+                    likeClickHandler={updateLikes}
+                    dislikeClickHandler={updateDislikes}
+                    onClick={() => goToPostPage(post.post_id)}
+                  />
+                ))}
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={handlePageChange}
                 />
-              ))}
-              <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={handlePageChange}
-              />
-            </div>
-          )}
+              </div>
+            )}
+          </div>
+          <div></div>
         </div>
-        <div></div>
       </div>
-    </div>
+      // </div>
+
+      
   );
 };
 

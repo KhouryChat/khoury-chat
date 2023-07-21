@@ -1,16 +1,14 @@
 "use client";
-import { Fragment, useEffect, useRef, useState } from 'react';
+import { Fragment, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import React from "react";
-import { BiUser, BiBook, BiCog } from 'react-icons/bi';
-import { BsGithub, BsLinkedin } from 'react-icons/bs';
 import Example from "@/components/Tab/Tab";
 import UserIcon from "@/Icons/UserIcon";
 import BookIcon from "@/Icons/BookIcon";
 import GithubIcon from "@/Icons/GithubIcon";
 import LinkedInIcon from "@/Icons/LinkedInIcon";
 
-const page = ({ params }) => {
+const Page = ({ params }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const toggleDropdown = () => {
@@ -25,7 +23,7 @@ const page = ({ params }) => {
     <div className="flex items-center justify-center gap-10">
       <div className="rounded-xl h-[600px] w-1/4 p-10 border-4 flex flex-col items-left hover:border-black">
         <div className="flex items-center justify-end">
-            <Dropdown />
+          <Dropdown />
         </div>
         <div classname="flex flex-row items-center justify-center">
           <div className="flex flex-row justify-around items-center">
@@ -71,4 +69,4 @@ const page = ({ params }) => {
     </div>
   );
 };
-export default page;
+export default Page;

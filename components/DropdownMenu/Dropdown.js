@@ -1,18 +1,17 @@
-import { Menu, Transition } from '@headlessui/react'
-import { Fragment, useEffect, useRef, useState } from 'react'
-import { ChevronDownIcon } from '@heroicons/react/20/solid'
-import { BiCog } from 'react-icons/bi';
+import { Menu, Transition } from "@headlessui/react";
+import { Fragment, useEffect, useRef, useState } from "react";
+import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import CogWheelIcon from "@/Icons/CogWheelIcon";
 
-
-export default function Dropdown({className}) {
-  const classes = className + "fixed top-16 w-56 text-right"
+export default function Dropdown({ className }) {
+  const classes = className + "fixed top-16 w-56 text-right";
 
   return (
     <div className={classes}>
       <Menu as="div" className="relative inline-block text-left">
         <div>
           <Menu.Button>
-          <BiCog className= "w-10 h-10"/>
+            <CogWheelIcon className="w-10 h-10" />
           </Menu.Button>
         </div>
         <Transition
@@ -30,7 +29,7 @@ export default function Dropdown({className}) {
                 {({ active }) => (
                   <button
                     className={`${
-                      active ? 'bg-violet-500 text-white' : 'text-gray-900'
+                      active ? "bg-violet-500 text-white" : "text-gray-900"
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                   >
                     {active ? (
@@ -52,7 +51,7 @@ export default function Dropdown({className}) {
                 {({ active }) => (
                   <button
                     className={`${
-                      active ? 'bg-violet-500 text-white' : 'text-gray-900'
+                      active ? "bg-violet-500 text-white" : "text-gray-900"
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                   >
                     {active ? (
@@ -75,7 +74,7 @@ export default function Dropdown({className}) {
         </Transition>
       </Menu>
     </div>
-  )
+  );
 }
 
 function EditInactiveIcon(props) {
@@ -93,7 +92,7 @@ function EditInactiveIcon(props) {
         strokeWidth="2"
       />
     </svg>
-  )
+  );
 }
 
 function EditActiveIcon(props) {
@@ -111,7 +110,7 @@ function EditActiveIcon(props) {
         strokeWidth="2"
       />
     </svg>
-  )
+  );
 }
 
 function DuplicateInactiveIcon(props) {
@@ -135,7 +134,7 @@ function DuplicateInactiveIcon(props) {
         strokeWidth="2"
       />
     </svg>
-  )
+  );
 }
 
 function DuplicateActiveIcon(props) {
@@ -159,7 +158,7 @@ function DuplicateActiveIcon(props) {
         strokeWidth="2"
       />
     </svg>
-  )
+  );
 }
 
 function ArchiveInactiveIcon(props) {
@@ -190,7 +189,7 @@ function ArchiveInactiveIcon(props) {
       />
       <path d="M8 12H12" stroke="#A78BFA" strokeWidth="2" />
     </svg>
-  )
+  );
 }
 
 function ArchiveActiveIcon(props) {
@@ -221,7 +220,7 @@ function ArchiveActiveIcon(props) {
       />
       <path d="M8 12H12" stroke="#A78BFA" strokeWidth="2" />
     </svg>
-  )
+  );
 }
 
 function MoveInactiveIcon(props) {
@@ -236,7 +235,7 @@ function MoveInactiveIcon(props) {
       <path d="M16 4L8 12" stroke="#A78BFA" strokeWidth="2" />
       <path d="M8 6H4V16H14V12" stroke="#A78BFA" strokeWidth="2" />
     </svg>
-  )
+  );
 }
 
 function MoveActiveIcon(props) {
@@ -251,7 +250,7 @@ function MoveActiveIcon(props) {
       <path d="M16 4L8 12" stroke="#C4B5FD" strokeWidth="2" />
       <path d="M8 6H4V16H14V12" stroke="#C4B5FD" strokeWidth="2" />
     </svg>
-  )
+  );
 }
 
 function DeleteInactiveIcon(props) {
@@ -274,7 +273,7 @@ function DeleteInactiveIcon(props) {
       <path d="M3 6H17" stroke="#A78BFA" strokeWidth="2" />
       <path d="M8 6V4H12V6" stroke="#A78BFA" strokeWidth="2" />
     </svg>
-  )
+  );
 }
 
 function DeleteActiveIcon(props) {
@@ -297,5 +296,5 @@ function DeleteActiveIcon(props) {
       <path d="M3 6H17" stroke="#C4B5FD" strokeWidth="2" />
       <path d="M8 6V4H12V6" stroke="#C4B5FD" strokeWidth="2" />
     </svg>
-  )
+  );
 }

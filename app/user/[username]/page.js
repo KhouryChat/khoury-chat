@@ -1,20 +1,27 @@
 "use client";
-import { useEffect, useState } from "react";
-import PostItem from "@/components/PostItem/PostItem";
-import { useRouter } from "next/navigation";
+import { Fragment, useEffect, useRef, useState } from 'react';
 import Image from "next/image";
 import React from "react";
-import { BiUser, BiBook } from 'react-icons/bi';
+import { BiUser, BiBook, BiCog } from 'react-icons/bi';
 import { BsGithub, BsLinkedin } from 'react-icons/bs';
-import { Tab } from "@headlessui/react";
 import Example from "@/components/Tab/Tab";
-import { color } from "d3";
+import Dropdown from '@/components/DropdownMenu/Dropdown';
 
 const page = ({ params }) => {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen((prev) => !prev);
+  };
+
   { params.username }
+
   return (
     <div className="flex items-center justify-center gap-10">
-      <div className=" rounded-xl h-[600px] w-1/4 p-10 border-4 flex flex-col items-left hover:border-black" >
+      <div className="rounded-xl h-[600px] w-1/4 p-10 border-4 flex flex-col items-left hover:border-black">
+        <div className="flex items-center justify-end">
+            <Dropdown />
+        </div>
         <div classname="flex flex-row items-center justify-center">
           <div className="flex flex-row justify-around items-center">
             <div className="rounded-full w-1/2 h-40 border-2 border-black flex flex-row items-center justify-center" >
@@ -23,7 +30,7 @@ const page = ({ params }) => {
             <div className="flex flex-col items-start justify-around">
               <div className="flex flex-row items-center">
                 <BiUser size={32} />
-                <span className="ml-2">username:</span> 
+                <span className="ml-2">username:</span>
               </div>
               <div className="flex flex-row items-center mt-4">
                 <BiBook size={32} />
@@ -38,15 +45,15 @@ const page = ({ params }) => {
         </div>
         <div className="h-1/2 w-full flex items-center justify-center border-t border-black">
           <div className="flex space-x-4">
-            <BsGithub size={30} style={{color: '#1e40af'}} /> 
-            <BsLinkedin size={30} style={{color: '#1e40af'}} /> 
+            <BsGithub size={30} style={{ color: '#1e40af' }} />
+            <BsLinkedin size={30} style={{ color: '#1e40af' }} />
           </div>
         </div>
       </div>
       <div className="h-screen w-1/2 bg-red-600 p-10 my-10">
-      <div className="h-2/3 w-full bg-white p-10 my-10 ">
-      <Example/>
-      </div>
+        <div className="h-2/3 w-full bg-white p-10 my-10 ">
+          <Example />
+        </div>
       </div>
     </div>
   );

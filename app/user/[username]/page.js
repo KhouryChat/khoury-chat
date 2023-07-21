@@ -7,7 +7,7 @@ import UserIcon from "@/Icons/UserIcon";
 import BookIcon from "@/Icons/BookIcon";
 import GithubIcon from "@/Icons/GithubIcon";
 import LinkedInIcon from "@/Icons/LinkedInIcon";
-
+import Dropdown from "@/components/DropdownMenu/Dropdown";
 const Page = ({ params }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 

@@ -1,7 +1,8 @@
 "use client";
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import Title from "@/components/Title/Title";
 import PostItem from "@/components/PostItem/PostItem";
+import Pagination from "@/components/Pagination/Pagination";
 import Pagination from "@/components/Pagination/Pagination";
 import { useAuthContext } from "@/Context/AuthContext";
 import Sidebar from "@/components/Sidebar/Sidebar";
@@ -130,8 +131,10 @@ const CoursePage = ({ params }) => {
   }, [posts, params.course_id]);
 
   const updateLikes = async (newLikedState, post_id) => {
+  const updateLikes = async (newLikedState, post_id) => {
     if (!isLoggedIn) router.push("/login");
 
+    try {
     try {
       const response = await fetch(
         `https://www.khourychat.com/api/posts/${post_id}/like`,
@@ -144,21 +147,32 @@ const CoursePage = ({ params }) => {
             "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PATCH",
           },
 
+            "Access-Control-Allow-Headers": "Content-Type",
+            "Access-Control-Allow-Origin": "*",
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PATCH",
+          },
+
           body: JSON.stringify({
+            action: newLikedState,
             action: newLikedState,
           }),
         }
       );
 
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
+
       const updatedPost = await response.json();
+
 
       const updatedPosts = postItems.map((post) =>
         post.post_id === post_id ? updatedPost : post
       );
+
 
       setPostItems(updatedPosts);
     } catch (error) {
@@ -169,6 +183,7 @@ const CoursePage = ({ params }) => {
   const updateDislikes = async (newDislikedState, post_id) => {
     if (!isLoggedIn) router.push("/login");
 
+
     try {
       const response = await fetch(
         `https://www.khourychat.com/api/posts/${post_id}/dislike`, // change this to match your dislike API endpoint
@@ -176,19 +191,24 @@ const CoursePage = ({ params }) => {
           method: "PATCH",
           body: JSON.stringify({
             action: newDislikedState,
+            action: newDislikedState,
           }),
         }
       );
+
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
+
       const updatedPost = await response.json();
+
 
       const updatedPosts = postItems.map((post) =>
         post.post_id === post_id ? updatedPost : post
       );
+
 
       setPostItems(updatedPosts);
     } catch (error) {
@@ -197,6 +217,7 @@ const CoursePage = ({ params }) => {
   };
 
   const goToPostPage = async (id) => {
+    try {
     try {
       const response = await fetch(
         `https://www.khourychat.com/api/posts/${id}/view`, // change this to match your view API endpoint

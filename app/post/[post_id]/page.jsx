@@ -3,9 +3,10 @@ import { useAuthContext } from "@/Context/AuthContext";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { AiFillHeart } from "react-icons/ai";
-import { BsFillHeartbreakFill } from "react-icons/bs";
 import CourseTag from "@/components/CourseTag/CourseTag";
+import HeartIcon from "@/Icons/HeartIcon";
+import BrokenHeartIcon from "@/Icons/BrokenHeartIcon";
+
 const PostPage = ({ params }) => {
   const router = useRouter();
   const user = useAuthContext();
@@ -71,11 +72,11 @@ const PostPage = ({ params }) => {
       <div className="flex flex-row bottom-0 absolute items-center justify-between p-3 bg-red-600 w-full text-lg font-bold font-mono italic ">
         <div className="flex flex-row gap-8 items-center justify-between">
           <div className="flex flex-row gap-4 items-center justify-center">
-            <AiFillHeart width={80} height={80} />
+            <HeartIcon width={80} height={80} />
             <span>{likes ? likes : 0}</span>
           </div>
           <div className="flex flex-row gap-4 items-center justify-center">
-            <BsFillHeartbreakFill width={80} height={80} />
+            <BrokenHeartIcon width={80} height={80} />
             <span>{dislikes ? dislikes : 0}</span>
           </div>
         </div>

@@ -11,9 +11,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@headlessui/react": "^1.7.15",
+    "@heroicons/react": "^2.0.18",
+    "@mui/material": "^5.14.1",
+    "@next/bundle-analyzer": "^13.4.11",
     "autoprefixer": "10.4.14",
     "babel-polyfill": "^6.26.0",
     "chroma-js": "^2.4.2",
@@ -22,23 +27,28 @@
     "eslint": "8.44.0",
     "eslint-config-next": "13.4.9",
     "faker": "^6.6.6",
-    "firebase": "^10.0.0",
+    "firebase": "^10.1.0",
+    "framer-motion": "^10.13.0",
     "install": "^0.13.0",
     "next": "13.4.9",
     "postcss": "8.4.25",
-    "react": "18.2.0",
+    "react": "^18.2.0",
     "react-d3-library": "^1.1.8",
-    "react-dom": "18.2.0",
+    "react-dom": "^18.2.0",
     "react-dropdown": "^1.11.0",
-    "react-icons": "^4.10.1",
-    "react-quill": "^2.0.0",
+    "react-parallax-tilt": "^1.7.154",
+    "react-responsive-carousel": "^3.2.23",
     "react-select": "^5.7.4",
     "tailwindcss": "3.3.2",
     "tinymce": "^6.5.1",
-    "vercel": "^31.0.2",
-    "victory": "^36.6.11"
+    "vercel": "^31.0.2"
   },
   "devDependencies": {
     "concurrently": "^8.2.0"
-  }
+  },
+  "description": "This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).",
+  "main": "firebase.config.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }

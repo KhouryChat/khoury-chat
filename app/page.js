@@ -9,6 +9,7 @@ import HorizontalLine from "@/components/HLine/Hline";
 import Image from "next/image";
 import PostItem from "@/components/PostItem/PostItem";
 import Tilt from "react-parallax-tilt";
+import BackToTop from "@/components/BackToTop/BackToTop";
 
 function Home() {
   const router = useRouter();
@@ -121,6 +122,7 @@ function Home() {
             />
           </button>
         </div>
+        <BackToTop />
       </div>
     </div>
   );

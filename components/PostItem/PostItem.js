@@ -1,11 +1,7 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faEye,
-  faHeart,
-  faHeartBroken,
-} from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
-import { random } from "chroma-js";
+import ViewsIcon from "@/Icons/ViewsIcon";
+import HeartIcon from "@/Icons/HeartIcon";
+import BrokenHeartIcon from "@/Icons/BrokenHeartIcon";
 
 const PostItem = ({
   id,
@@ -30,8 +26,6 @@ const PostItem = ({
       setLikes((currLikes) => (currLikes > 0 ? currLikes - 1 : 0));
     }
   }, [liked]);
-
-
 
   useEffect(() => {
     if (disliked) {
@@ -82,7 +76,7 @@ const PostItem = ({
         </h4>
         <div className="flex justify-between flex-grow text-sm text-gray-500 pt-4">
           <div className="flex items-center">
-            <FontAwesomeIcon icon={faEye} className="mr-1" />
+            <ViewsIcon className="mr-1" />
             <p>{views}</p>
           </div>
           <div className="flex items-center flex-row justify-center gap-5">
@@ -90,18 +84,14 @@ const PostItem = ({
               className="flex flex-row gap-1 items-center"
               onClick={handleLikeClick}
             >
-              <FontAwesomeIcon
-                icon={faHeart}
-                className={liked ? "text-red-500 mr-1" : "mr-1"}
-              />
+              <HeartIcon className={liked ? "text-red-500 mr-1" : "mr-1"} />
               <p>{currLikes}</p>
             </div>
             <div
               className="flex flex-row gap-2 items-center"
               onClick={handleDislikeClick}
             >
-              <FontAwesomeIcon
-                icon={faHeartBroken}
+              <BrokenHeartIcon
                 className={disliked ? "text-blue-500 mr-1" : "mr-1"}
               />
               <p>{currDislikes}</p>

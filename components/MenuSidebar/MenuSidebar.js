@@ -1,34 +1,52 @@
-import React from "react";
-import { GiHamburgerMenu } from "react-icons/gi";
+import React, { useRef } from "react";
 import { Transition } from "@headlessui/react";
 import MenuItem from "@/components/MenuItem/MenuItem";
 import { useState } from "react";
-import { usePathname } from "next/navigation";
+import { useAuthContext } from "@/Context/AuthContext";
+import signOut from "@/auth/firebase/signout";
+import { useEffect } from "react";
+import Hamburger from "../Hamburger/Hamburger";
 
 const MenuSidebar = ({ isMenuShown, setIsMenuShown }) => {
-  const [isMenuItemsShown, setIsMenuItemsShown] = useState(false);
+  const ref = useRef(null);
+  const user = useAuthContext();
 
-  const isHomePage = usePathname() == "/";
-  const primaryColor = isHomePage ? "white" : "black";
-  const secondaryColor = "black";
+  const [isMenuItemsShown, setIsMenuItemsShown] = useState(false);
+  const [isLoggedIn, setLoggedIn] = useState(user["user"] != null);
+
+  useEffect(() => {
+    const checkIfClickedOutside = (e) => {
+      if (ref.current && !ref.current.contains(e.target)) {
+        setIsMenuShown(false);
+      }
+    };
+    document.addEventListener("click", checkIfClickedOutside);
+    return () => {
+      document.removeEventListener("click", checkIfClickedOutside);
+    };
+  }, [isMenuShown]);
+
+  useEffect(() => {
+    setLoggedIn(user["user"] != null);
+  }, [user]);
+
+  let username = "";
+  if (user["user"]) {
+    username = user["user"]["displayName"];
+  }
 
   const handleHamburger = () => {
     setIsMenuShown(!isMenuShown);
   };
 
   return (
-    <div>
+    <div ref={ref}>
       <div
-        className="absolute overflow-visible top-10 left-10 cursor-pointer"
-        style={{ zIndex: 30, width: "20px", height: "20px" }}
+        className="absolute  top-10 left-10 cursor-pointer"
+        style={{ zIndex: 10, width: "20px", height: "20px" }}
         onClick={handleHamburger}
       >
-        <GiHamburgerMenu
-          width={200}
-          height={200}
-          color={isMenuShown ? secondaryColor : primaryColor}
-          className="w-8 h-8"
-        />
+        <Hamburger isMenuShown={isMenuShown} />
       </div>
       <Transition
         show={isMenuShown}
@@ -45,16 +63,41 @@ const MenuSidebar = ({ isMenuShown, setIsMenuShown }) => {
         leaveFrom="translate-x-0"
         leaveTo="-translate-x-full"
       >
-        <div className="absolute z-20 left-0 w-1/4 bg-white h-screen shadow-2xl">
+        <div className="absolute left-0 w-1/4 bg-white h-screen shadow-2xl">
           <div className="text-xl w-full font-bold flex flex-col gap-4 items-start justify-center ml-10 mt-32">
-            <MenuItem isMenuItemsShown={isMenuItemsShown} text={"Home"} />
+            <MenuItem
+              isMenuItemsShown={isMenuItemsShown}
+              text={"Home"}
+              routeTo="/"
+            />
 
             <MenuItem
               isMenuItemsShown={isMenuItemsShown}
               text={"Browse Courses"}
+              routeTo="/browse"
             />
-            <MenuItem isMenuItemsShown={isMenuItemsShown} text={"My Profile"} />
-            <MenuItem isMenuItemsShown={isMenuItemsShown} text={"Logout"} />
+            <MenuItem
+              isMenuItemsShown={isMenuItemsShown}
+              text={"My Profile"}
+              routeTo={`/user/${username}`}
+            />
+            {isLoggedIn ? (
+              <>
+                <MenuItem
+                  isMenuItemsShown={isMenuItemsShown}
+                  text={"Logout"}
+                  onClick={() => signOut()}
+                />
+              </>
+            ) : (
+              <>
+                <MenuItem
+                  isMenuItemsShown={isMenuItemsShown}
+                  text={"Sign in"}
+                  routeTo={"/test"}
+                />
+              </>
+            )}
           </div>
         </div>
       </Transition>

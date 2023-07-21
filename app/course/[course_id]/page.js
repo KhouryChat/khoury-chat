@@ -1,13 +1,12 @@
 "use client";
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import Title from "@/components/Title/Title";
 import PostItem from "@/components/PostItem/PostItem";
-import Pagination from "@/components/Pagination/Pagination"; 
+import Pagination from "@/components/Pagination/Pagination";
 import { useAuthContext } from "@/Context/AuthContext";
-import ReactQuill, { Quill } from "react-quill";
-import "react-quill/dist/quill.snow.css";
 import Sidebar from "@/components/Sidebar/Sidebar";
 import { useRouter } from "next/navigation";
+
 const CoursePage = ({ params }) => {
   const router = useRouter();
   const [courseData, setCourseData] = useState(null);
@@ -142,82 +141,72 @@ const CoursePage = ({ params }) => {
     fetchPosts();
   }, [posts, params.course_id]);
 
-
-
-  const updateLikes =  async (newLikedState, post_id) => {
+  const updateLikes = async (newLikedState, post_id) => {
     if (!isLoggedIn) router.push("/login");
 
-    try{
+    try {
       const response = await fetch(
         `https://www.khourychat.com/api/posts/${post_id}/like`,
         {
           method: "PATCH",
           headers: {
-            "Access-Control-Allow-Headers" : "Content-Type",
-             "Access-Control-Allow-Origin": "*",
-           'Content-Type': 'application/json',
-            "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PATCH"
-       },
-          
+            "Access-Control-Allow-Headers": "Content-Type",
+            "Access-Control-Allow-Origin": "*",
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PATCH",
+          },
+
           body: JSON.stringify({
-            action: newLikedState
+            action: newLikedState,
           }),
         }
       );
-  
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-  
+
       const updatedPost = await response.json();
-  
+
       const updatedPosts = postItems.map((post) =>
         post.post_id === post_id ? updatedPost : post
       );
-  
+
       setPostItems(updatedPosts);
     } catch (error) {
       console.error("Failed to update likes", error);
     }
   };
 
-
   const updateDislikes = async (newDislikedState, post_id) => {
     if (!isLoggedIn) router.push("/login");
-  
+
     try {
       const response = await fetch(
         `https://www.khourychat.com/api/posts/${post_id}/dislike`, // change this to match your dislike API endpoint
         {
           method: "PATCH",
           body: JSON.stringify({
-            action: newDislikedState
+            action: newDislikedState,
           }),
         }
       );
-  
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-  
+
       const updatedPost = await response.json();
-  
+
       const updatedPosts = postItems.map((post) =>
         post.post_id === post_id ? updatedPost : post
       );
-  
+
       setPostItems(updatedPosts);
     } catch (error) {
       console.error("Failed to update dislikes", error);
     }
   };
-  
-  
-
-
-  
-
-
 
   // const updateLikes = async (newLikedState, post_id) => {
   //   if (!isLoggedIn) router.push("/login");
@@ -264,14 +253,12 @@ const CoursePage = ({ params }) => {
   //   }
   // };
 
-
-
   // const goToPostPage = (id) => {
   //   router.push(`/post/${id}`);
   // };
 
   const goToPostPage = async (id) => {
-    try{
+    try {
       const response = await fetch(
         `https://www.khourychat.com/api/posts/${id}/view`, // change this to match your view API endpoint
         {
@@ -290,16 +277,12 @@ const CoursePage = ({ params }) => {
       );
 
       setPostItems(updatedPosts);
-
-
     } catch (error) {
       console.log("Failed to update views", error);
     }
 
     router.push(`/post/${id}`);
   };
-
-
 
   // const updateDislikes = async (newDislikedState, post_id) => {
   //   if (!isLoggedIn) router.push("/login");
@@ -339,7 +322,6 @@ const CoursePage = ({ params }) => {
   //     console.error("Failed to update dislikes", error);
   //   }
   // };
-
 
   const [inputValue, setInputValue] = useState("");
 
@@ -385,13 +367,6 @@ const CoursePage = ({ params }) => {
                 onChange={handleInputChange}
                 placeholder="Enter post content..."
               /> */}
-              <ReactQuill
-                className="bg-gray-300 text-3xl py-6  shadow-xl"
-                theme="snow"
-                value={value}
-                onChange={setValue}
-                modules={{ toolbar: false }}
-              />
               <button
                 onClick={addPost}
                 className="py-1 px-5 rounded-full bg-red-500 font-bold text-lg text-white"
@@ -416,7 +391,11 @@ const CoursePage = ({ params }) => {
                   onClick={() => goToPostPage(post.post_id)}
                 />
               ))}
-              <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+              />
             </div>
           )}
         </div>

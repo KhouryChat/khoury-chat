@@ -1,10 +1,10 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { useAuthContext } from "@/Context/AuthContext";
 import TitleBar from "@/components/Title/Title";
 import CourseTag from "@/components/CourseTag/CourseTag";
-import { GoInfo } from "react-icons/go";
 import SpiderGraph from "@/components/LinePlot/LinePlot";
+import InfoIcon from "@/Icons/InfoIcon";
+
 const ProfessorPage = ({ params }) => {
   const [profData, setProfData] = useState({});
   const [ratingData, setRatingData] = useState({});
@@ -89,7 +89,7 @@ const ProfessorPage = ({ params }) => {
               onMouseOver={() => setShowHuskyTooltip(true)}
               onMouseLeave={() => setShowHuskyTooltip(false)}
             >
-              <GoInfo width={80} height={80} />
+              <InfoIcon width={80} height={80} />
               {showHuskyTooltip && (
                 <div className=" max-w-sm absolute bg-white shadow-lg text-black p-2 rounded text-sm top-56">
                   Husky score is the overall rating of the professor calculated

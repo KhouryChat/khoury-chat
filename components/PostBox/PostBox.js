@@ -8,7 +8,7 @@ import { formatTimestamp } from "@/util/util";
 
 const PostBox = ({ post }) => {
   return (
-    <div className="bg-white flex flex-col w-[330px] shadow-2xl gap-4 p-5 justify-center items-center rounded-2xl">
+    <div className="bg-white cursor-pointer flex flex-col w-[330px] shadow-2xl gap-4 p-5 justify-center items-center rounded-2xl">
       <div className="text-3xl font-bold text-center p-2">
         {post.post_title}
       </div>

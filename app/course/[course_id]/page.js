@@ -9,6 +9,7 @@ import AddPost from "@/components/PostCreation/PostCreation";
 import { useRouter } from "next/navigation";
 import PostModal from "@/components/PostModal/PostModal";
 import { QueryClient, QueryClientProvider } from "react-query";
+import getUserDataByUID from "@/auth/firebase/util";
 
 
 const CoursePage = ({ params }) => {
@@ -326,7 +327,7 @@ const CoursePage = ({ params }) => {
                     views={post.views}
                     likeClickHandler={updateLikes}
                     dislikeClickHandler={updateDislikes}
-                    userName={post.uid}
+                    userName={getUserDataByUID(post.uid).userName}
                     timestamp={post.timestamp}
         
                     onClick={() => goToPostPage(post.post_id)}

@@ -4,7 +4,7 @@ import { useAuthContext } from "@/Context/AuthContext";
 import CourseTag from "@/components/CourseTag/CourseTag";
 import HeartIcon from "@/Icons/HeartIcon";
 import BrokenHeartIcon from "@/Icons/BrokenHeartIcon";
-import { useQuery, useMutation } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useRouter } from 'next/navigation';
 
 
@@ -69,11 +69,12 @@ const PostModal = ({ postID, onClose }) => {
         return strippedContent;
       };
 
+      const queryClient = useQueryClient();
 
-      const addComment= async (e) => {
+      const addCommentMutation = useMutation(
+
+         async (newComment) => {
         if (!user) router.push("/login");
-
-        e.preventDefault();
 
         const comment = {
             uid: user["user"]["uid"],
@@ -89,7 +90,7 @@ const PostModal = ({ postID, onClose }) => {
 
         }
 
-        try{
+        
 
             const response = await fetch(`http://127.0.0.1:5000/api/posts/${postID}/comments`, {
             method: 'POST',
@@ -105,13 +106,16 @@ const PostModal = ({ postID, onClose }) => {
         throw new Error(data.message || "Could not post the comment");
       }
 
+      return data;
 
-
-        } catch (error) {
-            console.log(error)
-        }
-
+      },
+      {
+        onSuccess: () => {
+          // When the mutation succeeds, invalidate the replies query so that it will refetch the data
+          queryClient.invalidateQueries(["replies", post?.replies]);
       }
+
+      });
 
 
 
@@ -123,7 +127,7 @@ const PostModal = ({ postID, onClose }) => {
         <>
         <div className="fixed inset-0 z-10 overflow-y-auto bg-gray-500 bg-opacity-50"></div>
             <div className="fixed inset-0 z-20 overflow-y-auto w-full bg-white h-full text-gray-700">
-          <button onClick={onClose}>Close</button>
+          <button onClick={onClose} className="m-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Close</button>
           <div className="w-full bg-white sticky top-0 z-30 p-3 flex justify-between items-center ml-8">
         {/* <div>{post?.user_name}</div> */}
         <div>{post?.uid}</div>
@@ -147,7 +151,11 @@ const PostModal = ({ postID, onClose }) => {
         </div>
           </div>
           {user && (
-            <form onSubmit={addComment} className="w-full p-5 flex flex-col items-center">
+            <form onSubmit={(e) => {
+              e.preventDefault();
+              addCommentMutation.mutate(newComment);
+              setNewComment('');
+          }} className="w-full p-5 flex flex-col items-center">
               <textarea
                 value={newComment}
                 onChange={e => setNewComment(e.target.value)}
@@ -155,7 +163,7 @@ const PostModal = ({ postID, onClose }) => {
                 className="w-full max-w-2xl h-32 p-2 bg-gray-200 rounded-md"
               />
               <div className="w-full max-w-2xl text-right p-2">
-              <button type="submit" className="bg-red-500 text-white py-2 px-4 rounded-md">Add
+              <button type="submit" className="bg-red-500 text-white py-2 px-4 rounded-md" disabled={!newComment.trim()}>Add
               </button>
               </div>
             </form>
@@ -168,8 +176,17 @@ const PostModal = ({ postID, onClose }) => {
           ) : (
             repliesQuery?.data?.map((reply, index) => (
               <div key={index} className="reply bg-white p-5 my-2 border-b border-gray-300 w-full max-w-2xl self-center">
-                {reply.content}
+                <div className="flex justify-between">
+                <div>{reply.content}</div>
+              <div>
+              <div className="text-xs text-gray-400">{reply.uid}</div> {/* Change this as needed to match the actual field name */}
+                  <div className="text-xs text-gray-400 text-right">
+                    {new Date(reply.timestamp.$date).toLocaleDateString()} {/* Change this as needed to match the actual field name */}
+                  </div>
+                </div>
               </div>
+            </div>
+
               
             ))
           )}

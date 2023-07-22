@@ -11,6 +11,9 @@ body {
 .backto-shadow {
   filter: drop-shadow(2px 5px 6px rgb(0 0 0 / 0.6));
 }
+.dpshadow-small {
+  filter: drop-shadow(2px 3px 6px rgb(0 0 0 / 0.6));
+}
 .husky {
   filter: drop-shadow(5px 8px 6px rgb(0 0 0 / 0.6));
 }

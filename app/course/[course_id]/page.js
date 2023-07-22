@@ -9,8 +9,6 @@ import AddPost from "@/components/PostCreation/PostCreation";
 import { useRouter } from "next/navigation";
 import PostModal from "@/components/PostModal/PostModal";
 import { QueryClient, QueryClientProvider } from "react-query";
-import getUserDataByUID from "@/auth/firebase/util";
-
 
 const CoursePage = ({ params }) => {
   const router = useRouter();
@@ -62,8 +60,6 @@ const CoursePage = ({ params }) => {
         //timestamp: "" + Math.floor(Date.now() / 1000),
       };
 
-      
-
       const postUrl = `https://www.khourychat.com/api/courses/${courseData.course_id}`;
       fetch(postUrl, {
         method: "POST",
@@ -97,7 +93,6 @@ const CoursePage = ({ params }) => {
     setQuillActualValue(plainText);
   };
   const [postItems, setPostItems] = useState([]);
-
 
   useEffect(() => {
     async function fetchPosts() {
@@ -154,20 +149,15 @@ const CoursePage = ({ params }) => {
         }
       );
 
-
-
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-
       const updatedPost = await response.json();
-
 
       const updatedPosts = postItems.map((post) =>
         post.post_id === post_id ? updatedPost : post
       );
-
 
       setPostItems(updatedPosts);
     } catch (error) {
@@ -177,7 +167,6 @@ const CoursePage = ({ params }) => {
 
   const updateDislikes = async (newDislikedState, post_id) => {
     if (!isLoggedIn) router.push("/login");
-
 
     try {
       const response = await fetch(
@@ -191,19 +180,15 @@ const CoursePage = ({ params }) => {
         }
       );
 
-
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-
       const updatedPost = await response.json();
-
 
       const updatedPosts = postItems.map((post) =>
         post.post_id === post_id ? updatedPost : post
       );
-
 
       setPostItems(updatedPosts);
     } catch (error) {
@@ -213,7 +198,6 @@ const CoursePage = ({ params }) => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedPostId, setSelectedPostId] = useState(null);
-
 
   const goToPostPage = async (id) => {
     try {
@@ -243,16 +227,15 @@ const CoursePage = ({ params }) => {
     const openModal = (postId) => {
       setIsModalOpen(true);
       setSelectedPostId(postId);
-      };
-    
-      openModal(id);
-     
+    };
+
+    openModal(id);
   };
-   
+
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedPostId(null);
-    };
+  };
 
   const [inputValue, setInputValue] = useState("");
 
@@ -274,20 +257,15 @@ const CoursePage = ({ params }) => {
     setCurrentPage(newPage);
   };
 
-
   const queryClient = new QueryClient();
-
-
-
-
 
   return (
     <div className="bg-white flex">
       {/* <div className="w-full flex flex-row justify-between items-start">
         <Sidebar professors={courseData ? courseData["professor"] : []} /> */}
-        <div className="w-full">
+      <div className="w-full">
         <div className="bg-white text-black shadow-xl grid grid-cols-3 items-center justify-between px-8">
-        <Sidebar professors={courseData ? courseData["professor"] : []} />
+          <Sidebar professors={courseData ? courseData["professor"] : []} />
           <Title
             text={courseData ? courseData["course_id"] : ""}
             courseName={courseData ? courseData["course_title"] : ""}
@@ -295,68 +273,58 @@ const CoursePage = ({ params }) => {
 
           {courseData && (
             <div className="justify-self-end">
-          <AddPost onPost={addPost} />
-          </div>
+              <AddPost onPost={addPost} />
+            </div>
           )}
-          </div>
+        </div>
 
         {/* <div className="w-full flex flex-row justify-between items-start">
         <Sidebar professors={courseData ? courseData["professor"] : []} /> */}
 
-          <div className="relative "
-          >
-          
-            {courseData && (
-              <div
-                id="create-post"
-                className="p-10 flex flex-col gap-5 items-end"
-              >
-
-              </div>
-            )}
-            {posts.length > 0 && (
-              <div className="mx-auto max-w-2xl z-10">
-                {currentPosts.map((post) => (
-                  <PostItem
-                    key={post.post_id}
-                    id={post.post_id}
-                    title={post.post_title ? post.post_title : undefined}
-                    content={post.content}
-                    likes={post.likes}
-                    dislikes={post.dislikes}
-                    views={post.views}
-                    likeClickHandler={updateLikes}
-                    dislikeClickHandler={updateDislikes}
-                    userName={getUserDataByUID(post.uid).userName}
-                    timestamp={post.timestamp}
-        
-                    onClick={() => goToPostPage(post.post_id)}
-                    //onClick={() => openModal(post.post_id)}
-
-                  />
-                ))}
-                {isModalOpen && (
-                  <QueryClientProvider client={queryClient}>
-                    <PostModal postID={selectedPostId} onClose={closeModal} />
-                  </QueryClientProvider>
-                )}
-
-                <Pagination
-                  currentPage={currentPage}
-                  totalPages={totalPages}
-                  onPageChange={handlePageChange}
+        <div className="relative ">
+          {courseData && (
+            <div
+              id="create-post"
+              className="p-10 flex flex-col gap-5 items-end"
+            ></div>
+          )}
+          {posts.length > 0 && (
+            <div className="mx-auto max-w-2xl z-10">
+              {currentPosts.map((post) => (
+                <PostItem
+                  key={post.post_id}
+                  id={post.post_id}
+                  title={post.post_title ? post.post_title : undefined}
+                  content={post.content}
+                  likes={post.likes}
+                  dislikes={post.dislikes}
+                  views={post.views}
+                  likeClickHandler={updateLikes}
+                  dislikeClickHandler={updateDislikes}
+                  userName={"test"}
+                  timestamp={post.timestamp}
+                  onClick={() => goToPostPage(post.post_id)}
+                  //onClick={() => openModal(post.post_id)}
                 />
-              </div>
-            )}
-          </div>
-          <div></div>
+              ))}
+              {isModalOpen && (
+                <QueryClientProvider client={queryClient}>
+                  <PostModal postID={selectedPostId} onClose={closeModal} />
+                </QueryClientProvider>
+              )}
+
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+              />
+            </div>
+          )}
         </div>
-
+        <div></div>
       </div>
-      // </div>
-      
-
-      
+    </div>
+    // </div>
   );
 };
 

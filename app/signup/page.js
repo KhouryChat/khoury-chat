@@ -4,16 +4,22 @@ import signUp from "@/auth/firebase/signup";
 import { useRouter } from "next/navigation";
 import FormInput from "@/components/FormInput/FormInput";
 import Image from "next/image";
+import MyRadioGroup from "@/components/RadioButtons/RadioGroup";
 
 function Page() {
   const [username, setUsername] = React.useState("");
   const [email, setEmail] = React.useState("");
+  const [major, setMajor] = React.useState("Select Major..");
+  const [year, setYear] = React.useState("Select Year..");
   const [password, setPassword] = React.useState("");
   const [confirmPass, setConfirmPass] = React.useState("");
   const [isPassCorrect, setPassCorrect] = React.useState(true);
   const [isPassLengthCorrect, setPassLengthCorrect] = React.useState(true);
+
   const router = useRouter();
 
+  const years = ["Freshman", "Sophomore", "Junior", "Senior", "Grad", "PhD"];
+  const majors = ["Computer Science", "Cybersecurity", "Data Science"];
   function confirmPassword(pass, main) {
     let first = pass;
     let second = main ? confirmPass : password;
@@ -34,20 +40,17 @@ function Page() {
   }
   const addUserToServer = async (user) => {
     try {
-      const response = await fetch(
-        "https://www.khourychat.com/api/users?" +
-          new URLSearchParams({
-            username: username,
-            firebase_UID: user["uid"],
-            major: "Computer Science",
-            year: "MS",
-            posts: [],
-            replies: [],
-          }),
-        {
-          method: "POST",
-        }
-      );
+      const response = await fetch("http://khourychat.com/api/users", {
+        method: "POST",
+        body: JSON.stringify({
+          username: username,
+          uid: user["uid"],
+          major: major,
+          year: year,
+          posts: [],
+          replies: [],
+        }),
+      });
       const result = await response.json();
       console.log(result);
     } catch (e) {
@@ -79,7 +82,7 @@ function Page() {
           <div className="flex items-center">
             <form
               onSubmit={handleForm}
-              className="flex flex-col gap-6 text-xl items-start w-full"
+              className="flex flex-col gap-5 text-xl items-start w-full"
             >
               <div className="font-bold text-8xl text-white h-1/2">
                 Register
@@ -125,6 +128,26 @@ function Page() {
                   placeholder="Confirm Password"
                 />
               </label>
+              <div className="flex flex-col w-full gap-5 items-center justify-center">
+                <label>
+                  <MyRadioGroup
+                    selected={year}
+                    setSelected={setYear}
+                    start="Select Year..."
+                    name="Yeart"
+                    people={years}
+                  />
+                </label>
+                <label>
+                  <MyRadioGroup
+                    selected={major}
+                    setSelected={setMajor}
+                    start="Select Major..."
+                    name="Major"
+                    people={majors}
+                  />
+                </label>
+              </div>
               <button
                 className="my-6 self-center text-white bg-red-700 py-3 rounded-full w-1/2 hover:bg-red-400 font-sans font-semibold text-md"
                 type="submit"

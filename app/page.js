@@ -21,20 +21,20 @@ function Home() {
   const [filteredCourses, setFilteredCourses] = useState([]);
   const [show, setShow] = useState(false);
 
-  useEffect(() => {
-    const fetchLatestPosts = async () => {
-      try {
-        const response = await fetch(
-          "https://www.khourychat.com/api/posts/latest"
-        );
-        const data = await response.json();
-        setTrendingPosts(data);
-      } catch (error) {
-        console.log("Error fetching latest posts:", error);
-      }
-    };
-    fetchLatestPosts();
-  }, []);
+  // useEffect(() => {
+  //   const fetchLatestPosts = async () => {
+  //     try {
+  //       const response = await fetch(
+  //         "https://www.khourychat.com/api/posts/latest"
+  //       );
+  //       const data = await response.json();
+  //       setTrendingPosts(data);
+  //     } catch (error) {
+  //       console.log("Error fetching latest posts:", error);
+  //     }
+  //   };
+  //   fetchLatestPosts();
+  // }, []);
 
   const handleScroll = () => {
     if (scrollRef.current) {

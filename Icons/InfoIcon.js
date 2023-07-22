@@ -5,7 +5,7 @@ const InfoIcon = ({ width, height, color }) => {
     <svg
       stroke={color != null || color != undefined ? color : "black"}
       fill={color != null || color != undefined ? color : "black"}
-      stroke-width="0"
+      strokeWidth="0"
       viewBox="0 0 24 24"
       height={height}
       width={width}

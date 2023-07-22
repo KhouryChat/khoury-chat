@@ -20,6 +20,7 @@ const PostBox = () => {
     dislikes: 5,
     course_id: "CS5001",
   };
+
   return (
     <div className="bg-white flex flex-col w-1/4 shadow-xl gap-4 p-5 justify-center items-center">
       <div className="text-3xl font-bold text-center p-2">
@@ -36,17 +37,13 @@ const PostBox = () => {
           />
         </div>
         <div className="flex flex-col">
-          <div className="text-lg">MoistYak</div>
+          <div className="text-lg">{"MoistYak"}</div>
           <div className="text-sm italic text-gray-400">
             {formatTimestamp(post.timestamp)}
           </div>
         </div>
       </div>
-      <div className="p-4">
-        Goes same parallel military till skin evidence funny steady mistake west
-        for actually perhaps loss bring greatest us danger add map phrase sick
-        business ...
-      </div>
+      <div className="p-4">{post.content.slice(0, 100)}...</div>
       <div className="flex flex-row justify-between w-full">
         <div className="flex flex-row items-center justify-center gap-4 p-2">
           <div className="flex flex-row gap-2 items-center justify-center">

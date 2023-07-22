@@ -9,6 +9,9 @@ import AddPost from "@/components/PostCreation/PostCreation";
 import { useRouter } from "next/navigation";
 import PostModal from "@/components/PostModal/PostModal";
 import { QueryClient, QueryClientProvider } from "react-query";
+import fetchUserName from "@/handler/fetchUsername";
+
+
 
 const CoursePage = ({ params }) => {
   const router = useRouter();
@@ -57,7 +60,6 @@ const CoursePage = ({ params }) => {
         dislikes: 0,
         views: 1,
         replies: [],
-        //timestamp: "" + Math.floor(Date.now() / 1000),
       };
 
       const postUrl = `https://www.khourychat.com/api/courses/${courseData.course_id}`;
@@ -80,7 +82,11 @@ const CoursePage = ({ params }) => {
       router.push("/login");
     }
   };
-  console.log("coursedata:", courseData);
+
+ 
+
+
+
 
   const getPlainText = (html) => {
     const tempDiv = document.createElement("div");
@@ -93,6 +99,39 @@ const CoursePage = ({ params }) => {
     setQuillActualValue(plainText);
   };
   const [postItems, setPostItems] = useState([]);
+
+
+  const [usernames, setUsernames] = useState({});
+
+  const fetchUsernames = async () => {
+    const usernamesObj = {};
+    const uidArray = postItems.map((post) => post.uid);
+    for (const uid of uidArray) {
+      try {
+        const username = await fetchUserName(uid);
+        usernamesObj[uid] = username[uid];
+      } catch (error) {
+        // If there's an error fetching the username, set it as "Anonymous mouse"
+        usernamesObj[uid] = 'Anonymous mouse';
+      }
+    }
+    setUsernames(usernamesObj);
+  };
+
+
+  useEffect(() => {
+    if (postItems.length>0){
+      fetchUsernames();
+    }
+
+  },[postItems]);
+
+
+
+
+
+
+
 
   useEffect(() => {
     async function fetchPosts() {
@@ -281,37 +320,43 @@ const CoursePage = ({ params }) => {
         {/* <div className="w-full flex flex-row justify-between items-start">
         <Sidebar professors={courseData ? courseData["professor"] : []} /> */}
 
-        <div className="relative ">
-          {courseData && (
-            <div
-              id="create-post"
-              className="p-10 flex flex-col gap-5 items-end"
-            ></div>
-          )}
-          {posts.length > 0 && (
-            <div className="mx-auto max-w-2xl z-10">
-              {currentPosts.map((post) => (
-                <PostItem
-                  key={post.post_id}
-                  id={post.post_id}
-                  title={post.post_title ? post.post_title : undefined}
-                  content={post.content}
-                  likes={post.likes}
-                  dislikes={post.dislikes}
-                  views={post.views}
-                  likeClickHandler={updateLikes}
-                  dislikeClickHandler={updateDislikes}
-                  userName={"test"}
-                  timestamp={post.timestamp}
-                  onClick={() => goToPostPage(post.post_id)}
-                  //onClick={() => openModal(post.post_id)}
-                />
-              ))}
-              {isModalOpen && (
-                <QueryClientProvider client={queryClient}>
-                  <PostModal postID={selectedPostId} onClose={closeModal} />
-                </QueryClientProvider>
-              )}
+          <div className="relative "
+          >
+          
+            {courseData && (
+              <div
+                id="create-post"
+                className="p-10 flex flex-col gap-5 items-end"
+              >
+
+              </div>
+            )}
+            {posts.length > 0 && (
+              <div className="mx-auto max-w-2xl z-10">
+                {currentPosts.map((post) => (
+                  <PostItem
+                    key={post.post_id}
+                    id={post.post_id}
+                    title={post.post_title ? post.post_title : undefined}
+                    content={post.content}
+                    likes={post.likes}
+                    dislikes={post.dislikes}
+                    views={post.views}
+                    likeClickHandler={updateLikes}
+                    dislikeClickHandler={updateDislikes}
+                    userName={usernames[post.uid]}
+                    timestamp={post.timestamp}
+        
+                    onClick={() => goToPostPage(post.post_id)}
+                    //onClick={() => openModal(post.post_id)}
+
+                  />
+                ))}
+                {isModalOpen && (
+                  <QueryClientProvider client={queryClient}>
+                    <PostModal postID={selectedPostId} onClose={closeModal}/>
+                  </QueryClientProvider>
+                )}
 
               <Pagination
                 currentPage={currentPage}

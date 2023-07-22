@@ -6,6 +6,7 @@ import HeartIcon from "@/Icons/HeartIcon";
 import BrokenHeartIcon from "@/Icons/BrokenHeartIcon";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useRouter } from 'next/navigation';
+import fetchUserName from "@/handler/fetchUsername";
 
 
 const fetchPost = async (postID) => {
@@ -16,6 +17,7 @@ const fetchPost = async (postID) => {
     return response.json();
   };
 
+  
 
 const fetchReply = async (replyID) => {
     const response = await fetch(`https://www.khourychat.com/api/posts/${replyID}`);
@@ -29,7 +31,7 @@ const fetchReply = async (replyID) => {
 
 
 
-const PostModal = ({ postID, onClose }) => {
+const PostModal = ({ postID, onClose}) => {
     const router = useRouter();
     const user = useAuthContext();
     //const [post, setPost] = useState(null);
@@ -37,6 +39,11 @@ const PostModal = ({ postID, onClose }) => {
 
 
     const { data: post, isLoading, isError } = useQuery(["post", postID], () => fetchPost(postID));
+
+    const { data: postUser, isLoading: isUserLoading, isError: isUserError } =
+    useQuery(["user", post?.uid], () => fetchUserName(post?.uid), {
+      enabled: !!post?.uid, // Enable the query only when post?.uid is truthy (not null or undefined)
+    });
 
     const repliesQuery = useQuery(
         ["replies", post?.replies],
@@ -118,6 +125,32 @@ const PostModal = ({ postID, onClose }) => {
       });
 
 
+   
+    const [replyUsers, setReplyUsers] = useState([]);
+
+
+
+
+
+  useEffect(() => {
+    // Fetch usernames for each reply
+    if (repliesQuery.data && repliesQuery.data.length > 0) {
+      Promise.all(
+        repliesQuery.data.map((reply) => fetchUserName(reply.uid))
+      )
+        .then((usernameObjs) => setReplyUsers(usernameObjs))
+        .catch((error) => {
+          console.error("Error fetching reply users' usernames:", error);
+          setReplyUsers(new Array(repliesQuery.data.length).fill({[reply.uid]: "Anonymous mouse",
+        })); // Set fallback usernames for replies in case of an error
+        });
+    }
+  }, [repliesQuery.data]);
+
+
+
+
+
 
 
 
@@ -130,7 +163,7 @@ const PostModal = ({ postID, onClose }) => {
           <button onClick={onClose} className="m-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Close</button>
           <div className="w-full bg-white sticky top-0 z-30 p-3 flex justify-between items-center ml-8">
         {/* <div>{post?.user_name}</div> */}
-        <div>{post?.uid}</div>
+        <div>{isUserLoading ? "Loading..." : isUserError ? "Anonymous mouse" : postUser && postUser[post?.uid]}</div>
       </div>
 
           {isLoading ? (
@@ -179,7 +212,7 @@ const PostModal = ({ postID, onClose }) => {
                 <div className="flex justify-between">
                 <div>{reply.content}</div>
               <div>
-              <div className="text-xs text-gray-400">{reply.uid}</div> {/* Change this as needed to match the actual field name */}
+              <div className="text-xs text-gray-400">{replyUsers[index] && replyUsers[index][reply.uid]}</div> {/* Change this as needed to match the actual field name */}
                   <div className="text-xs text-gray-400 text-right">
                     {new Date(reply.timestamp.$date).toLocaleDateString()} {/* Change this as needed to match the actual field name */}
                   </div>

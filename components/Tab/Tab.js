@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Tab } from '@headlessui/react'
 
 function classNames(...classes) {
@@ -11,6 +11,7 @@ FETCH - Post
 FETCH - Replies
 FETCH - Liked Posts
 */
+
 export default function Tabs() {
   let [categories] = useState({
     Posts: [

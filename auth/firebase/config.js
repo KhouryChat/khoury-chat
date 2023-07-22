@@ -1,4 +1,5 @@
-import { initializeApp, getApps, getApp } from "firebase/app";
+import { initializeApp, getApps } from "firebase/app";
+
 import { firebaseConfig } from "@/firebase.config";
 
 let Firebase =

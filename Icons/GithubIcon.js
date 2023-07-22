@@ -5,7 +5,7 @@ const GithubIcon = ({ size, color }) => {
     <svg
       stroke={color != null || color != undefined ? color : "black"}
       fill={color != null || color != undefined ? color : "black"}
-      stroke-width="0"
+      strokeWidth="0"
       viewBox="0 0 16 16"
       height={size}
       width={size}

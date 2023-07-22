@@ -1,5 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Merriweather+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Yanone+Kaffeesatz:wght@200;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=VT323&family=Yanone+Kaffeesatz:wght@200;400;700&display=swap');
+@font-face{
+  font-family:"ArcadeClassic";
+  src:url("/fonts/arcade/ARCADECLASSIC.TTF")
+}
+@import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -9,6 +16,9 @@ body {
 }
 .backto-shadow {
   filter: drop-shadow(2px 5px 6px rgb(0 0 0 / 0.6));
+}
+.dpshadow-small {
+  filter: drop-shadow(2px 3px 6px rgb(0 0 0 / 0.6));
 }
 .husky {
   filter: drop-shadow(5px 8px 6px rgb(0 0 0 / 0.6));

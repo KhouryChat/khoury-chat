@@ -35,6 +35,19 @@ const MenuSidebar = ({ isMenuShown, setIsMenuShown }) => {
     username = user["user"]["displayName"];
   }
 
+  const scrollToAbout = () => {
+    const aboutElement = document.getElementById("about");
+    if (aboutElement) {
+      aboutElement.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+  const scrollToTeam = () => {
+    const aboutElement = document.getElementById("team");
+    if (aboutElement) {
+      aboutElement.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   const handleHamburger = () => {
     setIsMenuShown(!isMenuShown);
   };
@@ -78,11 +91,21 @@ const MenuSidebar = ({ isMenuShown, setIsMenuShown }) => {
             />
             <MenuItem
               isMenuItemsShown={isMenuItemsShown}
-              text={"My Profile"}
-              routeTo={`/user/${username}`}
+              text={"About"}
+              onClick={scrollToAbout}
+            />
+            <MenuItem
+              isMenuItemsShown={isMenuItemsShown}
+              text={"Our Team"}
+              onClick={scrollToTeam}
             />
             {isLoggedIn ? (
               <>
+                <MenuItem
+                  isMenuItemsShown={isMenuItemsShown}
+                  text={"My Profile"}
+                  routeTo={`/user/${username}`}
+                />
                 <MenuItem
                   isMenuItemsShown={isMenuItemsShown}
                   text={"Logout"}
@@ -94,7 +117,7 @@ const MenuSidebar = ({ isMenuShown, setIsMenuShown }) => {
                 <MenuItem
                   isMenuItemsShown={isMenuItemsShown}
                   text={"Sign in"}
-                  routeTo={"/test"}
+                  routeTo={"/login"}
                 />
               </>
             )}

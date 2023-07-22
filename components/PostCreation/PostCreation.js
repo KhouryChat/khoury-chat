@@ -34,7 +34,12 @@ export default function AddPost({ onPost }) {
                       <input 
                         className="w-full px-2 py-1 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" 
                         value={title} 
-                        onChange={(e) => setTitle(e.target.value)} 
+                        onChange={(e) => {
+                          const newTitle = e.target.value;
+                          if (newTitle.split(' ').length <= 15) {
+                              setTitle(newTitle);
+                          }
+                      }} 
                         placeholder="Title" 
                       />
                       <textarea 

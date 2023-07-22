@@ -294,13 +294,16 @@ const CoursePage = ({ params }) => {
                   <PostItem
                     key={post.post_id}
                     id={post.post_id}
-                    title={post.title}
+                    title={post.post_title ? post.post_title : undefined}
                     content={post.content}
                     likes={post.likes}
                     dislikes={post.dislikes}
                     views={post.views}
                     likeClickHandler={updateLikes}
                     dislikeClickHandler={updateDislikes}
+                    userName={post.uid}
+                    timestamp={post.timestamp}
+        
                     onClick={() => goToPostPage(post.post_id)}
                   />
                 ))}

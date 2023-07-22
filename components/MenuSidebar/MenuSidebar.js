@@ -43,7 +43,7 @@ const MenuSidebar = ({ isMenuShown, setIsMenuShown }) => {
     <div ref={ref}>
       <div
         className="absolute  top-10 left-10 cursor-pointer"
-        style={{ zIndex: 10, width: "20px", height: "20px" }}
+        style={{ zIndex: 40, width: "20px", height: "20px" }}
         onClick={handleHamburger}
       >
         <Hamburger isMenuShown={isMenuShown} />

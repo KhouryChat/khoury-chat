@@ -1,6 +1,6 @@
 const fetchUserName = async (uid) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/users/${uid}`);
+      const response = await fetch(`https://www.khourychat.com/api/users/${uid}`);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }

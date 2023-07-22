@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import CourseTag from "@/components/CourseTag/CourseTag";
 import HeartIcon from "@/Icons/HeartIcon";
 import BrokenHeartIcon from "@/Icons/BrokenHeartIcon";
-
+import { formatTimestamp } from "@/util/util";
 const PostPage = ({ params }) => {
   const router = useRouter();
   const user = useAuthContext();
@@ -42,10 +42,6 @@ const PostPage = ({ params }) => {
     fetchPosts();
   }, [user]);
 
-  function formatTimestamp(timestamp) {
-    const date = new Date(timestamp);
-    return date.toLocaleString();
-  }
   const sendHome = () => {
     router.push("/");
   };

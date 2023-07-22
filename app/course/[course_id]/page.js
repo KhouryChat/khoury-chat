@@ -7,8 +7,10 @@ import { useAuthContext } from "@/Context/AuthContext";
 import Sidebar from "@/components/Sidebar/Sidebar";
 import AddPost from "@/components/PostCreation/PostCreation";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
-import Husky from "@/components/Husky/Husky";
+import PostModal from "@/components/PostModal/PostModal";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+
 const CoursePage = ({ params }) => {
   const router = useRouter();
   const [courseData, setCourseData] = useState(null);
@@ -208,6 +210,10 @@ const CoursePage = ({ params }) => {
     }
   };
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedPostId, setSelectedPostId] = useState(null);
+
+
   const goToPostPage = async (id) => {
     try {
       const response = await fetch(
@@ -232,8 +238,20 @@ const CoursePage = ({ params }) => {
       console.log("Failed to update views", error);
     }
 
-    router.push(`/post/${id}`);
+    //router.push(`/post/${id}`);
+    const openModal = (postId) => {
+      setIsModalOpen(true);
+      setSelectedPostId(postId);
+      };
+    
+      openModal(id);
+     
   };
+   
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedPostId(null);
+    };
 
   const [inputValue, setInputValue] = useState("");
 
@@ -254,6 +272,13 @@ const CoursePage = ({ params }) => {
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
   };
+
+
+  const queryClient = new QueryClient();
+
+
+
+
 
   return (
     <div className="bg-white flex">
@@ -305,8 +330,16 @@ const CoursePage = ({ params }) => {
                     timestamp={post.timestamp}
         
                     onClick={() => goToPostPage(post.post_id)}
+                    //onClick={() => openModal(post.post_id)}
+
                   />
                 ))}
+                {isModalOpen && (
+                  <QueryClientProvider client={queryClient}>
+                    <PostModal postID={selectedPostId} onClose={closeModal} />
+                  </QueryClientProvider>
+                )}
+
                 <Pagination
                   currentPage={currentPage}
                   totalPages={totalPages}
@@ -317,8 +350,10 @@ const CoursePage = ({ params }) => {
           </div>
           <div></div>
         </div>
+
       </div>
       // </div>
+      
 
       
   );

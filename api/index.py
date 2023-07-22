@@ -74,6 +74,13 @@ def create_post_document(parse_data):
     likes = parse_data.get("likes")
     views = 1
     dislikes = parse_data.get("dislikes")
+    is_reply = parse_data.get("is_reply", False)
+    parent_postID = None
+
+    if is_reply:
+        parent_postID = parse_data.get("parent_postID")
+
+
 
     doc = {
         "post_id": str(ObjectId()),
@@ -85,7 +92,10 @@ def create_post_document(parse_data):
         "views": views,
         "likes": likes,
         "dislikes": dislikes,
-        "course_id": course_id
+        "course_id": course_id,
+        "is_reply": is_reply,
+        "parent_postID": parent_postID
+
     }
     collection.insert_one(doc)
     return doc
@@ -177,6 +187,12 @@ def get_posts():
 @app.route("/api/posts/<post_id>", methods=["DELETE"])
 @cross_origin()
 def delete_post(post_id):
+    post = db.posts.find({"post_id": post_id})
+     # If the post is a reply, remove it from the parent post's replies array
+    if post["is_reply"]:
+        parent_post_id = post["parent_postID"]
+        db.posts.update_one({"post_id": parent_post_id}, {"$pull": {"replies": post_id}})
+
     db.posts.delete_one({"post_id": post_id})
     return "post deleted successfully"
 
@@ -322,6 +338,48 @@ def get_post_by_id(post_id):
     if post is None:
         return jsonify({'post': None}), 404
     return json.loads(json_util.dumps(post))
+
+
+
+
+
+
+# --- routes for replies --- #
+@app.route("/api/posts/<post_id>/comments", methods=["POST"])
+@cross_origin()
+def post_comment(post_id):
+    comment_data = request.get_json(force=True)
+    comment = create_post_document(comment_data)
+    db.users.update_one(
+        {"uid": comment.get("uid")},  # query
+        {"$push": {"posts": str(comment.get("post_id"))}}  # update
+    )
+
+    db.posts.update_one(
+        {"post_id": post_id},
+        {"$push": {"replies": str(comment.get("post_id"))}}
+    )
+
+    # post = db.posts.find_one({"post_id": post.get("post_id")})
+    return jsonify({"message": "comment created successfully", "post_id": comment.get("post_id")}), 201
+
+
+@app.route("/api/posts/<post_id>/comments", methods=["GET"])
+@cross_origin()
+def get_comments_by_id(post_id):
+    post = db.posts.find_one({"post_id": post_id})
+    if post is None:
+        return jsonify({'post': None}), 404
+    return json.loads(json_util.dumps(post["replies"]))
+
+
+
+
+
+
+
+
+
 
 # @app.route("/api/posts/latest", methods=["GET"])
 # @cross_origin()

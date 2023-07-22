@@ -426,6 +426,15 @@ def delete_user(uid):
     db.users.delete_one({"uid": uid})
     return "user deleted successfully"
 
+@app.route("/api/users/<uid>", methods=["GET"])
+@cross_origin()
+def get_user(uid):
+    data = db.users.find_one({"uid": uid})
+    if data is not None:
+        return json.loads(json_util.dumps(data))
+    else:
+        return jsonify({"error": "User not found"}), 404
+
 
 # -- routes for courses -- #
 # create a new course

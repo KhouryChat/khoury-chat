@@ -5,7 +5,13 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function Example() {
+/* 
+--- Needed Fetch Requests ---
+FETCH - Post 
+FETCH - Replies
+FETCH - Liked Posts
+*/
+export default function Tabs() {
   let [categories] = useState({
     Posts: [
       {

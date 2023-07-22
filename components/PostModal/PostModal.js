@@ -6,7 +6,6 @@ import HeartIcon from "@/Icons/HeartIcon";
 import BrokenHeartIcon from "@/Icons/BrokenHeartIcon";
 import { useQuery, useMutation } from "react-query";
 import { useRouter } from 'next/navigation';
-import CommentIcon from "@/Icons/CommentIcon";
 
 
 const fetchPost = async (postID) => {

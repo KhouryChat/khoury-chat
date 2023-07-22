@@ -80,8 +80,6 @@ def create_post_document(parse_data):
     if is_reply:
         parent_postID = parse_data.get("parent_postID")
 
-
-
     doc = {
         "post_id": str(ObjectId()),
         "timestamp": timestamp,
@@ -188,10 +186,11 @@ def get_posts():
 @cross_origin()
 def delete_post(post_id):
     post = db.posts.find({"post_id": post_id})
-     # If the post is a reply, remove it from the parent post's replies array
+    # If the post is a reply, remove it from the parent post's replies array
     if post["is_reply"]:
         parent_post_id = post["parent_postID"]
-        db.posts.update_one({"post_id": parent_post_id}, {"$pull": {"replies": post_id}})
+        db.posts.update_one({"post_id": parent_post_id}, {
+                            "$pull": {"replies": post_id}})
 
     db.posts.delete_one({"post_id": post_id})
     return "post deleted successfully"
@@ -216,7 +215,6 @@ def patch_post(post_id):
 def get_post_like(post_id):
     post = db.posts.find_one({"post_id": post_id})
     return json.loads(json_util.dumps(post))
-
 
 
 @app.route("/api/posts/<post_id>/like", methods=["PATCH"])
@@ -306,11 +304,6 @@ def view_post(post_id):
     return json.loads(json_util.dumps(updated_post))
 
 
-
-
-
-
-
 @app.route("/api/posts/latest", methods=["GET"])
 @cross_origin()
 def get_latest_posts():
@@ -340,10 +333,6 @@ def get_post_by_id(post_id):
     return json.loads(json_util.dumps(post))
 
 
-
-
-
-
 # --- routes for replies --- #
 @app.route("/api/posts/<post_id>/comments", methods=["POST"])
 @cross_origin()
@@ -371,14 +360,6 @@ def get_comments_by_id(post_id):
     if post is None:
         return jsonify({'post': None}), 404
     return json.loads(json_util.dumps(post["replies"]))
-
-
-
-
-
-
-
-
 
 
 # @app.route("/api/posts/latest", methods=["GET"])

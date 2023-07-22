@@ -6,7 +6,7 @@ const CogWheelIcon = ({ className, color }) => {
       className={className}
       stroke={color != null || color != undefined ? color : "black"}
       fill={color != null || color != undefined ? color : "black"}
-      stroke-width="0"
+      strokeWidth="0"
       viewBox="0 0 24 24"
       height="1em"
       width="1em"

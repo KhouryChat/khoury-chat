@@ -4,8 +4,8 @@ const ViewsIcon = ({ className, color, width, height }) => {
   return (
     <svg
       className={className}
-      stroke={color != null || color != undefined ? color : "black"}
-      fill={color != null || color != undefined ? color : "black"}
+      stroke={color != null || color != undefined ? color : "gray"}
+      fill={color != null || color != undefined ? color : "gray"}
       stroke-width="0"
       viewBox="0 0 576 512"
       height="1em"

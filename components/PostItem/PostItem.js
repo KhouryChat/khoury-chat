@@ -13,6 +13,8 @@ const PostItem = ({
   onClick,
   likeClickHandler,
   dislikeClickHandler,
+  userName, // new prop
+  timestamp // new prop
 }) => {
   const [currLikes, setLikes] = useState(likes || 0);
   const [currDislikes, setDislikes] = useState(dislikes || 0);
@@ -70,9 +72,19 @@ const PostItem = ({
         onClick={onClick}
         className="bg-white rounded shadow p-4 mb-4 flex flex-col cursor-pointer"
       >
+        <div className="flex justify-between items-center mb-2">
         <h3 className="text-xl font-bold">{title}</h3>
-        <h4 className="text-base font-bold">
-          {getPlainText(content).split(/\s+/).slice(0, 10).join(" ")}
+        <div className="flex items-center">
+          <p className="mr-2 text-xs text-gray-400">{userName}</p>
+          <p className="text-xs text-gray-400">{new Date(timestamp.$date).toLocaleDateString()}</p>
+        </div>
+      </div>
+
+
+        <h4 className="text-base text-gray-700">
+        {getPlainText(content).split(/\s+/).length > 10
+          ? getPlainText(content).split(/\s+/).slice(0, 10).join(" ") + "..."
+          : getPlainText(content)}
         </h4>
         <div className="flex justify-between flex-grow text-sm text-gray-500 pt-4">
           <div className="flex items-center">
@@ -84,15 +96,14 @@ const PostItem = ({
               className="flex flex-row gap-1 items-center"
               onClick={handleLikeClick}
             >
-              <HeartIcon className={liked ? "text-red-500 mr-1" : "mr-1"} />
+              <HeartIcon className={`mr-1 ${liked ? "text-red-500" : "text-gray-500"}`} />
               <p>{currLikes}</p>
             </div>
             <div
               className="flex flex-row gap-2 items-center"
               onClick={handleDislikeClick}
             >
-              <BrokenHeartIcon
-                className={disliked ? "text-blue-500 mr-1" : "mr-1"}
+              <BrokenHeartIcon className={`mr-1 ${disliked ? "text-blue-500" : "text-gray-500"}`}
               />
               <p>{currDislikes}</p>
             </div>

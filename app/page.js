@@ -10,6 +10,8 @@ import Image from "next/image";
 import PostItem from "@/components/PostItem/PostItem";
 import Tilt from "react-parallax-tilt";
 import BackToTop from "@/components/BackToTop/BackToTop";
+import Typewriter from "typewriter-effect";
+import PostCarousel from "@/components/PostCarousel/PostCarousel";
 
 function Home() {
   const router = useRouter();
@@ -21,20 +23,20 @@ function Home() {
   const [filteredCourses, setFilteredCourses] = useState([]);
   const [show, setShow] = useState(false);
 
-  useEffect(() => {
-    const fetchLatestPosts = async () => {
-      try {
-        const response = await fetch(
-          "https://www.khourychat.com/api/posts/latest"
-        );
-        const data = await response.json();
-        setTrendingPosts(data);
-      } catch (error) {
-        console.log("Error fetching latest posts:", error);
-      }
-    };
-    fetchLatestPosts();
-  }, []);
+  // useEffect(() => {
+  //   const fetchLatestPosts = async () => {
+  //     try {
+  //       const response = await fetch(
+  //         "https://www.khourychat.com/api/posts/latest"
+  //       );
+  //       const data = await response.json();
+  //       setTrendingPosts(data);
+  //     } catch (error) {
+  //       console.log("Error fetching latest posts:", error);
+  //     }
+  //   };
+  //   fetchLatestPosts();
+  // }, []);
 
   const handleScroll = () => {
     if (scrollRef.current) {
@@ -65,8 +67,17 @@ function Home() {
       <div className="flex flex-row">
         <div className="flex flex-col">
           <div className="flex flex-col items-start justify-center h-screen gap-16 p-20">
-            <div className="khoury-title text-white text-[10rem] font-extrabold leading-[9rem]">
-              KHOURY <br /> CHAT
+            <div className="max-w-2xl khoury-title text-white text-[10rem] font-extrabold leading-[9rem]">
+              <Typewriter
+                onInit={(typewriter) => {
+                  typewriter
+                    .typeString("KHOURY\nCHAT")
+                    .pauseFor(1000)
+                    .deleteAll()
+                    .typeString("KHOURY\nCHAT")
+                    .start();
+                }}
+              />
             </div>
             <div className="flex flex-col w-2/3 ml-3">
               <h2 className="text-white text-3xl mb-4">
@@ -95,14 +106,19 @@ function Home() {
               )}
             </div>
           </div>
-          <div
-            ref={scrollRef}
-            className="text-white text-6xl font-bold flex ml-24 pt-20"
-          >
-            Trending Posts
+          <div className="flex flex-col gap-10 w-screen h-screen items-center justify-center">
+            <div
+              ref={scrollRef}
+              className="text-white text-6xl font-bold flex  pt-32"
+            >
+              Trending Posts
+            </div>
+            <div style={{ zIndex: 30 }}>
+              <PostCarousel />
+            </div>
           </div>
         </div>
-        <div className="flex flex-row relative right-72 bottom-80">
+        <div className="flex flex-row absolute left-[550px] -top-96">
           <Tilt perspective={6000}>
             <Husky className="husky" />
           </Tilt>

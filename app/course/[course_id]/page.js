@@ -62,8 +62,6 @@ const CoursePage = ({ params }) => {
         replies: [],
       };
 
-      
-
       const postUrl = `https://www.khourychat.com/api/courses/${courseData.course_id}`;
       fetch(postUrl, {
         method: "POST",
@@ -190,20 +188,15 @@ const CoursePage = ({ params }) => {
         }
       );
 
-
-
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-
       const updatedPost = await response.json();
-
 
       const updatedPosts = postItems.map((post) =>
         post.post_id === post_id ? updatedPost : post
       );
-
 
       setPostItems(updatedPosts);
     } catch (error) {
@@ -213,7 +206,6 @@ const CoursePage = ({ params }) => {
 
   const updateDislikes = async (newDislikedState, post_id) => {
     if (!isLoggedIn) router.push("/login");
-
 
     try {
       const response = await fetch(
@@ -227,19 +219,15 @@ const CoursePage = ({ params }) => {
         }
       );
 
-
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-
       const updatedPost = await response.json();
-
 
       const updatedPosts = postItems.map((post) =>
         post.post_id === post_id ? updatedPost : post
       );
-
 
       setPostItems(updatedPosts);
     } catch (error) {
@@ -249,7 +237,6 @@ const CoursePage = ({ params }) => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedPostId, setSelectedPostId] = useState(null);
-
 
   const goToPostPage = async (id) => {
     try {
@@ -279,16 +266,15 @@ const CoursePage = ({ params }) => {
     const openModal = (postId) => {
       setIsModalOpen(true);
       setSelectedPostId(postId);
-      };
-    
-      openModal(id);
-     
+    };
+
+    openModal(id);
   };
-   
+
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedPostId(null);
-    };
+  };
 
   const [inputValue, setInputValue] = useState("");
 
@@ -310,20 +296,15 @@ const CoursePage = ({ params }) => {
     setCurrentPage(newPage);
   };
 
-
   const queryClient = new QueryClient();
-
-
-
-
 
   return (
     <div className="bg-white flex">
       {/* <div className="w-full flex flex-row justify-between items-start">
         <Sidebar professors={courseData ? courseData["professor"] : []} /> */}
-        <div className="w-full">
+      <div className="w-full">
         <div className="bg-white text-black shadow-xl grid grid-cols-3 items-center justify-between px-8">
-        <Sidebar professors={courseData ? courseData["professor"] : []} />
+          <Sidebar professors={courseData ? courseData["professor"] : []} />
           <Title
             text={courseData ? courseData["course_id"] : ""}
             courseName={courseData ? courseData["course_title"] : ""}
@@ -331,10 +312,10 @@ const CoursePage = ({ params }) => {
 
           {courseData && (
             <div className="justify-self-end">
-          <AddPost onPost={addPost} />
-          </div>
+              <AddPost onPost={addPost} />
+            </div>
           )}
-          </div>
+        </div>
 
         {/* <div className="w-full flex flex-row justify-between items-start">
         <Sidebar professors={courseData ? courseData["professor"] : []} /> */}
@@ -377,22 +358,18 @@ const CoursePage = ({ params }) => {
                   </QueryClientProvider>
                 )}
 
-                <Pagination
-                  currentPage={currentPage}
-                  totalPages={totalPages}
-                  onPageChange={handlePageChange}
-                />
-              </div>
-            )}
-          </div>
-          <div></div>
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+              />
+            </div>
+          )}
         </div>
-
+        <div></div>
       </div>
-      // </div>
-      
-
-      
+    </div>
+    // </div>
   );
 };
 

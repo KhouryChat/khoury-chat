@@ -165,4 +165,4 @@ if __name__ == "__main__":
     #     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 13_4_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36'
     # }
     # auth_get(url, params, "patel.neel5", "I want to be 21$", headers)
-    login("patel.neel5", "I want to be 21$")
+    login("", "")

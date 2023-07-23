@@ -5,10 +5,18 @@ import BrokenHeartIcon from "@/Icons/BrokenHeartIcon";
 import ChatIcon from "@/Icons/ChatIcon";
 import CourseTag from "../CourseTag/CourseTag";
 import { formatTimestamp } from "@/util/util";
+import { useRouter } from "next/navigation";
 
 const PostBox = ({ post }) => {
+  const router = useRouter();
+
   return (
-    <div className="bg-white cursor-pointer flex flex-col w-[330px] shadow-2xl gap-4 p-5 justify-center items-center rounded-2xl">
+    <div
+      onClick={() => {
+        router.push(`/course/${post.course_id}`);
+      }}
+      className="bg-white cursor-pointer flex flex-col w-[330px] h-[450px] shadow-2xl gap-4 p-5 justify-between items-center rounded-2xl"
+    >
       <div className="text-3xl font-bold text-center p-2">
         {post.post_title}
       </div>

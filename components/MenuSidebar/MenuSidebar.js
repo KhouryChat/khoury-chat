@@ -35,6 +35,19 @@ const MenuSidebar = ({ isMenuShown, setIsMenuShown }) => {
     username = user["user"]["displayName"];
   }
 
+  const scrollToAbout = () => {
+    const aboutElement = document.getElementById("about");
+    if (aboutElement) {
+      aboutElement.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+  const scrollToTeam = () => {
+    const aboutElement = document.getElementById("team");
+    if (aboutElement) {
+      aboutElement.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   const handleHamburger = () => {
     setIsMenuShown(!isMenuShown);
   };
@@ -42,7 +55,7 @@ const MenuSidebar = ({ isMenuShown, setIsMenuShown }) => {
   return (
     <div ref={ref}>
       <div
-        className="absolute  top-10 left-10 cursor-pointer"
+        className="absolute top-10 left-10 cursor-pointer"
         style={{ zIndex: 40, width: "20px", height: "20px" }}
         onClick={handleHamburger}
       >
@@ -63,7 +76,7 @@ const MenuSidebar = ({ isMenuShown, setIsMenuShown }) => {
         leaveFrom="translate-x-0"
         leaveTo="-translate-x-full"
       >
-        <div className="absolute left-0 w-1/4 bg-white h-screen shadow-2xl">
+        <div className="absolute top-0 left-0 w-1/4 bg-white h-screen shadow-2xl">
           <div className="text-xl w-full font-bold flex flex-col gap-4 items-start justify-center ml-10 mt-32">
             <MenuItem
               isMenuItemsShown={isMenuItemsShown}
@@ -78,11 +91,21 @@ const MenuSidebar = ({ isMenuShown, setIsMenuShown }) => {
             />
             <MenuItem
               isMenuItemsShown={isMenuItemsShown}
-              text={"My Profile"}
-              routeTo={`/user/${username}`}
+              text={"About"}
+              onClick={scrollToAbout}
+            />
+            <MenuItem
+              isMenuItemsShown={isMenuItemsShown}
+              text={"Our Team"}
+              onClick={scrollToTeam}
             />
             {isLoggedIn ? (
               <>
+                <MenuItem
+                  isMenuItemsShown={isMenuItemsShown}
+                  text={"My Profile"}
+                  routeTo={`/user/${username}`}
+                />
                 <MenuItem
                   isMenuItemsShown={isMenuItemsShown}
                   text={"Logout"}
@@ -94,7 +117,7 @@ const MenuSidebar = ({ isMenuShown, setIsMenuShown }) => {
                 <MenuItem
                   isMenuItemsShown={isMenuItemsShown}
                   text={"Sign in"}
-                  routeTo={"/test"}
+                  routeTo={"/login"}
                 />
               </>
             )}

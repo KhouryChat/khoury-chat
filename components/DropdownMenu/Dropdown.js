@@ -1,6 +1,6 @@
 import { Menu, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useRef, useState } from "react";
-import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import { ArchiveBoxIcon, ChevronDownIcon } from "@heroicons/react/20/solid";
 import CogWheelIcon from "@/Icons/CogWheelIcon";
 
 export default function Dropdown({ className }) {
@@ -8,10 +8,10 @@ export default function Dropdown({ className }) {
 
   return (
     <div className={classes}>
-      <Menu as="div" className="relative inline-block text-left">
+      <Menu as="div" className="relative inline-block text-left px-3 pt-3">
         <div>
           <Menu.Button>
-            <CogWheelIcon className="w-10 h-10" />
+            <CogWheelIcon color="gray" className="w-10 h-10 hover:fill-gray-500" />
           </Menu.Button>
         </div>
         <Transition
@@ -66,6 +66,28 @@ export default function Dropdown({ className }) {
                       />
                     )}
                     Update Profile Picture
+                  </button>
+                )}
+              </Menu.Item>
+              <Menu.Item>
+                {({ active }) => (
+                  <button
+                    className={`${
+                      active ? "bg-violet-500 text-white" : "text-gray-900"
+                    } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                  >
+                    {active ? (
+                      <DuplicateActiveIcon
+                        className="mr-2 h-5 w-5"
+                        aria-hidden="true"
+                      />
+                    ) : (
+                      <ArchiveInactiveIcon
+                        className="mr-2 h-5 w-5"
+                        aria-hidden="true"
+                      />
+                    )}
+                    Update Banner Picture
                   </button>
                 )}
               </Menu.Item>

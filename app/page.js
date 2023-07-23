@@ -12,32 +12,62 @@ import Tilt from "react-parallax-tilt";
 import BackToTop from "@/components/BackToTop/BackToTop";
 import Typewriter from "typewriter-effect";
 import PostCarousel from "@/components/PostCarousel/PostCarousel";
+import NET from "vanta/dist/vanta.net.min";
+import * as THREE from "three";
 
 function Home() {
   const router = useRouter();
   const user = useAuthContext();
   const scrollRef = useRef(null);
+  const vantaRef = useRef(null);
 
   const [searchValue, setSearchValue] = useState("Search courses...");
   const [courses, setCourses] = useState([]);
+  const [trendingPosts, setTrendingPosts] = useState([]);
   const [filteredCourses, setFilteredCourses] = useState([]);
   const [show, setShow] = useState(false);
+  const [vantaEffect, setVantaEffect] = useState(0);
 
-  // useEffect(() => {
-  //   const fetchLatestPosts = async () => {
-  //     try {
-  //       const response = await fetch(
-  //         "https://www.khourychat.com/api/posts/latest"
-  //       );
-  //       const data = await response.json();
-  //       setTrendingPosts(data);
-  //     } catch (error) {
-  //       console.log("Error fetching latest posts:", error);
-  //     }
-  //   };
-  //   fetchLatestPosts();
-  // }, []);
+  useEffect(() => {
+    const fetchLatestPosts = async () => {
+      try {
+        const response = await fetch(
+          "https://www.khourychat.com/api/posts/latest"
+        );
+        const data = await response.json();
+        setTrendingPosts(data);
+      } catch (error) {
+        console.log("Error fetching latest posts:", error);
+      }
+    };
+    fetchLatestPosts();
+  }, [user]);
 
+  useEffect(() => {
+    if (!vantaEffect) {
+      setVantaEffect(
+        NET({
+          el: vantaRef.current,
+          THREE: THREE,
+          mouseControls: true,
+          touchControls: true,
+          gyroControls: false,
+          minHeight: 200.0,
+          minWidth: 200.0,
+          scale: 1.0,
+          scaleMobile: 1.0,
+          color: 0xffffff,
+          backgroundColor: 0xdb192a,
+          points: 9.0,
+          maxDistance: 25.0,
+          spacing: 17.0,
+        })
+      );
+    }
+    return () => {
+      if (vantaEffect) vantaEffect.destroy();
+    };
+  }, [vantaEffect]);
   const handleScroll = () => {
     if (scrollRef.current) {
       scrollRef.current.scrollIntoView({ behavior: "smooth" });
@@ -70,12 +100,7 @@ function Home() {
             <div className="max-w-2xl khoury-title text-white text-[10rem] font-extrabold leading-[9rem]">
               <Typewriter
                 onInit={(typewriter) => {
-                  typewriter
-                    .typeString("KHOURY\nCHAT")
-                    .pauseFor(1000)
-                    .deleteAll()
-                    .typeString("KHOURY\nCHAT")
-                    .start();
+                  typewriter.typeString("KHOURY\nCHAT").pauseFor(1000).start();
                 }}
               />
             </div>
@@ -114,7 +139,50 @@ function Home() {
               Trending Posts
             </div>
             <div style={{ zIndex: 30 }}>
-              <PostCarousel />
+              <PostCarousel posts={trendingPosts} />
+            </div>
+          </div>
+          <div
+            ref={vantaRef}
+            id="about"
+            className="text-black h-screen red-body flex items-center justify-end w-screen"
+          >
+            <div className="w-[80%] h-[80%] bg-white flex flex-col justify-start items-start gap-4 p-10">
+              <div className="text-9xl font-extrabold">ABOUT</div>
+              <div className="text-2xl leading-9">
+                Immediately hunt noise knife having represent gulf therefore
+                teach dollar independent doubt herself many including has
+                package cry thank label particles firm build slight public
+                doctor supper shut music die path appropriate recognize dawn new
+                grabbed individual wash corner race took condition height
+                official tobacco twelve why excited Immediately hunt noise knife
+                having represent gulf therefore teach dollar independent doubt
+                herself many including has package cry thank label particles
+                firm build slight public doctor supper shut music die path
+                appropriate recognize dawn new grabbed individual wash corner
+                race took condition height official tobacco twelve why excited
+              </div>
+            </div>
+          </div>
+          <div
+            id="team"
+            className="text-black h-screen red-body flex items-center justify-end w-screen"
+          >
+            <div className="w-[80%] h-[80%] bg-white flex flex-col justify-start items-start gap-4 p-10">
+              <div className="text-9xl font-extrabold">TEAM</div>
+              <div className="text-2xl leading-9">
+                Immediately hunt noise knife having represent gulf therefore
+                teach dollar independent doubt herself many including has
+                package cry thank label particles firm build slight public
+                doctor supper shut music die path appropriate recognize dawn new
+                grabbed individual wash corner race took condition height
+                official tobacco twelve why excited Immediately hunt noise knife
+                having represent gulf therefore teach dollar independent doubt
+                herself many including has package cry thank label particles
+                firm build slight public doctor supper shut music die path
+                appropriate recognize dawn new grabbed individual wash corner
+                race took condition height official tobacco twelve why excited
+              </div>
             </div>
           </div>
         </div>

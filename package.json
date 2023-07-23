@@ -40,8 +40,10 @@
     "react-responsive-carousel": "^3.2.23",
     "react-select": "^5.7.4",
     "tailwindcss": "3.3.2",
+    "three": "^0.121.0",
     "tinymce": "^6.5.1",
     "typewriter-effect": "^2.20.1",
+    "vanta": "^0.5.24",
     "vercel": "^31.0.2"
   },
   "devDependencies": {

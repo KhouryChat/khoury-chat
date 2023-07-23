@@ -69,10 +69,10 @@ const MenuSidebar = ({ isMenuShown, setIsMenuShown }) => {
         beforeLeave={() => {
           setIsMenuItemsShown(false);
         }}
-        enter="transition ease-in-out duration-1000 transform"
+        enter="transition ease-in-out duration-500 transform"
         enterFrom="-translate-x-full"
         enterTo="translate-x-0"
-        leave="transition ease-in-out duration-1000 transform"
+        leave="transition ease-in-out duration-500 transform"
         leaveFrom="translate-x-0"
         leaveTo="-translate-x-full"
       >

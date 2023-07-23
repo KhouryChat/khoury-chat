@@ -14,7 +14,33 @@ import Typewriter from "typewriter-effect";
 import PostCarousel from "@/components/PostCarousel/PostCarousel";
 import NET from "vanta/dist/vanta.net.min";
 import * as THREE from "three";
+import TeamMember from "@/components/TeamMember/TeamMember";
+import Marquee from "react-fast-marquee";
 
+const memberChase = {
+  name: "Chase Coogan",
+  content:
+    "I am a passionate and driven Computer Science major, equipped with a strong foundation in programming and problem-solving. Throughout my academic journey, I have honed my skills in various technologies and frameworks, including Next.js, React, Firebase, and MongoDB. Leveraging this expertise.",
+  github: "https://github.com/cwcoogan",
+  linkedin: "https://www.linkedin.com/in/chasecoogan/",
+  image: "/chase.png",
+};
+const memberZhen = {
+  name: "Zhen Wang",
+  content:
+    "As a dedicated and ambitious Computer Science major, I have immersed myself in the world of web development with a focus on creating seamless user experiences. Proficient in Next.js, React, Firebase Auth, MongoDB, and more, I have successfully crafted responsive and feature-rich websites.",
+  github: "https://github.com/IvyWang152",
+  linkedin: "https://www.linkedin.com/in/zhen-wang-09a54926a/",
+  image: "/zhen.png",
+};
+const memberNeel = {
+  name: "Neel Patel",
+  content:
+    "Hi there! I am a passionate CS major, enthusiastic about transforming ideas into reality through web development. My journey has been an incredible learning experience, equipping me with expertise in Next.js, React, Firebase Auth, MongoDB, and Vercel deployment. ",
+  github: "https://github.com/neelthepatel8",
+  linkedin: "https://www.linkedin.com/in/neelthepatel/",
+  image: "/neel.png",
+};
 function Home() {
   const router = useRouter();
   const user = useAuthContext();
@@ -138,7 +164,7 @@ function Home() {
             >
               Trending Posts
             </div>
-            <div style={{ zIndex: 30 }}>
+            <div style={{ zIndex: 40 }}>
               <PostCarousel posts={trendingPosts} />
             </div>
           </div>
@@ -148,8 +174,8 @@ function Home() {
             className="text-black h-screen red-body flex items-center justify-end w-screen"
           >
             <div className="w-[80%] h-[80%] bg-white flex flex-col justify-start items-start gap-4 p-10">
-              <div className="text-9xl font-extrabold">ABOUT</div>
-              <div className="text-2xl leading-9">
+              <div className="text-9xl font-extrabold px-5">ABOUT</div>
+              <div className="text-2xl leading-9 border-b p-5">
                 Immediately hunt noise knife having represent gulf therefore
                 teach dollar independent doubt herself many including has
                 package cry thank label particles firm build slight public
@@ -162,27 +188,62 @@ function Home() {
                 appropriate recognize dawn new grabbed individual wash corner
                 race took condition height official tobacco twelve why excited
               </div>
+              <Marquee>
+                <div className="flex flex-row items-center justify-center gap-5  px-20">
+                  <Image
+                    src="/nextjs.png"
+                    alt="NextJS"
+                    width={150}
+                    height={150}
+                  />
+                  <Image
+                    src="/firebase.png"
+                    alt="Firebase"
+                    width={120}
+                    height={120}
+                  />
+                  <Image src="/react.png" alt="React" width={90} height={90} />
+                  <Image
+                    src="/mongo.png"
+                    alt="MongoDB"
+                    width={130}
+                    height={130}
+                  />
+                  <Image src="/flask.png" alt="Flask" width={90} height={90} />
+                  <Image
+                    src="/threejs.png"
+                    alt="ThreeJS"
+                    width={90}
+                    height={90}
+                  />
+                  <Image src="/d3.png" alt="ThreeJS" width={80} height={80} />
+                  <Image
+                    src="/tailwind.png"
+                    alt="TailwindCSS"
+                    width={90}
+                    height={90}
+                  />
+                  <Image
+                    src="/vercel.png"
+                    alt="Vercel"
+                    width={120}
+                    height={120}
+                  />
+                </div>
+              </Marquee>
             </div>
           </div>
           <div
             id="team"
-            className="text-black h-screen red-body flex items-center justify-end w-screen"
+            className="text-black h-screen red-body flex flex-col items-center w-screen"
           >
-            <div className="w-[80%] h-[80%] bg-white flex flex-col justify-start items-start gap-4 p-10">
-              <div className="text-9xl font-extrabold">TEAM</div>
-              <div className="text-2xl leading-9">
-                Immediately hunt noise knife having represent gulf therefore
-                teach dollar independent doubt herself many including has
-                package cry thank label particles firm build slight public
-                doctor supper shut music die path appropriate recognize dawn new
-                grabbed individual wash corner race took condition height
-                official tobacco twelve why excited Immediately hunt noise knife
-                having represent gulf therefore teach dollar independent doubt
-                herself many including has package cry thank label particles
-                firm build slight public doctor supper shut music die path
-                appropriate recognize dawn new grabbed individual wash corner
-                race took condition height official tobacco twelve why excited
-              </div>
+            <div className="relative text-white font-extrabold text-[9rem] drop-shadow-2xl ">
+              OUR TEAM
+            </div>
+            <div className="flex flex-row gap-16">
+              <TeamMember member={memberChase} />
+              <TeamMember member={memberZhen} />
+              <TeamMember member={memberNeel} />
             </div>
           </div>
         </div>

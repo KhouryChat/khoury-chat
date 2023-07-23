@@ -319,8 +319,8 @@ def get_latest_posts():
         if "likes" not in post or "timestamp" not in post:
             continue
         validPosts.append(post)
-    validPosts.sort(key=lambda post: (post["likes"] if post["likes"] else 1, datetime.strptime(
-        post["timestamp"]["$date"], "%Y-%m-%dT%H:%M:%S.%fZ")), reverse=True)
+    validPosts.sort(key=lambda post: (
+        post["likes"] if post["likes"] else 1), reverse=True)
     trending_posts = validPosts[:number]
     return jsonify(trending_posts)
 

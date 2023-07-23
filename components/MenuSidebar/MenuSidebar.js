@@ -55,7 +55,7 @@ const MenuSidebar = ({ isMenuShown, setIsMenuShown }) => {
   return (
     <div ref={ref}>
       <div
-        className="absolute  top-10 left-10 cursor-pointer"
+        className="absolute top-10 left-10 cursor-pointer"
         style={{ zIndex: 40, width: "20px", height: "20px" }}
         onClick={handleHamburger}
       >
@@ -76,7 +76,7 @@ const MenuSidebar = ({ isMenuShown, setIsMenuShown }) => {
         leaveFrom="translate-x-0"
         leaveTo="-translate-x-full"
       >
-        <div className="absolute left-0 w-1/4 bg-white h-screen shadow-2xl">
+        <div className="absolute top-0 left-0 w-1/4 bg-white h-screen shadow-2xl">
           <div className="text-xl w-full font-bold flex flex-col gap-4 items-start justify-center ml-10 mt-32">
             <MenuItem
               isMenuItemsShown={isMenuItemsShown}

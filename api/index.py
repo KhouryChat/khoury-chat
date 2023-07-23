@@ -30,6 +30,7 @@ course_professors = db.course_professors
 app = Flask(__name__)
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 app.config["CORS_HEADERS"] = 'Content-Type'
+
 # -- connect to database -- #
 
 
@@ -379,7 +380,7 @@ def get_comments_by_id(post_id):
 @app.route("/api/<uid>/posts", methods=["GET"])
 @cross_origin()
 def get_posts_by_id(uid):
-    user = db.users.find_one({"firebase_UID": uid})
+    user = db.users.find_one({"uid": uid})
     # if not user:
     #     return jsonify({"error": "User not found"}), 404
     posts = user.get("posts", [])
@@ -425,6 +426,7 @@ def get_all_users_data():
 def delete_user(uid):
     db.users.delete_one({"uid": uid})
     return "user deleted successfully"
+
 
 @app.route("/api/users/<uid>", methods=["GET"])
 @cross_origin()

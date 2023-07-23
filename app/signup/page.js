@@ -40,7 +40,7 @@ function Page() {
   }
   const addUserToServer = async (user) => {
     try {
-      const response = await fetch("http://khourychat.com/api/users", {
+      const response = await fetch("https://www.khourychat.com/api/users", {
         method: "POST",
         body: JSON.stringify({
           username: username,

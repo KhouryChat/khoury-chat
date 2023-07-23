@@ -379,7 +379,7 @@ def get_comments_by_id(post_id):
 @app.route("/api/<uid>/posts", methods=["GET"])
 @cross_origin()
 def get_posts_by_id(uid):
-    user = db.users.find_one({"firebase_UID": uid})
+    user = db.users.find_one({"uid": uid})
     # if not user:
     #     return jsonify({"error": "User not found"}), 404
     posts = user.get("posts", [])

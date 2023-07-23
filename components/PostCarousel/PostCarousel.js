@@ -6,10 +6,25 @@ import LeftArrowIcon from "@/Icons/LeftArrowIcon";
 import RightArrowIcon from "@/Icons/RightArrowIcon";
 import HoverScaleTransition from "../HoverScaleTransition/HoverScaleTransition";
 
-const PostCarousel = ({ posts }) => {
-  console.log(posts);
-  const [currentPost, setCurrentPost] = useState(3);
+const PostCarousel = ({
+  posts = {
+    post_id: "64bc98742232b268e87851cf",
+    timestamp: "2023-07-23T03:03:16.521+00:00",
+    uid: "6DN3p6TZ1LXkjmLOExEvQUETQTg2",
+    post_title: "Hello this is an amazing course!",
+    content: "I love the professor and the course a lot!",
+    replies: [],
+    views: 1,
+    likes: 0,
+    dislikes: 0,
+    course_id: "CS5002",
+    is_reply: false,
+    parent_postID: null,
+  },
+}) => {
+  const [currentPost, setCurrentPost] = useState(0);
   return (
+    posts &&
     posts.length > 0 && (
       <div className="flex items-center justify-center w-full">
         <div className="flex flex-row gap-10 items-center justify-center w-1/4">

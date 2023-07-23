@@ -201,7 +201,9 @@ function Home() {
               Trending Posts
             </div>
             <div style={{ zIndex: 40 }}>
-              <PostCarousel posts={trendingPosts} />
+              {trendingPosts && trendingPosts.length > 0 && (
+                <PostCarousel posts={trendingPosts} />
+              )}
             </div>
           </div>
           <div

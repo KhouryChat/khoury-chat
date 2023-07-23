@@ -58,7 +58,7 @@ def create_user_document(parse_data):
         "major": major,
         "year": year,
         "posts": [],
-        "replies": []
+        "replies": [],
     }
     collection.insert_one(doc)
 

@@ -1,68 +1,48 @@
 import { useState, useEffect } from 'react'
 import { Tab } from '@headlessui/react'
+import { useAuthContext } from '@/Context/AuthContext';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-/* 
---- Needed Fetch Requests ---
-FETCH - Post 
-FETCH - Replies
-FETCH - Liked Posts
-*/
-
 export default function Tabs() {
-  let [categories] = useState({
-    Posts: [
-      {
-        id: 1,
-        title: 'Does drinking coffee make you smarter?',
-        date: '5h ago',
-        commentCount: 5,
-        shareCount: 2,
-      },
-      {
-        id: 2,
-        title: "So you've bought coffee... now what?",
-        date: '2h ago',
-        commentCount: 3,
-        shareCount: 2,
-      },
-    ],
-    Replies: [
-      {
-        id: 1,
-        title: 'Is tech making coffee better or worse?',
-        date: 'Jan 7',
-        commentCount: 29,
-        shareCount: 16,
-      },
-      {
-        id: 2,
-        title: 'The most innovative things happening in coffee',
-        date: 'Mar 19',
-        commentCount: 24,
-        shareCount: 12,
-      },
-    ],
-    "Liked Posts": [
-      {
-        id: 1,
-        title: 'Ask Me Anything: 10 answers to your questions about coffee',
-        date: '2d ago',
-        commentCount: 9,
-        shareCount: 5,
-      },
-      {
-        id: 2,
-        title: "The worst advice we've ever heard about coffee",
-        date: '4d ago',
-        commentCount: 1,
-        shareCount: 2,
-      },
-    ],
-  })
+  const user = useAuthContext();
+
+  const [categories, setCategories] = useState({
+    Posts: [],
+    Replies: [],
+    "Liked Posts": [],
+  });
+
+  useEffect(() => {
+    const fetchPostsData = async () => {
+      const userID = user["user"]["uid"]
+      try {
+        const response = await fetch(`https://www.khourychat.com/api/${userID}/posts`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch posts');
+        }
+        const data = await response.json();
+        return data;
+      } catch (error) {
+        throw new Error('Failed to fetch posts');
+      }
+    };
+
+    fetchPostsData()
+    .then((data) => {
+      console.log('Fetched data:', data);
+      setCategories((prevCategories) => ({
+        ...prevCategories,
+        Posts: data,
+      }));
+    })
+    .catch((error) => {
+      console.error('Error fetching posts:', error.message);
+    });
+  }, []);
+  console.log('Categories state:', categories);
 
   return (
     <div className="w-full max-w-md px-2 py-16 sm:px-0">
@@ -86,30 +66,27 @@ export default function Tabs() {
           ))}
         </Tab.List>
         <Tab.Panels className="mt-2">
-          {Object.values(categories).map((posts, idx) => (
+          {Object.keys(categories).map((category) => (
             <Tab.Panel
-              key={idx}
+              key={category}
               className={classNames(
                 'rounded-xl bg-white p-3',
                 'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2'
               )}
             >
               <ul>
-                {posts.map((post) => (
+                {categories[category].map((post) => (
                   <li
                     key={post.id}
                     className="relative rounded-md p-3 hover:bg-gray-100"
                   >
-                    <h3 className="text-sm font-medium leading-5">
-                      {post.title}
-                    </h3>
+                    <h3 className="text-sm font-medium leading-5">{post.title}</h3>
 
                     <ul className="mt-1 flex space-x-1 text-xs font-normal leading-4 text-gray-500">
                       <li>{post.date}</li>
                       <li>&middot;</li>
                       <li>{post.commentCount} comments</li>
                       <li>&middot;</li>
-                      <li>{post.shareCount} shares</li>
                     </ul>
 
                     <a
@@ -125,6 +102,7 @@ export default function Tabs() {
             </Tab.Panel>
           ))}
         </Tab.Panels>
+
       </Tab.Group>
     </div>
   )

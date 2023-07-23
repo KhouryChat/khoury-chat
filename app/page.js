@@ -46,6 +46,7 @@ function Home() {
   const user = useAuthContext();
   const scrollRef = useRef(null);
   const vantaRef = useRef(null);
+  const containerRef = useRef(null);
 
   const [searchValue, setSearchValue] = useState("Search courses...");
   const [courses, setCourses] = useState([]);
@@ -53,6 +54,38 @@ function Home() {
   const [filteredCourses, setFilteredCourses] = useState([]);
   const [show, setShow] = useState(false);
   const [vantaEffect, setVantaEffect] = useState(0);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target)
+      ) {
+        setShow(false);
+        setFilteredCourses([]);
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const response = await fetch(`https://www.khourychat.com/api/courses`);
+        const data = await response.json();
+        setCourses(data);
+        console.log(data);
+      } catch (error) {
+        console.log("error fetching courses", error);
+      }
+    };
+
+    fetchCourses();
+  }, [router]);
 
   useEffect(() => {
     const fetchLatestPosts = async () => {
@@ -110,7 +143,7 @@ function Home() {
         course.course_id.toLowerCase().includes(value.toLowerCase())
     );
 
-    setFilteredCourses(filteredCourses.slice(0, 10));
+    setFilteredCourses(filteredCourses);
     setShow(!show);
   };
 
@@ -137,17 +170,20 @@ function Home() {
               <input
                 type="text"
                 placeholder=""
-                className="focus:outline-none w-full text-white outline-none  bg-transparent border-b-solid border-b border-b-white  p-2 text-xl"
+                className="focus:outline-none w-[56%] text-white outline-none  bg-transparent border-b-solid border-b border-b-white  p-2 text-xl"
                 onClick={() => setSearchValue("")}
                 value={searchValue}
                 onChange={handleSearch}
               />
               {filteredCourses.length > 0 && searchValue && (
-                <div className="absolute overflow-visible mt-10 border-2 w-1/3 bg-white shadow-lg">
+                <div
+                  ref={containerRef}
+                  className="absolute overflow-y-auto mt-24 w-1/3 max-h-80 bg-white shadow-2xl scrollbar"
+                >
                   {filteredCourses.map((course) => (
                     <div
                       key={course._id}
-                      className="border-b cursor-pointer hover:bg-gray-200"
+                      className="p-2 text-lg bg-blue-100 font-bold cursor-pointer hover:bg-yellow-200"
                       onClick={() => handleSelect(course)}
                     >
                       {`${course.course_id}: ${course.course_title}`}

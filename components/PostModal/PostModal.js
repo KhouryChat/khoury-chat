@@ -99,7 +99,7 @@ const PostModal = ({ postID, onClose}) => {
 
         
 
-            const response = await fetch(`http://127.0.0.1:5000/api/posts/${postID}/comments`, {
+            const response = await fetch(`https://www.khourychat.com/api/posts/${postID}/comments`, {
             method: 'POST',
             headers: {
             'Content-Type': 'application/json',
@@ -138,7 +138,7 @@ const PostModal = ({ postID, onClose}) => {
       Promise.all(
         repliesQuery.data.map((reply) => fetchUserName(reply.uid))
       )
-        .then((usernameObjs) => setReplyUsers(usernameObjs))
+        .then((usernames) => setReplyUsers(usernames))
         .catch((error) => {
           console.error("Error fetching reply users' usernames:", error);
           setReplyUsers(new Array(repliesQuery.data.length).fill({[reply.uid]: "Anonymous mouse",
@@ -163,7 +163,7 @@ const PostModal = ({ postID, onClose}) => {
           <button onClick={onClose} className="m-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Close</button>
           <div className="w-full bg-white sticky top-0 z-30 p-3 flex justify-between items-center ml-8">
         {/* <div>{post?.user_name}</div> */}
-        <div>{isUserLoading ? "Loading..." : isUserError ? "Anonymous mouse" : postUser && postUser[post?.uid]}</div>
+        <div>{isUserLoading ? "Loading..." : isUserError ? "Anonymous mouse" : postUser}</div>
       </div>
 
           {isLoading ? (
@@ -212,7 +212,7 @@ const PostModal = ({ postID, onClose}) => {
                 <div className="flex justify-between">
                 <div>{reply.content}</div>
               <div>
-              <div className="text-xs text-gray-400">{replyUsers[index] && replyUsers[index][reply.uid]}</div> {/* Change this as needed to match the actual field name */}
+              <div className="text-xs text-gray-400">{replyUsers[index] || "Anonymous mouse"}</div> 
                   <div className="text-xs text-gray-400 text-right">
                     {new Date(reply.timestamp.$date).toLocaleDateString()} {/* Change this as needed to match the actual field name */}
                   </div>

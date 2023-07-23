@@ -8,9 +8,41 @@ import BookIcon from "@/Icons/BookIcon";
 import GithubIcon from "@/Icons/GithubIcon";
 import LinkedInIcon from "@/Icons/LinkedInIcon";
 import TypeWriter from "typewriter-effect";
+import BIRDS from "vanta/dist/vanta.birds.min";
+import * as THREE from "three";
 
 import Dropdown from "@/components/DropdownMenu/Dropdown";
 const Page = ({ params }) => {
+  const vantaRef = useRef(null);
+  const [vantaEffect, setVantaEffect] = useState(0);
+
+  useEffect(() => {
+    if (!vantaEffect) {
+      setVantaEffect(
+        BIRDS({
+          el: vantaRef.current,
+          THREE:THREE,
+          mouseControls: true,
+          touchControls: true,
+          gyroControls: false,
+          minHeight: 200.00,
+          minWidth: 200.00,
+          scale: 1.00,
+          scaleMobile: 1.00,
+          backgroundColor: 0xffffff,
+          color2: 0x69ff,
+          colorMode: "lerpGradient",
+          quantity: 3.00
+        })
+      );
+    }
+    return () => {
+      if (vantaEffect) vantaEffect.destroy();
+    };
+  }, [vantaEffect]);
+
+
+
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const toggleDropdown = () => {
@@ -34,7 +66,9 @@ const Page = ({ params }) => {
       ></div>
       <div className="absolute top-1/2 bg-slate-100 h-1/2 w-screen -z-10"></div>
 
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg h-3/4 w-4/5 shadow-2xl">
+      <div 
+      ref={vantaRef}
+      className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg h-3/4 w-4/5 shadow-2xl">
         <div className="bg-white h-[45px] md:h-[40px] rounded-full">
           <div className="flex items-center justify-end border-b-8 border-slate-100 shadow-lg">
             <p className="justify-end font-arcade text-6xl text-red-600 ">

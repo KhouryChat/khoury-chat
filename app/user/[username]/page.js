@@ -19,6 +19,7 @@ import BrokenHeartIcon from "@/Icons/BrokenHeartIcon";
 const Page = ({ params }) => {
   const vantaRef = useRef(null);
   const [vantaEffect, setVantaEffect] = useState(0);
+  
 
   useEffect(() => {
     if (!vantaEffect) {
@@ -53,11 +54,65 @@ const Page = ({ params }) => {
     setIsDropdownOpen((prev) => !prev);
   };
 
+  useEffect(() => {
+    const fetchPostsData = async () => {
+      const userID = user["user"]["uid"];
+      try {
+        const response = await fetch(`https://www.khourychat.com/api/${userID}/posts`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch posts');
+        }
+        const data = await response.json();
+        return data;
+      } catch (error) {
+        throw new Error('Failed to fetch posts');
+      }
+    };
+
+    fetchPostsData()
+      .then((data) => {
+        console.log('Fetched data:', data);
+
+        // Fetch post data for each post ID
+        const fetchPostData = async (postID) => {
+          try {
+            const response = await fetch(`https://www.khourychat.com/api/posts/${postID}`);
+            if (!response.ok) {
+              throw new Error(`Failed to fetch post with ID: ${postID}`);
+            }
+            const postData = await response.json();
+            return postData;
+          } catch (error) {
+            console.error(`Error fetching post with ID: ${postID}`, error.message);
+            return null;
+          }
+        };
+
+        const fetchAllPostData = async () => {
+          const posts = await Promise.all(data.map((postID) => fetchPostData(postID)));
+          return posts.filter((post) => post !== null);
+        };
+
+        return fetchAllPostData();
+      })
+      .then((postsData) => {
+        console.log('Fetched posts data:', postsData);
+        setCategories((prevCategories) => ({
+          ...prevCategories,
+          Posts: postsData,
+        }));
+      })
+      .catch((error) => {
+        console.error('Error fetching posts:', error.message);
+      });
+  }, []);
+
   {
     {
       params.username;
     }
   }
+
   return (
     <div>
       <div
@@ -93,9 +148,9 @@ const Page = ({ params }) => {
           <div className="flex space-x-4 p-6">
             <GithubIcon size={30} color={"#00000"} />
             <LinkedInIcon size={30} color="#1e40af" />
-            {/* <ViewsIcon size={35} color="gray"/> */}
-            {/* <HeartIcon size={30} color="pink" /> */}
-            {/* <BrokenHeartIcon size={30} color= "pink" /> */}
+            {/* <ViewsIcon size={35} color="gray"/>
+            <HeartIcon size={30} color="pink" />
+            <BrokenHeartIcon size={30} color= "pink" /> */}
           </div>
 
           <div className="flex justify-center items-center">

@@ -16,6 +16,7 @@ import NET from "vanta/dist/vanta.net.min";
 import * as THREE from "three";
 import TeamMember from "@/components/TeamMember/TeamMember";
 import Marquee from "react-fast-marquee";
+import PageTransition from "@/components/PageTransition/PageTransition";
 
 const memberChase = {
   name: "Chase Coogan",

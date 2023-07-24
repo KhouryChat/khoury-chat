@@ -8,6 +8,8 @@ function classNames(...classes) {
 
 export default function Tabs() {
   const user = useAuthContext();
+  const [currentPage, setCurrentPage] = useState(1);
+  const postsPerPage = 2; 
 
   const [categories, setCategories] = useState({
     Posts: [],
@@ -68,10 +70,30 @@ export default function Tabs() {
       });
   }, []);
 
-  console.log('Categories state:', categories);
+  const updateCurrentPosts = () => {
+    const indexOfLastPost = currentPage * postsPerPage;
+    const indexOfFirstPost = indexOfLastPost - postsPerPage;
+    const currentPosts = categories["Posts"].slice(indexOfFirstPost, indexOfLastPost);
+    return currentPosts;
+  };
+
+  const paginateNext = () => {
+    setCurrentPage((prevPage) => prevPage + 1);
+  };
+
+  const paginatePrev = () => {
+    setCurrentPage((prevPage) => prevPage - 1);
+  };
+
+  useEffect(() => {
+    const currentPosts = updateCurrentPosts();
+    setCurrentPosts(currentPosts);
+  }, [currentPage, categories["Posts"]]);
+
+  const [currentPosts, setCurrentPosts] = useState([]);
 
   return (
-    <div className="w-full max-w-md px-2 py-16 sm:px-0">
+    <div className="w-full max-w-md px-2 py-16 sm:px-0 ">
       <Tab.Group>
         <Tab.List className="flex space-x-1 rounded-xl bg-blue-900/20 p-1">
           <Tab
@@ -97,7 +119,7 @@ export default function Tabs() {
             )}
           >
             <ul>
-              {categories["Posts"].map((post) => (
+              {currentPosts.map((post) => (
                 <li
                   key={post.post_id}
                   className="relative rounded-md p-3 hover:bg-gray-100"
@@ -118,6 +140,34 @@ export default function Tabs() {
                 </li>
               ))}
             </ul>
+            <div className="flex justify-between mt-4">
+              <button
+                onClick={paginatePrev}
+                disabled={currentPage === 1}
+                className={classNames(
+                  'px-4 py-2 text-sm font-medium leading-5 rounded-lg',
+                  'text-blue-700 bg-white',
+                  'border border-blue-300',
+                  'hover:text-blue-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-50 active:text-blue-800',
+                  { 'cursor-not-allowed': currentPage === 1 }
+                )}
+              >
+                Previous Page
+              </button>
+              <button
+                onClick={paginateNext}
+                disabled={currentPosts.length < postsPerPage}
+                className={classNames(
+                  'px-4 py-2 text-sm font-medium leading-5 rounded-lg',
+                  'text-blue-700 bg-white',
+                  'border border-blue-300',
+                  'hover:text-blue-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-50 active:text-blue-800',
+                  { 'cursor-not-allowed': currentPosts.length < postsPerPage }
+                )}
+              >
+                Next Page
+              </button>
+            </div>
           </Tab.Panel>
         </Tab.Panels>
       </Tab.Group>

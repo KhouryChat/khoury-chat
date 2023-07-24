@@ -9,7 +9,7 @@ function classNames(...classes) {
 export default function Tabs() {
   const user = useAuthContext();
   const [currentPage, setCurrentPage] = useState(1);
-  const postsPerPage = 2; 
+  const postsPerPage = 3; 
 
   const [categories, setCategories] = useState({
     Posts: [],

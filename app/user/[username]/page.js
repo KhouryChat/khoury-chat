@@ -12,6 +12,10 @@ import BIRDS from "vanta/dist/vanta.birds.min";
 import * as THREE from "three";
 
 import Dropdown from "@/components/DropdownMenu/Dropdown";
+import { EyeIcon } from "@heroicons/react/20/solid";
+import ViewsIcon from "@/Icons/ViewsIcon";
+import HeartIcon from "@/Icons/HeartIcon";
+import BrokenHeartIcon from "@/Icons/BrokenHeartIcon";
 const Page = ({ params }) => {
   const vantaRef = useRef(null);
   const [vantaEffect, setVantaEffect] = useState(0);
@@ -87,8 +91,11 @@ const Page = ({ params }) => {
             <Dropdown />
           </div>
           <div className="flex space-x-4 p-6">
-            <GithubIcon size={30} color={"#1e40af"} />
+            <GithubIcon size={30} color={"#00000"} />
             <LinkedInIcon size={30} color="#1e40af" />
+            {/* <ViewsIcon size={35} color="gray"/> */}
+            {/* <HeartIcon size={30} color="pink" /> */}
+            {/* <BrokenHeartIcon size={30} color= "pink" /> */}
           </div>
 
           <div className="flex justify-center items-center">

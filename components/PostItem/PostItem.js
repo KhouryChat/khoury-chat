@@ -67,7 +67,7 @@ const PostItem = ({
   };
 
   return (
-    content && (
+    title && (
       <div
         onClick={onClick}
         className="bg-white rounded shadow p-4 mb-4 flex flex-col cursor-pointer"

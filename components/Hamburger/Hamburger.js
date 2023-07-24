@@ -18,7 +18,7 @@ const Hamburger = ({ isMenuShown }) => {
         width={200}
         height={200}
         color={isMenuShown ? secondaryColor : primaryColor}
-        className="w-8 h-8"
+        className="xl:w-8 xl:h-8 2xl:w-12 2xl:h-12"
       />
     </motion.div>
   );

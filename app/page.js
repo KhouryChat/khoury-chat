@@ -155,8 +155,8 @@ function Home() {
     <div className="flex flex-col h-max w-screen red-body">
       <div className="flex flex-row">
         <div className="flex flex-col">
-          <div className="flex flex-col items-start justify-center h-screen gap-16 p-20">
-            <div className="max-w-2xl khoury-title text-white text-[10rem] font-extrabold leading-[9rem]">
+          <div className="flex flex-col items-start justify-center h-screen gap-16 p-20 tall:py-10">
+            <div className="max-w-2xl khoury-title text-white xl:text-[10rem] 2xl:text-[11rem] tall:text-[9rem] font-extrabold xl:leading-[9rem] 2xl:leading-[10rem] tall:leading-[8rem]">
               <Typewriter
                 onInit={(typewriter) => {
                   typewriter.typeString("KHOURY\nCHAT").pauseFor(1000).start();
@@ -164,13 +164,13 @@ function Home() {
               />
             </div>
             <div className="flex flex-col w-2/3 ml-3">
-              <h2 className="text-white text-3xl mb-4">
+              <h2 className="text-white xl:text-3xl 2xl:text-4xl xl:mb-4 2xl:mb-8 tall:mb-4">
                 What course are you looking for?
               </h2>
               <input
                 type="text"
                 placeholder=""
-                className="focus:outline-none w-[56%] text-white outline-none  bg-transparent border-b-solid border-b border-b-white  p-2 text-xl"
+                className="focus:outline-none xl:w-[56%] 2xl:w-[64%]  text-white outline-none  bg-transparent border-b-solid border-b border-b-white  p-2 xl:text-xl 2xl:text-2xl"
                 onClick={() => setSearchValue("")}
                 value={searchValue}
                 onChange={handleSearch}
@@ -178,12 +178,12 @@ function Home() {
               {filteredCourses.length > 0 && searchValue && (
                 <div
                   ref={containerRef}
-                  className="absolute overflow-y-auto mt-24 w-1/3 max-h-80 bg-white shadow-2xl scrollbar"
+                  className="absolute overflow-y-auto xl:mt-24 2xl:mt-[120px] xl:w-1/3 2xl:w-[39%] max-h-80 bg-white shadow-2xl scrollbar"
                 >
                   {filteredCourses.map((course) => (
                     <div
                       key={course._id}
-                      className="p-2 text-lg bg-blue-100 font-bold cursor-pointer hover:bg-yellow-200"
+                      className="xl:p-2 2xl:p-3 xl:text-lg 2xl:text-xl bg-blue-100 font-bold cursor-pointer hover:bg-yellow-200"
                       onClick={() => handleSelect(course)}
                     >
                       {`${course.course_id}: ${course.course_title}`}
@@ -196,7 +196,7 @@ function Home() {
           <div className="flex flex-col gap-10 w-screen h-screen items-center justify-center">
             <div
               ref={scrollRef}
-              className="text-white text-6xl font-bold flex  pt-32"
+              className="z-50 text-white xl:text-6xl 2xl:text-8xl font-bold flex  pt-32"
             >
               Trending Posts
             </div>
@@ -212,8 +212,10 @@ function Home() {
             className="text-black h-screen red-body flex items-center justify-end w-screen"
           >
             <div className="w-[80%] h-[80%] bg-white flex flex-col justify-start items-start gap-4 p-10">
-              <div className="text-9xl font-extrabold px-5">ABOUT</div>
-              <div className="text-2xl leading-9 border-b p-5">
+              <div className="xl:text-9xl 2xl:text-[10rem] tall:text-[7rem] font-extrabold px-5">
+                ABOUT
+              </div>
+              <div className="xl:text-2xl 2xl:text-3xl tall:text-xl xl:leading-9 2xl:leading-[2.8rem] tall:leading-8 border-b p-5">
                 Immediately hunt noise knife having represent gulf therefore
                 teach dollar independent doubt herself many including has
                 package cry thank label particles firm build slight public
@@ -227,45 +229,82 @@ function Home() {
                 race took condition height official tobacco twelve why excited
               </div>
               <Marquee>
-                <div className="flex flex-row items-center justify-center gap-5  px-20">
+                <div className="flex flex-row items-center justify-center h-fit gap-5 xl:px-20 2xl:px-24">
                   <Image
+                    onClick={() => router.push("https://nextjs.org/")}
                     src="/nextjs.png"
                     alt="NextJS"
                     width={150}
                     height={150}
+                    className="hover:scale-110 transition-transform duration-300 ease-in-out xl:w-[150px]  2xl:w-[180px] h-auto cursor-pointer"
                   />
                   <Image
+                    onClick={() => router.push("https://firebase.google.com/")}
                     src="/firebase.png"
                     alt="Firebase"
                     width={120}
                     height={120}
+                    className="hover:scale-110 transition-transform duration-300 ease-in-out xl:w-[120px]  2xl:w-[150px] h-auto cursor-pointer"
                   />
-                  <Image src="/react.png" alt="React" width={90} height={90} />
                   <Image
+                    onClick={() => router.push("https://react.dev/")}
+                    src="/react.png"
+                    alt="React"
+                    width={90}
+                    height={90}
+                    className="hover:scale-110 transition-transform duration-300 ease-in-out xl:w-[80px]  2xl:w-[80px] h-auto cursor-pointer"
+                  />
+                  <Image
+                    onClick={() => router.push("https://www.mongodb.com/")}
                     src="/mongo.png"
                     alt="MongoDB"
                     width={130}
                     height={130}
+                    className="hover:scale-110 transition-transform duration-300 ease-in-out xl:w-[130px]  2xl:w-[150px] h-auto cursor-pointer"
                   />
-                  <Image src="/flask.png" alt="Flask" width={90} height={90} />
                   <Image
+                    onClick={() =>
+                      router.push("https://flask.palletsprojects.com/en/2.3.x/")
+                    }
+                    src="/flask.png"
+                    alt="Flask"
+                    width={90}
+                    height={90}
+                    className="hover:scale-110 transition-transform duration-300 ease-in-out xl:w-[90px]  2xl:w-[120px] h-auto cursor-pointer"
+                  />
+                  <Image
+                    onClick={() => router.push("https://threejs.org/")}
                     src="/threejs.png"
                     alt="ThreeJS"
                     width={90}
                     height={90}
+                    className="hover:scale-110 transition-transform duration-300 ease-in-out xl:w-[90px]  2xl:w-[110px] h-auto cursor-pointer"
                   />
-                  <Image src="/d3.png" alt="ThreeJS" width={80} height={80} />
                   <Image
+                    onClick={() => router.push("https://d3js.org/")}
+                    src="/d3.png"
+                    alt="D3JS"
+                    width={80}
+                    height={80}
+                    className="hover:scale-110 transition-transform duration-300 ease-in-out xl:w-[80px]  2xl:w-[100px] h-auto cursor-pointer"
+                  />
+                  <Image
+                    onClick={() => router.push("https://tailwindcss.com/")}
                     src="/tailwind.png"
                     alt="TailwindCSS"
                     width={90}
                     height={90}
+                    className="hover:scale-110 transition-transform duration-300 ease-in-out xl:w-[90px]  2xl:w-[110px] h-auto cursor-pointer"
                   />
                   <Image
+                    onClick={() =>
+                      router.push("https://vercel.com/neelthepatel8")
+                    }
                     src="/vercel.png"
                     alt="Vercel"
                     width={120}
                     height={120}
+                    className="hover:scale-110 transition-transform duration-300 ease-in-out xl:w-[120px]  2xl:w-[150px] h-auto cursor-pointer"
                   />
                 </div>
               </Marquee>
@@ -275,17 +314,17 @@ function Home() {
             id="team"
             className="text-black h-screen red-body flex flex-col items-center w-screen"
           >
-            <div className="relative text-white font-extrabold text-[9rem] drop-shadow-2xl ">
+            <div className="relative text-white font-extrabold xl:text-[9rem] 2xl:text-[11rem] tall:text-[8rem] drop-shadow-2xl ">
               OUR TEAM
             </div>
-            <div className="flex flex-row gap-16">
-              <TeamMember member={memberChase} />
+            <div className="flex flex-row xl:gap-16 2xl:gap-20 tall:gap-14">
               <TeamMember member={memberZhen} />
+              <TeamMember member={memberChase} />
               <TeamMember member={memberNeel} />
             </div>
           </div>
         </div>
-        <div className="flex flex-row absolute left-[550px] -top-96">
+        <div className="flex flex-row absolute 2xl:left-[650px] xl:left-[550px] md:left-[450px] tall:left-[500px] 2xl:-top-80 -top-96 tall:-top-[26rem] md:-top-80">
           <Tilt perspective={6000}>
             <Husky className="husky" />
           </Tilt>
@@ -293,12 +332,12 @@ function Home() {
 
         <div
           onClick={handleScroll}
-          className="text-md z-10 cursor-pointer absolute bottom-6 right-1/2 flex flex-col  items-center text-white"
+          className="xl:text-md 2xl:text-xl z-10 cursor-pointer absolute bottom-6 right-1/2 flex flex-col  items-center text-white"
         >
           <div className="hover:text-blue-500">Explore</div>
           <button className="transition-transform duration-300 ease-in-out hover:translate-y-3">
             <DownArrowIcon
-              className="w-12 h-12"
+              className="xl:w-12 xl:h-12 2xl:w-16 2xl:h-16"
               color={"white"}
               width={100}
               height={100}

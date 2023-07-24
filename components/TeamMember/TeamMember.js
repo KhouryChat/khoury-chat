@@ -10,7 +10,7 @@ const TeamMember = ({ member }) => {
   const router = useRouter();
 
   return (
-    <div className="bg-white xl:w-[350px] xl:h-[550px] 2xl:w-[400px] 2xl:h-[650px] tall:w-[300px] tall:h-[450px] xl:rounded-2xl 2xl:rounded-3xl shadow-xl flex flex-col items-center justify-between tall:mt-10">
+    <div className="bg-white xl:w-[350px] xl:h-[550px] 2xl:w-[400px] 2xl:h-[650px] tall:w-[275px] tall:h-[400px] xl:rounded-2xl 2xl:rounded-3xl tall:rounded-2xl shadow-xl flex flex-col items-center justify-between tall:mt-10">
       <img
         key={member.name}
         className="relative bottom-36 rounded-full drop-shadow-2xl xl:w-[240px] 2xl:w-[280px] tall:w-[180px] h-auto"
@@ -22,10 +22,10 @@ const TeamMember = ({ member }) => {
       <div className="relative bottom-28 tall:bottom-32 xl:text-4xl 2xl:text-5xl tall:text-3xl font-extrabold font-arcade">
         {member.name.toUpperCase()}
       </div>
-      <div className="relative bottom-32 tall:bottom-36 xl:text-md 2xl:text-lg tall:text-sm p-10 text-center">
+      <div className="relative bottom-32 tall:bottom-36 xl:text-md 2xl:text-lg tall:text-[13px] p-10 text-center">
         {member.content}
       </div>
-      <div className="flex flex-row gap-6 relative bottom-32 tall:bottom-40">
+      <div className="flex flex-row gap-6 relative bottom-32 tall:bottom-[10.5rem]">
         <HoverScaleTransition>
           <div
             onClick={() => router.push(member.github)}

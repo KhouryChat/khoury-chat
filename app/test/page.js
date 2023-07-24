@@ -4,7 +4,7 @@ import React from "react";
 
 const Page = () => {
   return (
-    <div className="red-body">
+    <div className="red-body flex w-screen h-screen items-center justify-center">
       <TeamMember />
     </div>
   );

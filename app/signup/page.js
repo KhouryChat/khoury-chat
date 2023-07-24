@@ -52,7 +52,6 @@ function Page() {
         }),
       });
       const result = await response.json();
-      console.log(result);
     } catch (e) {
       console.log(e);
     }
@@ -66,11 +65,9 @@ function Page() {
       return console.log(error);
     }
 
-    console.log(result.user);
     await addUserToServer(result.user);
 
-    console.log(result);
-    return router.push("/");
+    router.push("/");
   };
   return (
     <>

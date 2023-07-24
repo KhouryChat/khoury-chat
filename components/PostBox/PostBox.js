@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import HeartIcon from "@/Icons/HeartIcon";
 import BrokenHeartIcon from "@/Icons/BrokenHeartIcon";
@@ -9,6 +9,17 @@ import { useRouter } from "next/navigation";
 
 const PostBox = ({ post }) => {
   const router = useRouter();
+  const [userData, setUserData] = useState({});
+  useEffect(() => {
+    const getUserDetails = async () => {
+      const response = await fetch(
+        `https://www.khourychat.com/api/users/${post.uid}`
+      );
+      const result = await response.json();
+      setUserData(result);
+    };
+    getUserDetails();
+  }, [post]);
 
   return (
     <div
@@ -31,7 +42,9 @@ const PostBox = ({ post }) => {
           />
         </div>
         <div className="flex flex-col ">
-          <div className="text-lg ">{"MoistYak"}</div>
+          <div className="text-lg ">
+            {userData ? userData.username : "anonymous"}
+          </div>
           <div className="text-sm italic text-gray-400">
             {formatTimestamp(post.timestamp)}
           </div>

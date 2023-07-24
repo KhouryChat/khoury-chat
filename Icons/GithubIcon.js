@@ -1,8 +1,9 @@
 import React from "react";
 
-const GithubIcon = ({ size, color }) => {
+const GithubIcon = ({ className, size, color }) => {
   return (
     <svg
+      className={className}
       stroke={color != null || color != undefined ? color : "black"}
       fill={color != null || color != undefined ? color : "black"}
       strokeWidth="0"

@@ -24,18 +24,18 @@ const MenuItem = ({ isMenuItemsShown, text, routeTo, onClick }) => {
     >
       <Transition
         show={isMenuItemsShown}
-        enter="transition ease-in-out duration-1000 transform"
+        enter="transition ease-in-out duration-[0.8s] transform"
         enterFrom="-translate-y-full"
         enterTo="translate-y-0"
-        leave="transition ease-in-out duration-1000 transform"
+        leave="transition ease-in-out duration-[0.8s] transform"
         leaveFrom="translate-y-0"
         leaveTo="-translate-y-full"
       >
         <Transition.Child
-          enter="transition-opacity duration-[1s]"
+          enter="transition-opacity duration-[0.8s]"
           enterFrom="opacity-0"
           enterTo="opacity-100"
-          leave="transition-opacity duration-[1s]"
+          leave="transition-opacity duration-[0.8s]"
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >

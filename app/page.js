@@ -156,7 +156,7 @@ function Home() {
       <div className="flex flex-row">
         <div className="flex flex-col">
           <div className="flex flex-col items-start justify-center h-screen gap-16 p-20 tall:py-10">
-            <div className="max-w-2xl khoury-title text-white xl:text-[10rem] 2xl:text-[11rem] tall:text-[9rem] font-extrabold xl:leading-[9rem] 2xl:leading-[10rem] tall:leading-[8rem]">
+            <div className="max-w-2xl khoury-title text-white xl:text-[10rem] 2xl:text-[11rem] tall:text-[10rem] font-extrabold xl:leading-[9rem] 2xl:leading-[10rem] tall:leading-[9rem]">
               <Typewriter
                 onInit={(typewriter) => {
                   typewriter.typeString("KHOURY\nCHAT").pauseFor(1000).start();
@@ -178,7 +178,7 @@ function Home() {
               {filteredCourses.length > 0 && searchValue && (
                 <div
                   ref={containerRef}
-                  className="absolute overflow-y-auto xl:mt-24 2xl:mt-[120px] tall:mt-20 xl:w-1/3 2xl:w-[39%] tall:w-[36%] max-h-80 bg-white shadow-2xl scrollbar"
+                  className="absolute overflow-y-auto xl:mt-24 2xl:mt-[120px] tall:mt-[5.5rem] xl:w-1/3 2xl:w-[39%] tall:w-[36%] max-h-80 bg-white shadow-2xl scrollbar"
                 >
                   {filteredCourses.map((course) => (
                     <div
@@ -211,11 +211,11 @@ function Home() {
             id="about"
             className="text-black h-screen red-body flex items-center justify-end w-screen"
           >
-            <div className="w-[80%] h-[80%] bg-white flex flex-col justify-start items-start gap-4 p-10 tall:p-5">
-              <div className="xl:text-9xl 2xl:text-[10rem] tall:text-[6rem] font-extrabold px-5 ">
+            <div className="w-[80%] h-[80%] bg-white flex flex-col justify-evenly items-start gap-4 p-10 tall:p-5">
+              <div className="xl:text-9xl 2xl:text-[10rem] tall:text-[7rem] font-extrabold px-5 ">
                 ABOUT
               </div>
-              <div className="xl:text-2xl 2xl:text-3xl tall:text-lg xl:leading-9 2xl:leading-[2.8rem] tall:leading-8 border-b p-5">
+              <div className="xl:text-2xl 2xl:text-3xl tall:text-2xl xl:leading-9 2xl:leading-[2.8rem] tall:leading-9 border-b p-5">
                 Immediately hunt noise knife having represent gulf therefore
                 teach dollar independent doubt herself many including has
                 package cry thank label particles firm build slight public
@@ -229,7 +229,7 @@ function Home() {
                 race took condition height official tobacco twelve why excited
               </div>
               <Marquee>
-                <div className="flex flex-row items-center justify-center h-fit gap-5 xl:px-20 2xl:px-24 tall:px-20">
+                <div className="flex flex-row items-center justify-center h-fit gap-5 px-24">
                   <Image
                     onClick={() => router.push("https://nextjs.org/")}
                     src="/nextjs.png"
@@ -324,9 +324,9 @@ function Home() {
             </div>
           </div>
         </div>
-        <div className="flex flex-row absolute 2xl:left-[650px] xl:left-[550px] tall:left-[500px] md:left-[450px] 2xl:-top-80 -top-96 tall:-top-[22rem] md:-top-80">
+        <div className="flex flex-row absolute 2xl:left-[650px] xl:left-[550px] tall:left-[570px] md:left-[450px] 2xl:-top-80 -top-96 tall:-top-[22rem] md:-top-80">
           <Tilt perspective={6000}>
-            <Husky className="husky tall:w-[1600px] h-auto" />
+            <Husky className="husky tall:w-[1700px] h-auto" />
           </Tilt>
         </div>
 

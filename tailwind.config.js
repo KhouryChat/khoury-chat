@@ -8,7 +8,7 @@ module.exports = {
   theme: {
     extend: {
       screens: {
-        tall: { raw: "(min-height: 670px)" },
+        tall: { raw: "(max-height: 800px)" },
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

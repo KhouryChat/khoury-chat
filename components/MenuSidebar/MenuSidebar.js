@@ -77,7 +77,7 @@ const MenuSidebar = ({ isMenuShown, setIsMenuShown }) => {
         leaveTo="-translate-x-full"
       >
         <div className="absolute top-0 left-0 w-1/4 bg-white h-screen shadow-2xl">
-          <div className="xl:text-xl 2xl:text-2xl tall:text-lg w-full font-bold flex flex-col xl:gap-4 2xl:gap-6 tall:gap-2 items-start justify-center ml-10 mt-32">
+          <div className="xl:text-xl 2xl:text-2xl tall:text-xl w-full font-bold flex flex-col xl:gap-4 2xl:gap-6 tall:gap-4 items-start justify-center ml-10 mt-32">
             <MenuItem
               isMenuItemsShown={isMenuItemsShown}
               text={"Home"}

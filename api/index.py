@@ -351,7 +351,8 @@ def post_comment(post_id):
     )
 
     # post = db.posts.find_one({"post_id": post.get("post_id")})
-    return jsonify({"message": "comment created successfully", "post_id": comment.get("post_id")}), 201
+    # return jsonify({"message": "comment created successfully", "post_id": comment.get("post_id")}), 201
+    return json.loads(json_util.dumps(comment)), 201
 
 
 @app.route("/api/posts/<post_id>/comments", methods=["GET"])

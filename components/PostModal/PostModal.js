@@ -134,6 +134,8 @@ const [addCommentError, setAddCommentError] = useState(null);
     setReplies(prevReplies => [...prevReplies,commentWithUsername]);
     //setPost((prev) => ({...prev,replies:[...prev.replies,data]}));
     setNewComment("");
+    //updateNumReplies(postID,replies.length);
+
 
       } catch (error) {
         setAddCommentError(error.message);
@@ -272,21 +274,6 @@ setReplies(updatedReplies);
   
               />
             ))
-            // replies?.map((reply, index) => (
-            //   <div key={index} className="reply bg-white p-5 my-2 border-b border-gray-300 w-full max-w-2xl self-center">
-            //     <div className="flex justify-between">
-            //     <div>{reply.content}</div>
-            //   <div>
-            //   <div className="text-xs text-gray-400">{reply.username}</div> 
-            //       <div className="text-xs text-gray-400 text-right">
-            //         {new Date(reply["timestamp"].$date).toLocaleDateString()} 
-            //       </div>
-            //     </div>
-            //   </div>
-            // </div>
-
-              
-            // ))
           )}
         </div>
         </>

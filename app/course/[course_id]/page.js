@@ -12,6 +12,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import fetchUserName from "@/handler/fetchUsername";
 import likesHandler from "@/handler/likesHandler";
 import dislikesHandler from "@/handler/dislikesHandler";
+import fetchPostAfterReplies from "@/handler/fetchReplies";
 
 
 
@@ -204,81 +205,13 @@ const CoursePage = ({ params }) => {
   };
 
 
-
-
-
-
-  // const updateLikes = async (newLikedState, post_id) => {
-  //   if (!isLoggedIn) router.push("/login");
-
-  //   try {
-  //     const response = await fetch(
-  //       `https://www.khourychat.com/api/posts/${post_id}/like`,
-  //       {
-  //         method: "PATCH",
-  //         headers: {
-  //           "Access-Control-Allow-Headers": "Content-Type",
-  //           "Access-Control-Allow-Origin": "*",
-  //           "Content-Type": "application/json",
-  //           "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PATCH",
-  //         },
-
-  //         body: JSON.stringify({
-  //           action: newLikedState,
-  //           action: newLikedState,
-  //         }),
-  //       }
-  //     );
-
-  //     if (!response.ok) {
-  //       throw new Error(`HTTP error! status: ${response.status}`);
-  //     }
-
-  //     const updatedPost = await response.json();
-
-  //     const updatedPosts = postItems.map((post) =>
-  //       post.post_id === post_id ? updatedPost : post
-  //     );
-
-  //     setPostItems(updatedPosts);
-  //   } catch (error) {
-  //     console.error("Failed to update likes", error);
-  //   }
-  // };
-
-  // const updateDislikes = async (newDislikedState, post_id) => {
-  //   if (!isLoggedIn) router.push("/login");
-
-  //   try {
-  //     const response = await fetch(
-  //       `https://www.khourychat.com/api/posts/${post_id}/dislike`, // change this to match your dislike API endpoint
-  //       {
-  //         method: "PATCH",
-  //         body: JSON.stringify({
-  //           action: newDislikedState,
-  //           action: newDislikedState,
-  //         }),
-  //       }
-  //     );
-
-  //     if (!response.ok) {
-  //       throw new Error(`HTTP error! status: ${response.status}`);
-  //     }
-
-  //     const updatedPost = await response.json();
-
-  //     const updatedPosts = postItems.map((post) =>
-  //       post.post_id === post_id ? updatedPost : post
-  //     );
-
-  //     setPostItems(updatedPosts);
-  //   } catch (error) {
-  //     console.error("Failed to update dislikes", error);
-  //   }
-  // };
-
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedPostId, setSelectedPostId] = useState(null);
+
+
+
+
+
 
   const goToPostPage = async (id) => {
     try {
@@ -313,9 +246,19 @@ const CoursePage = ({ params }) => {
     openModal(id);
   };
 
-  const closeModal = () => {
+  const closeModal = async () => {
+
     setIsModalOpen(false);
+    // let updatedPost1 = null;
+    // if (selectedPostId != null) {
+    //   updatedPost1 = await fetchPostAfterReplies(selectedPostId);
+    //   setPostItems(prevPosts =>
+    //     prevPosts.map(post => post.post_id === selectedPostId ? updatedPost1 : post)
+    //   );
+    // }
+
     setSelectedPostId(null);
+
   };
 
   const [inputValue, setInputValue] = useState("");
@@ -326,6 +269,7 @@ const CoursePage = ({ params }) => {
 
   console.log("post_ids: ", posts);
   console.log("postItems: ", postItems);
+  
 
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = 10;
@@ -384,10 +328,12 @@ const CoursePage = ({ params }) => {
                     likes={post.likes}
                     dislikes={post.dislikes}
                     views={post.views}
+                    replyCount={post.replies?.length}
                     likeClickHandler={updateLikes}
                     dislikeClickHandler={updateDislikes}
                     userName={usernames[post.uid]}
                     timestamp={post.timestamp}
+
         
                     onClick={() => goToPostPage(post.post_id)}
                     //onClick={() => openModal(post.post_id)}

@@ -10,6 +10,8 @@ import { useRouter } from "next/navigation";
 import PostModal from "@/components/PostModal/PostModal";
 import { QueryClient, QueryClientProvider } from "react-query";
 import fetchUserName from "@/handler/fetchUsername";
+import likesHandler from "@/handler/likesHandler";
+import dislikesHandler from "@/handler/dislikesHandler";
 
 
 
@@ -166,74 +168,114 @@ const CoursePage = ({ params }) => {
     fetchPosts();
   }, [posts, params.course_id]);
 
+
+
   const updateLikes = async (newLikedState, post_id) => {
-    if (!isLoggedIn) router.push("/login");
+       if (!isLoggedIn) router.push("/login");
 
-    try {
-      const response = await fetch(
-        `https://www.khourychat.com/api/posts/${post_id}/like`,
-        {
-          method: "PATCH",
-          headers: {
-            "Access-Control-Allow-Headers": "Content-Type",
-            "Access-Control-Allow-Origin": "*",
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PATCH",
-          },
-
-          body: JSON.stringify({
-            action: newLikedState,
-            action: newLikedState,
-          }),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+       try {
+        const updatedPost = await likesHandler(newLikedState, post_id);
+    
+        const updatedPosts = postItems.map((post) =>
+          post.post_id === post_id ? updatedPost : post
+        );
+    
+        setPostItems(updatedPosts);
+      } catch (error) {
+        console.error("Failed to update likes", error);
       }
-
-      const updatedPost = await response.json();
-
-      const updatedPosts = postItems.map((post) =>
-        post.post_id === post_id ? updatedPost : post
-      );
-
-      setPostItems(updatedPosts);
-    } catch (error) {
-      console.error("Failed to update likes", error);
-    }
   };
 
   const updateDislikes = async (newDislikedState, post_id) => {
     if (!isLoggedIn) router.push("/login");
 
-    try {
-      const response = await fetch(
-        `https://www.khourychat.com/api/posts/${post_id}/dislike`, // change this to match your dislike API endpoint
-        {
-          method: "PATCH",
-          body: JSON.stringify({
-            action: newDislikedState,
-            action: newDislikedState,
-          }),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const updatedPost = await response.json();
+    try{
+      const updatedPost = await dislikesHandler(newDislikedState, post_id);
 
       const updatedPosts = postItems.map((post) =>
-        post.post_id === post_id ? updatedPost : post
-      );
+      post.post_id === post_id ? updatedPost : post
+    );
 
       setPostItems(updatedPosts);
     } catch (error) {
       console.error("Failed to update dislikes", error);
     }
+
   };
+
+
+
+
+
+
+  // const updateLikes = async (newLikedState, post_id) => {
+  //   if (!isLoggedIn) router.push("/login");
+
+  //   try {
+  //     const response = await fetch(
+  //       `https://www.khourychat.com/api/posts/${post_id}/like`,
+  //       {
+  //         method: "PATCH",
+  //         headers: {
+  //           "Access-Control-Allow-Headers": "Content-Type",
+  //           "Access-Control-Allow-Origin": "*",
+  //           "Content-Type": "application/json",
+  //           "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PATCH",
+  //         },
+
+  //         body: JSON.stringify({
+  //           action: newLikedState,
+  //           action: newLikedState,
+  //         }),
+  //       }
+  //     );
+
+  //     if (!response.ok) {
+  //       throw new Error(`HTTP error! status: ${response.status}`);
+  //     }
+
+  //     const updatedPost = await response.json();
+
+  //     const updatedPosts = postItems.map((post) =>
+  //       post.post_id === post_id ? updatedPost : post
+  //     );
+
+  //     setPostItems(updatedPosts);
+  //   } catch (error) {
+  //     console.error("Failed to update likes", error);
+  //   }
+  // };
+
+  // const updateDislikes = async (newDislikedState, post_id) => {
+  //   if (!isLoggedIn) router.push("/login");
+
+  //   try {
+  //     const response = await fetch(
+  //       `https://www.khourychat.com/api/posts/${post_id}/dislike`, // change this to match your dislike API endpoint
+  //       {
+  //         method: "PATCH",
+  //         body: JSON.stringify({
+  //           action: newDislikedState,
+  //           action: newDislikedState,
+  //         }),
+  //       }
+  //     );
+
+  //     if (!response.ok) {
+  //       throw new Error(`HTTP error! status: ${response.status}`);
+  //     }
+
+  //     const updatedPost = await response.json();
+
+  //     const updatedPosts = postItems.map((post) =>
+  //       post.post_id === post_id ? updatedPost : post
+  //     );
+
+  //     setPostItems(updatedPosts);
+  //   } catch (error) {
+  //     console.error("Failed to update dislikes", error);
+  //   }
+  // };
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedPostId, setSelectedPostId] = useState(null);

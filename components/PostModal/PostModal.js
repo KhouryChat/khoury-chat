@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { useAuthContext } from "@/Context/AuthContext";
-import CourseTag from "@/components/CourseTag/CourseTag";
-import HeartIcon from "@/Icons/HeartIcon";
-import BrokenHeartIcon from "@/Icons/BrokenHeartIcon";
-import { useQuery, useMutation, useQueryClient } from "react-query";
+
 import { useRouter } from 'next/navigation';
 import fetchUserName from "@/handler/fetchUsername";
+import ReplyItem from "../PostItem/ReplyItem";
+import likesHandler from "@/handler/likesHandler";
+import dislikesHandler from "@/handler/dislikesHandler";
 
 
 const PostModal = ({postID, onClose}) => {
   const router = useRouter();
   const user = useAuthContext();
   const isLoggedIn = user["user"] !== null;
-  console.log("is logged in", isLoggedIn);
   const [post,setPost] = useState(null);
   const [postLoading, setPostLoading] = useState(false);
   const [postError, setPostError] = useState(null);
@@ -43,6 +42,7 @@ const PostModal = ({postID, onClose}) => {
 useEffect(() => {
 
   const fetchReplies = async () => {
+    
     if(post?.replies?.length > 0) {
       setRepliesLoading(true);
       setRepliesError(null)
@@ -53,6 +53,9 @@ useEffect(() => {
           fetch(`https://www.khourychat.com/api/posts/${replyID}`).then((response) => response.json())
         )
       );
+
+      console.log("Data for replies:", data); 
+
       const repliesWithUsernames = await Promise.all(data.map(async (reply) => {
         const username = await fetchUserName(reply.uid);
         return {...reply, username: username || "Anonymous mouse"};
@@ -64,15 +67,16 @@ useEffect(() => {
     } finally {
       setRepliesLoading(false);
     }
+
   };
 
   if(post) {
     fetchReplies();
   }
+  
 
 
 },[post]);
-
 
 
   const buildComment = () => ({
@@ -113,11 +117,10 @@ const [addCommentError, setAddCommentError] = useState(null);
        body: JSON.stringify(comment)
     });
 
-    console.log("response:", response);
 
     const data = await response.json(); //data is comment obj
     console.log("newly added comment: ",data);
-    console.log("post by: ", user);
+
 
     if (!response.ok) {
       throw new Error(data.message || "Could not post the comment");
@@ -154,17 +157,56 @@ useEffect(() => {
   }
 }, [user]);
 
+
+
+const updateLikes = async (newLikedState, post_id) => {
+  if (!isLoggedIn) router.push("/login");
+
+  try {
+   const updatedReply = await likesHandler(newLikedState, post_id);
+
+   const updatedReplies = replies.map((reply) =>
+     reply.post_id === post_id ? { ...reply, likes: updatedReply.likes, dislikes:updatedReply.dislikes } : reply
+   );
+
+  setReplies(updatedReplies);
+ } catch (error) {
+   console.error("Failed to update likes", error);
+ }
+};
+
+const updateDislikes = async (newDislikedState, post_id) => {
+if (!isLoggedIn) router.push("/login");
+
+try{
+ const updatedReply = await dislikesHandler(newDislikedState, post_id);
+
+ const updatedReplies = replies.map((reply) =>
+ reply.post_id === post_id ? { ...reply, likes: updatedReply.likes, dislikes: updatedReply.dislikes } : reply
+);
+
+setReplies(updatedReplies);
+} catch (error) {
+ console.error("Failed to update dislikes", error);
+}
+
+};
+
+
     
 
       return (
         <>
-        <div className="fixed inset-0 z-10 overflow-y-auto bg-gray-500 bg-opacity-50"></div>
-            <div className="fixed inset-0 z-20 overflow-y-auto w-full bg-white h-full text-gray-700">
-            
+        {/* <div className="fixed inset-0 z-10 overflow-y-auto bg-gray-500 bg-opacity-50"></div> */}
+            <div className="fixed inset-0 z-10 overflow-y-auto w-full h-full items-center px-8 pt-5 pb-4" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+            <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity pt-4 px-4 pb-20" aria-hidden="true"></div>
+            <span className="hidden lg:inline-block lg:align-middle" aria-hidden="true">&#8203;</span>
+            <div className="flex items-center justify-center">
+            <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all lg:my-8 lg:align-middle lg:max-w-2lg lg:w-full">
           
-          <div className="w-full bg-violet-200 text-white sticky top-0 z-30 px-1 flex justify-between items-center">
+          <div className=" bg-violet-200 text-white sticky top-0 z-30 px-1 justify-between items-center">
         {/* <div>{post?.user_name}</div> */}
-        <div className="ml-4">
+        <div className="ml-4 pt-6">
         <div>{username || "Anonymous mouse"}</div>
         </div>
         <div className="w-full flex justify-end p-4">
@@ -216,21 +258,35 @@ useEffect(() => {
           ) : repliesError ? (
             <p>Error occurred while loading the replies.</p>
           ) : (
-            replies?.map((reply, index) => (
-              <div key={index} className="reply bg-white p-5 my-2 border-b border-gray-300 w-full max-w-2xl self-center">
-                <div className="flex justify-between">
-                <div>{reply.content}</div>
-              <div>
-              <div className="text-xs text-gray-400">{reply.username}</div> 
-                  <div className="text-xs text-gray-400 text-right">
-                    {new Date(reply.timestamp.$date).toLocaleDateString()} {/* Change this as needed to match the actual field name */}
-                  </div>
-                </div>
-              </div>
-            </div>
+            replies?.map((reply) => (
+              <ReplyItem 
+              key={reply.post_id}
+              id={reply.post_id}
+              content={reply.content}
+              likes={reply.likes}
+              dislikes={reply.dislikes}
+              likeClickHandler={updateLikes}
+              dislikeClickHandler={updateDislikes}
+              userName={reply.username}
+              timestamp={reply.timestamp}
+  
+              />
+            ))
+            // replies?.map((reply, index) => (
+            //   <div key={index} className="reply bg-white p-5 my-2 border-b border-gray-300 w-full max-w-2xl self-center">
+            //     <div className="flex justify-between">
+            //     <div>{reply.content}</div>
+            //   <div>
+            //   <div className="text-xs text-gray-400">{reply.username}</div> 
+            //       <div className="text-xs text-gray-400 text-right">
+            //         {new Date(reply["timestamp"].$date).toLocaleDateString()} 
+            //       </div>
+            //     </div>
+            //   </div>
+            // </div>
 
               
-            ))
+            // ))
           )}
         </div>
         </>
@@ -238,7 +294,10 @@ useEffect(() => {
               <p>Waiting for post data...</p>  
         )}
             </div>
+            </div>
+            </div>
         </>
+        
       );
     };
 

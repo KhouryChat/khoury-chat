@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { useAuthContext } from "@/Context/AuthContext";
-
+import {InfinitySpin} from "react-loader-spinner";
+import {ThreeDots} from "react-loader-spinner";
 import { useRouter } from 'next/navigation';
 import fetchUserName from "@/handler/fetchUsername";
 import ReplyItem from "../PostItem/ReplyItem";
@@ -217,7 +218,17 @@ setReplies(updatedReplies);
       </div>
 
           {postLoading ? (
-            <p>Loading...</p>
+            <ThreeDots 
+            height="80" 
+            width="80" 
+            radius="9"
+            color="#DC2626"
+            ariaLabel="three-dots-loading"
+            wrapperStyle={{}}
+            wrapperClassName=""
+            visible={true}
+             />
+            // <p>Loading...</p>
             ) : postError ? (
             <p>Error occurred while loading the post.</p>
             ) : post?(
@@ -256,7 +267,11 @@ setReplies(updatedReplies);
           
         <div className="replies-section p-5 overflow-y-auto flex flex-col items-center">
           {repliesLoading ? (
-            <p>Loading replies...</p>
+            <InfinitySpin 
+            width='200'
+            color="#DC2626"
+          />
+            // <p>Loading replies...</p>
           ) : repliesError ? (
             <p>Error occurred while loading the replies.</p>
           ) : (

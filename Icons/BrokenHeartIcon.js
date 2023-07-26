@@ -1,11 +1,12 @@
 import React from "react";
 
-const BrokenHeartIcon = ({ size = 17, className, color }) => {
+const BrokenHeartIcon = ({ size = 16, className, color }) => {
   return (
     <div style={{ width: size, height: size }} className={className}>
       <svg
         className={className}
-        fill={color != null || color != undefined ? color : "black"}
+        //fill={color != null || color != undefined ? color : "gray"}
+        fill="currentColor"
         strokeWidth="0"
         viewBox="0 0 16 16"
         xmlns="http://www.w3.org/2000/svg"

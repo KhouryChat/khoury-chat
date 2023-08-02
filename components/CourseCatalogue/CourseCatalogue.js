@@ -18,7 +18,7 @@ const CourseCatalogue = ({ text, className, id, courses }) => {
     }
   });
   const handleCourseSelection = (e) => {
-    router.push(`/course/${e.target.value}`);
+    router.push(`/course/${e.target.innerText}`);
   };
 
   const classes = `h-screen text-white flex flex-col items-center justify-center p-20 gap-10 ${className}`;

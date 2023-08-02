@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import HeartIcon from "@/Icons/HeartIcon";
 import BrokenHeartIcon from "@/Icons/BrokenHeartIcon";
 
-
 const ReplyItem = ({
   id,
   content,
@@ -16,7 +15,7 @@ const ReplyItem = ({
   userName,
   timestamp,
 }) => {
-    const [currLikes, setLikes] = useState(likes || 0);
+  const [currLikes, setLikes] = useState(likes || 0);
   const [currDislikes, setDislikes] = useState(dislikes || 0);
   const [liked, setLiked] = useState(false);
   const [disliked, setDisliked] = useState(false);
@@ -63,32 +62,39 @@ const ReplyItem = ({
   };
 
   return (
-    <div 
-    onClick={onClick}
-    className="reply bg-white p-5 my-2 border-b border-gray-300 w-full max-w-2xl self-center"
+    <div
+      onClick={onClick}
+      className="reply bg-white p-5 my-2 border-b border-gray-300 w-full max-w-2xl self-center"
     >
       <div className="flex justify-between items-center">
-          <div className="text-xs text-gray-400">{userName}</div>
-          <div className="text-xs text-gray-400 text-right">
-            {new Date(timestamp.$date).toLocaleDateString()}
-          </div>
+        <div className="text-xs text-gray-400">{userName}</div>
+        <div className="text-xs text-gray-400 text-right">
+          {new Date(timestamp.$date).toLocaleDateString()}
         </div>
-        <div className="mt-2 mb-4">{content}</div>
-        <div>
       </div>
+      <div className="mt-2 mb-4">{content}</div>
+      <div></div>
       <div className="flex items-center flex-row justify-start gap-5">
         <div
           className="flex flex-row gap-1 items-center"
           onClick={handleLikeClick}
         >
-          <HeartIcon className={`mr-1 ${liked ? "text-red-500" : "text-gray-500"}`} />
+          <HeartIcon
+            className={`mr-1 cursor-pointer justify-center ${
+              liked ? "text-red-500" : "text-gray-500"
+            }`}
+          />
           <p>{currLikes}</p>
         </div>
         <div
           className="flex flex-row gap-2 items-center"
           onClick={handleDislikeClick}
         >
-          <BrokenHeartIcon className={`mr-1 ${disliked ? "text-blue-500" : "text-gray-500"}`} />
+          <BrokenHeartIcon
+            className={`mr-1 cursor-pointer ${
+              disliked ? "text-blue-500" : "text-gray-500"
+            }`}
+          />
           <p>{currDislikes}</p>
         </div>
       </div>

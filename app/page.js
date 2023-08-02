@@ -16,6 +16,7 @@ import NET from "vanta/dist/vanta.net.min";
 import * as THREE from "three";
 import TeamMember from "@/components/TeamMember/TeamMember";
 import Marquee from "react-fast-marquee";
+import PageTransition from "@/components/PageTransition/PageTransition";
 
 const memberChase = {
   name: "Chase Coogan",
@@ -78,7 +79,6 @@ function Home() {
         const response = await fetch(`https://www.khourychat.com/api/courses`);
         const data = await response.json();
         setCourses(data);
-        console.log(data);
       } catch (error) {
         console.log("error fetching courses", error);
       }
@@ -158,6 +158,7 @@ function Home() {
           <div className="flex flex-col items-start justify-center h-screen gap-16 p-20 tall:py-10">
             <div className="max-w-2xl khoury-title text-white xl:text-[10rem] 2xl:text-[11rem] tall:text-[10rem] font-extrabold xl:leading-[9rem] 2xl:leading-[10rem] tall:leading-[9rem]">
               <Typewriter
+                options={{ cursor: "" }}
                 onInit={(typewriter) => {
                   typewriter.typeString("KHOURY\nCHAT").pauseFor(1000).start();
                 }}
@@ -212,21 +213,21 @@ function Home() {
             className="text-black h-screen red-body flex items-center justify-end w-screen"
           >
             <div className="w-[80%] h-[80%] bg-white flex flex-col justify-evenly items-start gap-4 p-10 tall:p-5">
-              <div className="xl:text-9xl 2xl:text-[10rem] tall:text-[7rem] font-extrabold px-5 ">
+              <div className="xl:text-9xl 2xl:text-[10rem] tall:text-[7rem] font-extrabold px-5 py-2 ">
                 ABOUT
               </div>
               <div className="xl:text-2xl 2xl:text-3xl tall:text-2xl xl:leading-9 2xl:leading-[2.8rem] tall:leading-9 border-b p-5">
-                Immediately hunt noise knife having represent gulf therefore
-                teach dollar independent doubt herself many including has
-                package cry thank label particles firm build slight public
-                doctor supper shut music die path appropriate recognize dawn new
-                grabbed individual wash corner race took condition height
-                official tobacco twelve why excited Immediately hunt noise knife
-                having represent gulf therefore teach dollar independent doubt
-                herself many including has package cry thank label particles
-                firm build slight public doctor supper shut music die path
-                appropriate recognize dawn new grabbed individual wash corner
-                race took condition height official tobacco twelve why excited
+                Welcome to KhouryChat, the premier forum for discussing courses
+                offered by the Khoury School of Computer Science at Northeastern
+                University. Created by three passionate students from the
+                school, our platform provides a space for students to share
+                experiences, ask questions, and exchange resources. Whether
+                youre a current student, alumnus, or prospective applicant, join
+                our supportive community to explore course content and engage in
+                meaningful discussions. We are committed to continuously
+                improving KhouryChat to better serve the needs of the academic
+                community and foster a dynamic learning environment. Together,
+                lets build a vibrant space for computer science enthusiasts!
               </div>
               <Marquee>
                 <div className="flex flex-row items-center justify-center h-fit gap-5 px-24">
@@ -318,9 +319,9 @@ function Home() {
               OUR TEAM
             </div>
             <div className="flex flex-row xl:gap-16 2xl:gap-20 tall:gap-14">
-              <TeamMember member={memberZhen} />
-              <TeamMember member={memberChase} />
               <TeamMember member={memberNeel} />
+              <TeamMember member={memberChase} />
+              <TeamMember member={memberZhen} />
             </div>
           </div>
         </div>

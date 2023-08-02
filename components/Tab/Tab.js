@@ -99,7 +99,7 @@ export default function Tabs() {
           <Tab
             className={({ selected }) =>
               classNames(
-                'w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-blue-700',
+                'w-full rounded-lg py-2.5 font-medium leading-5 text-red-600 font-arcade text-5xl',
                 'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2',
                 selected
                   ? 'bg-white shadow'

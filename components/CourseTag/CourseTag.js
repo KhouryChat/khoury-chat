@@ -17,6 +17,9 @@ const CourseTag = ({ courseID, width }) => {
   } else if (courseID.toLowerCase().includes("cy")) {
     classname =
       "bg-red-400 hover:bg-red-600 text-sm py-2 px-3 text-center rounded text-white";
+  } else {
+    classname =
+      "bg-green-400 hover:bg-green-600 text-sm py-2 px-3 text-center rounded text-white";
   }
   return (
     <button onClick={redirectToCoursePage} className={classname}>

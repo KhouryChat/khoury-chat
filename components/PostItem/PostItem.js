@@ -114,7 +114,8 @@ const PostItem = ({
               onClick={handleLikeClick}
             >
               <HeartIcon
-                className={`mr-1 ${liked ? "text-red-500" : "text-gray-500"}`}
+                className={`mr-1`}
+                color={`${liked ? "#db192a" : "#CCCCCC"}`}
               />
               <p>{currLikes}</p>
             </div>
@@ -123,9 +124,8 @@ const PostItem = ({
               onClick={handleDislikeClick}
             >
               <BrokenHeartIcon
-                className={`mr-1 ${
-                  disliked ? "text-blue-500" : "text-gray-500"
-                }`}
+                className={`mr-1`}
+                color={`${disliked ? "#3B82F6" : "#CCCCCC"}`}
               />
               <p>{currDislikes}</p>
             </div>

@@ -1,6 +1,6 @@
 import React from "react";
 
-const BrokenHeartIcon = ({ size = 16, className, color }) => {
+const BrokenHeartIcon = ({ size = 16, className, color = "" }) => {
   return (
     <svg
       className={className}

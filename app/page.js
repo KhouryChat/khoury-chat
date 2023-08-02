@@ -79,7 +79,6 @@ function Home() {
         const response = await fetch(`https://www.khourychat.com/api/courses`);
         const data = await response.json();
         setCourses(data);
-        console.log(data);
       } catch (error) {
         console.log("error fetching courses", error);
       }
@@ -159,6 +158,7 @@ function Home() {
           <div className="flex flex-col items-start justify-center h-screen gap-16 p-20 tall:py-10">
             <div className="max-w-2xl khoury-title text-white xl:text-[10rem] 2xl:text-[11rem] tall:text-[10rem] font-extrabold xl:leading-[9rem] 2xl:leading-[10rem] tall:leading-[9rem]">
               <Typewriter
+                options={{ cursor: "" }}
                 onInit={(typewriter) => {
                   typewriter.typeString("KHOURY\nCHAT").pauseFor(1000).start();
                 }}

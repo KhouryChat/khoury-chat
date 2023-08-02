@@ -1,7 +1,8 @@
 import React from "react";
 import Flashcards from "../AnimatedBox/AnimatedBox";
-
+import { useRouter } from "next/navigation";
 const CourseCatalogue = ({ text, className, id, courses }) => {
+  const router = useRouter();
   // Sort courses by course number
   courses.sort((a, b) => a.course_id.localeCompare(b.course_id));
 
@@ -16,27 +17,32 @@ const CourseCatalogue = ({ text, className, id, courses }) => {
       coursesByNumber[courseNumber] = [course];
     }
   });
+  const handleCourseSelection = (e) => {
+    router.push(`/course/${e.target.value}`);
+  };
 
   const classes = `h-screen text-white flex flex-col items-center justify-center p-20 gap-10 ${className}`;
   return (
     <div id={id} className={classes}>
       <span className="text-6xl">{text}</span>
       <div className="flex flex-wrap gap-2 justify-start">
-        <Flashcards />
-        {/* {Object.keys(coursesByNumber).map((courseNumber) => (
+        {/* <Flashcards /> */}
+        {Object.keys(coursesByNumber).map((courseNumber) => (
           <div key={courseNumber} className="flex flex-col gap-2">
-            <div className="text-7xl font-bold">
-                {courseNumber}
-            </div>
+            <div className="text-7xl font-bold">{courseNumber}</div>
             <div className="grid grid-cols-3 gap-2">
               {coursesByNumber[courseNumber].map((course) => (
-                <div key={course.course_id} className="text-2xl">
+                <div
+                  onClick={handleCourseSelection}
+                  key={course.course_id}
+                  className="text-2xl hover:text-gray-400 cursor-pointer"
+                >
                   {course.course_id}
                 </div>
-              ))} 
+              ))}
             </div>
           </div>
-              ))}*/}
+        ))}
       </div>
     </div>
   );

@@ -222,13 +222,12 @@ function Home() {
                 University. Created by three passionate students from the
                 school, our platform provides a space for students to share
                 experiences, ask questions, and exchange resources. Whether
-                you're a current student, alumnus, or prospective applicant,
-                join our supportive community to explore course content and
-                engage in meaningful discussions. We are committed to
-                continuously improving KhouryChat to better serve the needs of
-                the academic community and foster a dynamic learning
-                environment. Together, let's build a vibrant space for computer
-                science enthusiasts!
+                youre a current student, alumnus, or prospective applicant, join
+                our supportive community to explore course content and engage in
+                meaningful discussions. We are committed to continuously
+                improving KhouryChat to better serve the needs of the academic
+                community and foster a dynamic learning environment. Together,
+                lets build a vibrant space for computer science enthusiasts!
               </div>
               <Marquee>
                 <div className="flex flex-row items-center justify-center h-fit gap-5 px-24">

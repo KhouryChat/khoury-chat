@@ -17,7 +17,7 @@ pw = os.environ.get("MONGO_PW")
 un = os.environ.get("MONGO_USER")
 
 connect_str = f"mongodb+srv://{un}:{pw}@forum-backend.ipia6hh.mongodb.net/?retryWrites=true&w=majority"
-client = MongoClient(connect_str, tlsCAFile=certifi.where())
+client = MongoClient(connect_str, tlsCAFile=certifi.where(), maxPoolSize=425)
 
 # create new DB "production" & collections
 db = client.production

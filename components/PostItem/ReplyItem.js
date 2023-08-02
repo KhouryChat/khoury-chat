@@ -69,7 +69,9 @@ const ReplyItem = ({
       <div className="flex justify-between items-center">
         <div className="text-xs text-gray-400">{userName}</div>
         <div className="text-xs text-gray-400 text-right">
-          {new Date(timestamp.$date).toLocaleDateString()}
+          {new Date(timestamp?.$date).toLocaleDateString() == "Invalid Date"
+            ? ""
+            : new Date(timestamp?.$date).toLocaleDateString()}
         </div>
       </div>
       <div className="mt-2 mb-4">{content}</div>

@@ -252,14 +252,14 @@ const PostModal = ({ postID, onClose }) => {
                 <div className="flex flex-col justify-between items-center w-full px-5 py-3">
                   <div className="flex flex-col justify-between items-center w-full">
                     <div className="pt-4 text-3xl font-bold mr-46">
-                      {post.post_title}
+                      {post?.post_title}
                     </div>
                   </div>
                   <div className="p-5 text-justify text-xl border border-gray-300 rounded-md shadow-md bg-white w-full max-w-2xl my-5">
-                    {post.content}
+                    {post?.content}
                   </div>
                   <div className="w-full max-w-2xl text-right text-sm text-gray-500">
-                    {new Date(post.timestamp.$date).toLocaleDateString()}
+                    {new Date(post.timestamp?.$date).toLocaleDateString()}
                   </div>
                 </div>
 

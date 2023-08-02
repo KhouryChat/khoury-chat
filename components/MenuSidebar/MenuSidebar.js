@@ -6,10 +6,13 @@ import { useAuthContext } from "@/Context/AuthContext";
 import signOut from "@/auth/firebase/signout";
 import { useEffect } from "react";
 import Hamburger from "../Hamburger/Hamburger";
+import { usePathname, useRouter } from "next/navigation";
 
 const MenuSidebar = ({ isMenuShown, setIsMenuShown }) => {
   const ref = useRef(null);
   const user = useAuthContext();
+  const path = usePathname();
+  const router = useRouter();
 
   const [isMenuItemsShown, setIsMenuItemsShown] = useState(false);
   const [isLoggedIn, setLoggedIn] = useState(user["user"] != null);
@@ -36,15 +39,35 @@ const MenuSidebar = ({ isMenuShown, setIsMenuShown }) => {
   }
 
   const scrollToAbout = () => {
-    const aboutElement = document.getElementById("about");
-    if (aboutElement) {
-      aboutElement.scrollIntoView({ behavior: "smooth" });
+    if (path == "/") {
+      const aboutElement = document.getElementById("about");
+      if (aboutElement) {
+        aboutElement.scrollIntoView({ behavior: "smooth" });
+      }
+    } else {
+      router.push("/");
+      setTimeout(() => {
+        const aboutElement = document.getElementById("about");
+        if (aboutElement) {
+          aboutElement.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 1000);
     }
   };
   const scrollToTeam = () => {
-    const aboutElement = document.getElementById("team");
-    if (aboutElement) {
-      aboutElement.scrollIntoView({ behavior: "smooth" });
+    if (path == "/") {
+      const aboutElement = document.getElementById("team");
+      if (aboutElement) {
+        aboutElement.scrollIntoView({ behavior: "smooth" });
+      }
+    } else {
+      router.push("/");
+      setTimeout(() => {
+        const aboutElement = document.getElementById("team");
+        if (aboutElement) {
+          aboutElement.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 1000);
     }
   };
 
@@ -56,7 +79,7 @@ const MenuSidebar = ({ isMenuShown, setIsMenuShown }) => {
     <div ref={ref}>
       <div
         className="absolute top-10 left-10 cursor-pointer"
-        style={{ zIndex: 50, width: "20px", height: "20px" }}
+        style={{ zIndex: 1000, width: "20px", height: "20px" }}
         onClick={handleHamburger}
       >
         <Hamburger isMenuShown={isMenuShown} />

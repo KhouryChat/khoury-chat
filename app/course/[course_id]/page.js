@@ -14,8 +14,6 @@ import likesHandler from "@/handler/likesHandler";
 import dislikesHandler from "@/handler/dislikesHandler";
 import fetchPostAfterReplies from "@/handler/fetchReplies";
 
-
-
 const CoursePage = ({ params }) => {
   const router = useRouter();
   const [courseData, setCourseData] = useState(null);
@@ -26,7 +24,6 @@ const CoursePage = ({ params }) => {
       try {
         const response = await fetch("https://www.khourychat.com/api/courses");
         const courses = await response.json();
-        //console.log(courses);
         const foundCourse = courses.find(
           (course) =>
             course.course_id.toLowerCase() === params.course_id.toLowerCase()
@@ -34,7 +31,6 @@ const CoursePage = ({ params }) => {
         if (foundCourse) {
           setCourseData(foundCourse);
           setPosts(foundCourse.posts);
-          console.log(foundCourse);
         }
       } catch (error) {
         console.log(error);
@@ -51,7 +47,6 @@ const CoursePage = ({ params }) => {
 
   const addPost = (title, content) => {
     //e.preventDefault();
-    console.log("addPost called");
     if (isLoggedIn) {
       const newPost = {
         //post_id: "aa11",
@@ -72,9 +67,7 @@ const CoursePage = ({ params }) => {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log("Success:", data);
           setPosts([...posts, data.post_id]);
-          console.log("Post ID:", data.post_id);
         })
         .catch((error) => {
           console.error("Error:", error);
@@ -85,11 +78,6 @@ const CoursePage = ({ params }) => {
       router.push("/login");
     }
   };
-
- 
-
-
-
 
   const getPlainText = (html) => {
     const tempDiv = document.createElement("div");
@@ -103,7 +91,6 @@ const CoursePage = ({ params }) => {
   };
   const [postItems, setPostItems] = useState([]);
 
-
   const [usernames, setUsernames] = useState({});
 
   const fetchUsernames = async () => {
@@ -115,26 +102,17 @@ const CoursePage = ({ params }) => {
         usernamesObj[uid] = username[uid];
       } catch (error) {
         // If there's an error fetching the username, set it as "Anonymous mouse"
-        usernamesObj[uid] = 'Anonymous mouse';
+        usernamesObj[uid] = "Anonymous mouse";
       }
     }
     setUsernames(usernamesObj);
   };
 
-
   useEffect(() => {
-    if (postItems.length>0){
+    if (postItems.length > 0) {
       fetchUsernames();
     }
-
-  },[postItems]);
-
-
-
-
-
-
-
+  }, [postItems]);
 
   useEffect(() => {
     async function fetchPosts() {
@@ -142,7 +120,6 @@ const CoursePage = ({ params }) => {
         `https://www.khourychat.com/api/courses/${params.course_id}/posts`
       );
       const postsData = await response.json();
-      console.log("postsData: ", postsData);
       const postPromises = postsData.map(async (post_id) => {
         try {
           const postResponse = await fetch(
@@ -169,49 +146,40 @@ const CoursePage = ({ params }) => {
     fetchPosts();
   }, [posts, params.course_id]);
 
-
-
   const updateLikes = async (newLikedState, post_id) => {
-       if (!isLoggedIn) router.push("/login");
+    if (!isLoggedIn) router.push("/login");
 
-       try {
-        const updatedPost = await likesHandler(newLikedState, post_id);
-    
-        const updatedPosts = postItems.map((post) =>
-          post.post_id === post_id ? updatedPost : post
-        );
-    
-        setPostItems(updatedPosts);
-      } catch (error) {
-        console.error("Failed to update likes", error);
-      }
+    try {
+      const updatedPost = await likesHandler(newLikedState, post_id);
+
+      const updatedPosts = postItems.map((post) =>
+        post.post_id === post_id ? updatedPost : post
+      );
+
+      setPostItems(updatedPosts);
+    } catch (error) {
+      console.error("Failed to update likes", error);
+    }
   };
 
   const updateDislikes = async (newDislikedState, post_id) => {
     if (!isLoggedIn) router.push("/login");
 
-    try{
+    try {
       const updatedPost = await dislikesHandler(newDislikedState, post_id);
 
       const updatedPosts = postItems.map((post) =>
-      post.post_id === post_id ? updatedPost : post
-    );
+        post.post_id === post_id ? updatedPost : post
+      );
 
       setPostItems(updatedPosts);
     } catch (error) {
       console.error("Failed to update dislikes", error);
     }
-
   };
-
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedPostId, setSelectedPostId] = useState(null);
-
-
-
-
-
 
   const goToPostPage = async (id) => {
     try {
@@ -247,7 +215,6 @@ const CoursePage = ({ params }) => {
   };
 
   const closeModal = async () => {
-
     setIsModalOpen(false);
     // let updatedPost1 = null;
     // if (selectedPostId != null) {
@@ -258,7 +225,6 @@ const CoursePage = ({ params }) => {
     // }
 
     setSelectedPostId(null);
-
   };
 
   const [inputValue, setInputValue] = useState("");
@@ -266,10 +232,6 @@ const CoursePage = ({ params }) => {
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
   };
-
-  console.log("post_ids: ", posts);
-  console.log("postItems: ", postItems);
-  
 
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = 10;
@@ -283,13 +245,15 @@ const CoursePage = ({ params }) => {
   };
 
   const queryClient = new QueryClient();
-
   return (
     <div className="bg-white flex">
       {/* <div className="w-full flex flex-row justify-between items-start">
         <Sidebar professors={courseData ? courseData["professor"] : []} /> */}
       <div className="w-full">
-        <div className="bg-white text-black shadow-xl grid grid-cols-3 items-center justify-between px-8">
+        <div
+          className="bg-white text-black shadow-xl flex flex-row items-center justify-between px-8"
+          style={{ zIndex: -100 }}
+        >
           <Sidebar professors={courseData ? courseData["professor"] : []} />
           <Title
             text={courseData ? courseData["course_id"] : ""}
@@ -297,7 +261,7 @@ const CoursePage = ({ params }) => {
           />
 
           {courseData && (
-            <div className="justify-self-end">
+            <div className="justify-self-end pt-10">
               <AddPost onPost={addPost} />
             </div>
           )}
@@ -306,51 +270,51 @@ const CoursePage = ({ params }) => {
         {/* <div className="w-full flex flex-row justify-between items-start">
         <Sidebar professors={courseData ? courseData["professor"] : []} /> */}
 
-          <div className="relative "
-          >
-          
-            {courseData && (
-              <div
-                id="create-post"
-                className="p-10 flex flex-col gap-5 items-end"
-              >
+        <div className="">
+          {courseData && (
+            <div
+              id="create-post"
+              className="p-10 flex flex-col gap-5 items-end"
+            ></div>
+          )}
+          {postItems.length <= 0 && (
+            <div className="flex items-center justify-center w-full h-full p-20 text-center font-bold italic text-3xl text-gray-500">
+              No posts yet! Be the first to post something!
+            </div>
+          )}
+          {posts.length > 0 && (
+            <div className="mx-auto max-w-2xl z-10">
+              {currentPosts.map((post) => (
+                <PostItem
+                  key={post.post_id}
+                  id={post.post_id}
+                  title={post.post_title ? post.post_title : undefined}
+                  content={post.content}
+                  likes={post.likes}
+                  dislikes={post.dislikes}
+                  views={post.views}
+                  replyCount={post.replies?.length}
+                  likeClickHandler={updateLikes}
+                  dislikeClickHandler={updateDislikes}
+                  userName={usernames[post.uid]}
+                  timestamp={post.timestamp}
+                  onClick={() => goToPostPage(post.post_id)}
+                  //onClick={() => openModal(post.post_id)}
+                />
+              ))}
+              {isModalOpen && (
+                <QueryClientProvider client={queryClient}>
+                  <PostModal postID={selectedPostId} onClose={closeModal} />
+                </QueryClientProvider>
+              )}
 
-              </div>
-            )}
-            {posts.length > 0 && (
-              <div className="mx-auto max-w-2xl z-10">
-                {currentPosts.map((post) => (
-                  <PostItem
-                    key={post.post_id}
-                    id={post.post_id}
-                    title={post.post_title ? post.post_title : undefined}
-                    content={post.content}
-                    likes={post.likes}
-                    dislikes={post.dislikes}
-                    views={post.views}
-                    replyCount={post.replies?.length}
-                    likeClickHandler={updateLikes}
-                    dislikeClickHandler={updateDislikes}
-                    userName={usernames[post.uid]}
-                    timestamp={post.timestamp}
-
-        
-                    onClick={() => goToPostPage(post.post_id)}
-                    //onClick={() => openModal(post.post_id)}
-
-                  />
-                ))}
-                {isModalOpen && (
-                  <QueryClientProvider client={queryClient}>
-                    <PostModal postID={selectedPostId} onClose={closeModal}/>
-                  </QueryClientProvider>
-                )}
-
-              <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={handlePageChange}
-              />
+              {totalPages > 1 && (
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={handlePageChange}
+                />
+              )}
             </div>
           )}
         </div>

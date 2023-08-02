@@ -62,7 +62,7 @@ function Page() {
     const { result, error } = await signUp(username, email, password);
 
     if (error) {
-      return console.log(error);
+      return alert(error);
     }
 
     await addUserToServer(result.user);
@@ -115,7 +115,6 @@ function Page() {
                   </div>
                 )}
               </label>
-              {console.log(isPassCorrect)}
               <label htmlFor="confirm-password">
                 <FormInput
                   errorHighlight={!isPassCorrect}

@@ -73,7 +73,7 @@ const Page = () => {
   };
 
   return (
-    <PageTransition>
+    <div>
       <div className="flex flex-col items-center justify-evenly h-screen w-screen p-20">
         <div className="text-8xl font-bold">Select Major</div>
         <div className="flex flex-row gap-16 items-center justify-center w-2/3 h-1/3">
@@ -114,7 +114,7 @@ const Page = () => {
         courses={coursesCY}
       />
       <BackToTop />
-    </PageTransition>
+    </div>
   );
 };
 

@@ -71,10 +71,10 @@ const SpiderGraph = ({ data, width, height }) => {
       .attr("x2", (d, i) => rScale(7) * Math.cos(angleSlice * i - Math.PI / 2))
       .attr("y2", (d, i) => rScale(7) * Math.sin(angleSlice * i - Math.PI / 2))
       .attr("class", "axis-line")
-      .style("stroke", "rgba(255, 255, 255, 0.3)")
+      .style("stroke", "#ccc")
       .style("stroke-width", "2px");
 
-    // Draw the axis labels
+    // Draw the axis labels with black font
     axis
       .append("text")
       .attr("class", "axis-label")
@@ -82,6 +82,8 @@ const SpiderGraph = ({ data, width, height }) => {
       .attr("y", (d, i) => rScale(7) * Math.sin(angleSlice * i - Math.PI / 2))
       .attr("dy", "0.4em")
       .attr("text-anchor", "middle")
+      .style("font-size", "14px")
+      .style("fill", "#000")
       .text((d) => d.label);
 
     function handleMouseOver(d, i) {
@@ -94,7 +96,7 @@ const SpiderGraph = ({ data, width, height }) => {
           return d3.interpolate("url(#gradient)", "url(#gradient2)");
         })
         .style("stroke-width", "10px")
-        .style("stroke", "#FFFFFF");
+        .style("stroke", "#000");
     }
 
     function handleMouseOut(d, i) {

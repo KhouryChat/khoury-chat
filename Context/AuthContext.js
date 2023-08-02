@@ -28,7 +28,7 @@ export const AuthContextProvider = ({ children }) => {
   return (
     <AuthContext.Provider value={{ user }}>
       {loading ? (
-        <div className="w-screen h-screen flex justify-center items-center">
+        <div className="absolute top-1/2 left-1/2 transform translate-x-1/2 translate-y-1/2">
           <InfinitySpin width="400" color="#DC2626" />
         </div>
       ) : (

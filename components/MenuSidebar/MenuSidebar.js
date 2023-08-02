@@ -56,7 +56,7 @@ const MenuSidebar = ({ isMenuShown, setIsMenuShown }) => {
     <div ref={ref}>
       <div
         className="absolute top-10 left-10 cursor-pointer"
-        style={{ zIndex: 40, width: "20px", height: "20px" }}
+        style={{ zIndex: 50, width: "20px", height: "20px" }}
         onClick={handleHamburger}
       >
         <Hamburger isMenuShown={isMenuShown} />
@@ -82,22 +82,26 @@ const MenuSidebar = ({ isMenuShown, setIsMenuShown }) => {
               isMenuItemsShown={isMenuItemsShown}
               text={"Home"}
               routeTo="/"
+              setMenuShown={setIsMenuShown}
             />
 
             <MenuItem
               isMenuItemsShown={isMenuItemsShown}
               text={"Browse Courses"}
               routeTo="/browse"
+              setMenuShown={setIsMenuShown}
             />
             <MenuItem
               isMenuItemsShown={isMenuItemsShown}
               text={"About"}
               onClick={scrollToAbout}
+              setMenuShown={setIsMenuShown}
             />
             <MenuItem
               isMenuItemsShown={isMenuItemsShown}
               text={"Our Team"}
               onClick={scrollToTeam}
+              setMenuShown={setIsMenuShown}
             />
             {isLoggedIn ? (
               <>
@@ -105,11 +109,13 @@ const MenuSidebar = ({ isMenuShown, setIsMenuShown }) => {
                   isMenuItemsShown={isMenuItemsShown}
                   text={"My Profile"}
                   routeTo={`/user/${username}`}
+                  setMenuShown={setIsMenuShown}
                 />
                 <MenuItem
                   isMenuItemsShown={isMenuItemsShown}
                   text={"Logout"}
                   onClick={() => signOut()}
+                  setMenuShown={setIsMenuShown}
                 />
               </>
             ) : (
@@ -118,6 +124,7 @@ const MenuSidebar = ({ isMenuShown, setIsMenuShown }) => {
                   isMenuItemsShown={isMenuItemsShown}
                   text={"Sign in"}
                   routeTo={"/login"}
+                  setMenuShown={setIsMenuShown}
                 />
               </>
             )}

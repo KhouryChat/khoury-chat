@@ -3,23 +3,23 @@ import MenuSidebar from "@/components/MenuSidebar/MenuSidebar";
 import "./globals.css";
 import { AuthContextProvider } from "@/Context/AuthContext";
 import { useState } from "react";
-import { LazyMotion, domAnimation } from "framer-motion";
+import { AnimatePresence, LazyMotion, domAnimation } from "framer-motion";
+import { motion } from "framer-motion";
 
 export default function RootLayout({ children }) {
   const [isMenuShown, setIsMenuShown] = useState(false);
-
   return (
     <html>
       <body>
         <div>
           <AuthContextProvider>
-            {/* <LazyMotion features={domAnimation}> */}
+            {/* <AnimatePresence mode="wait" initial={false}> */}
             <MenuSidebar
               isMenuShown={isMenuShown}
               setIsMenuShown={setIsMenuShown}
             />
             {children}
-            {/* </LazyMotion> */}
+            {/* </AnimatePresence> */}
           </AuthContextProvider>
         </div>
       </body>

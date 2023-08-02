@@ -27,7 +27,7 @@ const PostCarousel = ({
     posts &&
     posts.length > 0 && (
       <div className="flex items-center justify-center w-full">
-        <div className="flex flex-row gap-10 items-center justify-center xl:w-1/4 2xl:w-1/2">
+        <div className="flex flex-row gap-10 items-center justify-center xl:w-1/4 2xl:w-1/2 tall:w-1/4">
           <HoverScaleTransition>
             <LeftArrowIcon
               onClick={() => {
@@ -36,7 +36,7 @@ const PostCarousel = ({
               color="white"
               size={64}
               className={
-                "dpshadow-small cursor-pointer xl:w-[64px] xl:h-[64px] 2xl:w-[96px] 2xl:h-[96px]"
+                "dpshadow-small cursor-pointer xl:w-[64px] xl:h-[64px] 2xl:w-[96px] 2xl:h-[96px] tall:w-[56px] tall:h-[56px]"
               }
             />
           </HoverScaleTransition>
@@ -65,7 +65,7 @@ const PostCarousel = ({
               color="white"
               size={64}
               className={
-                "dpshadow-small cursor-pointer xl:w-[64px] xl:h-[64px] 2xl:w-[96px] 2xl:h-[96px]"
+                "dpshadow-small cursor-pointer xl:w-[64px] xl:h-[64px] 2xl:w-[96px] 2xl:h-[96px] tall:w-[56px] tall:h-[56px]"
               }
             />
           </HoverScaleTransition>

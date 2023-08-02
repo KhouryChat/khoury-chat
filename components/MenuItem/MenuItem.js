@@ -5,7 +5,13 @@ import { Transition } from "@headlessui/react";
 import HorizontalLine from "../HLine/Hline";
 import { useRouter } from "next/navigation";
 
-const MenuItem = ({ isMenuItemsShown, text, routeTo, onClick }) => {
+const MenuItem = ({
+  isMenuItemsShown,
+  setMenuShown,
+  text,
+  routeTo,
+  onClick,
+}) => {
   const router = useRouter();
 
   const [isHover, setHover] = useState(false);
@@ -17,7 +23,7 @@ const MenuItem = ({ isMenuItemsShown, text, routeTo, onClick }) => {
         onClick != null
           ? onClick
           : () => {
-              console.log(`Routing to ${routeTo}`);
+              setMenuShown(false);
               router.push(routeTo);
             }
       }

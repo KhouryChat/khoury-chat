@@ -38,7 +38,7 @@ body {
   overflow-x: hidden;
 }
 .backto-shadow {
-  filter: drop-shadow(2px 5px 6px rgb(0 0 0 / 0.6));
+  filter: drop-shadow(2px 3px 4px rgb(0 0 0 / 0.6));
 }
 .dpshadow-small {
   filter: drop-shadow(2px 3px 6px rgb(0 0 0 / 0.6));
@@ -146,4 +146,39 @@ body {
   height: 100vh;
   background: #0f0f0f;
   transform-origin: top;
+}
+
+.flashcards {
+  height: 100%;
+  width: 100%;
+  display: grid;
+  place-items: center center;
+  background: #4da6ff;
+}
+.flashcards__container {
+  max-width: 100%;
+  white-space: nowrap;
+  overflow-x: scroll;
+  perspective: 150px;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.flashcards__container::-webkit-scrollbar {
+  display: none;
+}
+.flashcards .card {
+  position: relative;
+  display: inline-block;
+  height: 80px;
+  width: 80px;
+  background: white;
+  margin: 2rem 1rem;
+  border-radius: 15px;
+  cursor: pointer;
+}
+.flashcards .card:first-of-type {
+  margin-left: 15rem;
+}
+.flashcards .card:last-of-type {
+  margin-right: 15rem;
 }

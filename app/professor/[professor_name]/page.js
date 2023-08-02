@@ -60,15 +60,15 @@ const ProfessorPage = ({ params }) => {
   }, [profData]);
   let ratingColor = "";
   if (overallRating < 3) {
-    ratingColor = "text-8xl italic text-red-500";
+    ratingColor = "text-9xl font-bold italic text-red-500";
   } else if (overallRating <= 4) {
-    ratingColor = "text-8xl italic text-yellow-500";
+    ratingColor = "text-9xl font-bold italic text-yellow-500";
   } else if (overallRating > 4) {
-    ratingColor = "text-8xl italic text-green-500";
+    ratingColor = "text-9xl font-bold italic text-green-500";
   }
   return (
-    <div className="bg-black">
-      <div className="mr-20 bg-black shadow-slate-800 shadow-2xl text-white">
+    <div className="">
+      <div className="w-full flex items-center justify-center shadow-xl text-white">
         <TitleBar text={profData["name"] ? profData["name"] : ""} />
       </div>
       <div className="flex flex-col justify-center items-center">
@@ -82,14 +82,14 @@ const ProfessorPage = ({ params }) => {
             </div>
           )}
         </div>
-        <div className="flex flex-col gap-2 justify-center items-center font-bold text-white">
+        <div className="flex flex-col gap-2 justify-center items-center font-bold text-black">
           <div className="ml-8 flex flex-row items-center gap-4">
-            <div className="text-4xl ">HUSKY SCORE</div>
+            <div className="text-4xl text-black">HUSKY SCORE</div>
             <div
               onMouseOver={() => setShowHuskyTooltip(true)}
               onMouseLeave={() => setShowHuskyTooltip(false)}
             >
-              <InfoIcon width={80} height={80} />
+              <InfoIcon width={30} height={30} className="w-8 h-8" />
               {showHuskyTooltip && (
                 <div className=" max-w-sm absolute bg-white shadow-lg text-black p-2 rounded text-sm top-56">
                   Husky score is the overall rating of the professor calculated

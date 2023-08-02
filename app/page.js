@@ -213,21 +213,22 @@ function Home() {
             className="text-black h-screen red-body flex items-center justify-end w-screen"
           >
             <div className="w-[80%] h-[80%] bg-white flex flex-col justify-evenly items-start gap-4 p-10 tall:p-5">
-              <div className="xl:text-9xl 2xl:text-[10rem] tall:text-[7rem] font-extrabold px-5 ">
+              <div className="xl:text-9xl 2xl:text-[10rem] tall:text-[7rem] font-extrabold px-5 py-2 ">
                 ABOUT
               </div>
               <div className="xl:text-2xl 2xl:text-3xl tall:text-2xl xl:leading-9 2xl:leading-[2.8rem] tall:leading-9 border-b p-5">
-                Immediately hunt noise knife having represent gulf therefore
-                teach dollar independent doubt herself many including has
-                package cry thank label particles firm build slight public
-                doctor supper shut music die path appropriate recognize dawn new
-                grabbed individual wash corner race took condition height
-                official tobacco twelve why excited Immediately hunt noise knife
-                having represent gulf therefore teach dollar independent doubt
-                herself many including has package cry thank label particles
-                firm build slight public doctor supper shut music die path
-                appropriate recognize dawn new grabbed individual wash corner
-                race took condition height official tobacco twelve why excited
+                Welcome to KhouryChat, the premier forum for discussing courses
+                offered by the Khoury School of Computer Science at Northeastern
+                University. Created by three passionate students from the
+                school, our platform provides a space for students to share
+                experiences, ask questions, and exchange resources. Whether
+                you're a current student, alumnus, or prospective applicant,
+                join our supportive community to explore course content and
+                engage in meaningful discussions. We are committed to
+                continuously improving KhouryChat to better serve the needs of
+                the academic community and foster a dynamic learning
+                environment. Together, let's build a vibrant space for computer
+                science enthusiasts!
               </div>
               <Marquee>
                 <div className="flex flex-row items-center justify-center h-fit gap-5 px-24">
@@ -319,9 +320,9 @@ function Home() {
               OUR TEAM
             </div>
             <div className="flex flex-row xl:gap-16 2xl:gap-20 tall:gap-14">
-              <TeamMember member={memberZhen} />
-              <TeamMember member={memberChase} />
               <TeamMember member={memberNeel} />
+              <TeamMember member={memberChase} />
+              <TeamMember member={memberZhen} />
             </div>
           </div>
         </div>

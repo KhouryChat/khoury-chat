@@ -1,7 +1,7 @@
 import React from "react";
 import { onAuthStateChanged, getAuth } from "firebase/auth";
 import Firebase from "@/auth/firebase/config";
-
+import { InfinitySpin } from "react-loader-spinner";
 const auth = getAuth(Firebase);
 
 export const AuthContext = React.createContext({});
@@ -27,7 +27,13 @@ export const AuthContextProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider value={{ user }}>
-      {loading ? <div>Loading ...</div> : children}
+      {loading ? (
+        <div className="w-screen h-screen flex justify-center items-center">
+          <InfinitySpin width="400" color="#DC2626" />
+        </div>
+      ) : (
+        children
+      )}
     </AuthContext.Provider>
   );
 };

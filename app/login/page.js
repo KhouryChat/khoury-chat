@@ -11,7 +11,6 @@ function Page() {
 
   const router = useRouter();
   let isErrorAuth = "";
-  console.log(process.env.NEXT_PUBLIC_FIREBASE_PUBLIC_API_KEY);
   const register = () => {
     router.push("/signup");
   };
@@ -25,7 +24,6 @@ function Page() {
       return console.log(error.code);
     }
 
-    console.log(result);
     return router.push("/");
   };
   return (

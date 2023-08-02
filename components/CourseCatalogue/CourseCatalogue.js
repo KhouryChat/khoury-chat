@@ -24,13 +24,12 @@ const CourseCatalogue = ({ text, className, id, courses }) => {
   const classes = `h-screen text-white flex flex-col items-center justify-center p-20 gap-10 ${className}`;
   return (
     <div id={id} className={classes}>
-      <span className="text-6xl">{text}</span>
+      <span className="text-4xl">{text}</span>
       <div className="flex flex-wrap gap-2 justify-start">
-        {/* <Flashcards /> */}
         {Object.keys(coursesByNumber).map((courseNumber) => (
           <div key={courseNumber} className="flex flex-col gap-2">
-            <div className="text-7xl font-bold">{courseNumber}</div>
-            <div className="grid grid-cols-3 gap-2">
+            <div className="text-5xl font-bold">{courseNumber}</div>
+            <div className="grid grid-cols-3 gap-1">
               {coursesByNumber[courseNumber].map((course) => (
                 <div
                   onClick={handleCourseSelection}

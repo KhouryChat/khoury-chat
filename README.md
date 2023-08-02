@@ -10,7 +10,7 @@ KhouryChat is a web-based application for student at Northeastern University in 
 ![Static Badge](https://img.shields.io/badge/Three.js-hidden?logo=Three.js&logoColor=red&labelColor=white&color=blue)
 ![Static Badge](https://img.shields.io/badge/Vercel-hidden?logo=Vercel&logoColor=purple&labelColor=white&color=blue)
 
-KhouryChat was built in response to MongoDB and Google Clouds "Atlas Madness" Hackathon challenge. Developed by three students from Northeastern University, our tech stack aims towards building out a full-stack application with React controlling the front end, NextJs handling the routing. It uses Python and Flask in the backend to handle all endpoints, and stores all data in MongoDB. Upon registry/and log-in, user authentication is handled by Google Firebase. KhouryChat is deployed on Vercel and can be accessed on [KhouryChat](https://www.khourychat.com/)
+KhouryChat was built in response to MongoDB and Google Clouds "Atlas Madness" Hackathon challenge. Developed by three students from Northeastern University, our tech stack aims towards building out a full-stack application with React controlling the front end, NextJs handling the routing. It uses Python and Flask in the backend to handle all endpoints, and stores all data in MongoDB. Upon registry/and log-in, user authentication is handled by Google Firebase. KhouryChat is deployed on Vercel and can be accessed on [KhouryChat](https://www.khourychat.com/).
 
 # Contributors:
 Click on the badges below to learn more about the contributors and their contributions:

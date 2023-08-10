@@ -3,8 +3,6 @@ import MenuSidebar from "@/components/MenuSidebar/MenuSidebar";
 import "./globals.css";
 import { AuthContextProvider } from "@/Context/AuthContext";
 
-import { AnimatePresence, LazyMotion, domAnimation } from "framer-motion";
-
 
 export const metadata = {
   title: 'KhouryChat - A forum for students at Khoury College of Computer Sciences',
@@ -18,10 +16,8 @@ export default function RootLayout({ children }) {
       <body>
         <div>
           <AuthContextProvider>
-            {/* <AnimatePresence mode="wait" initial={false}> */}
             <MenuSidebar/>
             {children}
-            {/* </AnimatePresence> */}
           </AuthContextProvider>
         </div>
       </body>

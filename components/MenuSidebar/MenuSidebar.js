@@ -1,3 +1,4 @@
+"use client"
 import React, { useRef } from "react";
 import { Transition } from "@headlessui/react";
 import MenuItem from "@/components/MenuItem/MenuItem";
@@ -8,12 +9,13 @@ import { useEffect } from "react";
 import Hamburger from "../Hamburger/Hamburger";
 import { usePathname, useRouter } from "next/navigation";
 
-const MenuSidebar = ({ isMenuShown, setIsMenuShown }) => {
+const MenuSidebar = () => {
   const ref = useRef(null);
   const user = useAuthContext();
   const path = usePathname();
   const router = useRouter();
 
+  const [isMenuShown, setIsMenuShown] = useState(false);
   const [isMenuItemsShown, setIsMenuItemsShown] = useState(false);
   const [isLoggedIn, setLoggedIn] = useState(user["user"] != null);
 

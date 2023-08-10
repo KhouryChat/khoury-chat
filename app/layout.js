@@ -1,10 +1,10 @@
-"use client";
+
 import MenuSidebar from "@/components/MenuSidebar/MenuSidebar";
 import "./globals.css";
 import { AuthContextProvider } from "@/Context/AuthContext";
-import { useState } from "react";
+
 import { AnimatePresence, LazyMotion, domAnimation } from "framer-motion";
-import { motion } from "framer-motion";
+
 
 export const metadata = {
   title: 'KhouryChat - A forum for students at Khoury College of Computer Sciences',
@@ -12,17 +12,14 @@ export const metadata = {
 }
 
 export default function RootLayout({ children }) {
-  const [isMenuShown, setIsMenuShown] = useState(false);
+
   return (
     <html>
       <body>
         <div>
           <AuthContextProvider>
             {/* <AnimatePresence mode="wait" initial={false}> */}
-            <MenuSidebar
-              isMenuShown={isMenuShown}
-              setIsMenuShown={setIsMenuShown}
-            />
+            <MenuSidebar/>
             {children}
             {/* </AnimatePresence> */}
           </AuthContextProvider>
